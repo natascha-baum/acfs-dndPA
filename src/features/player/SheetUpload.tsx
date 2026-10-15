@@ -2,10 +2,10 @@ import { useId, useState, type DragEvent, type FormEvent } from 'react'
 import { newId, playerSheetFiles, playerSheets } from '../../lib/storage/index.ts'
 import type { PlayerSheet } from '../../types/models.ts'
 import { formatBytes } from './format.ts'
-import { MAX_SHEET_BYTES, isPdf, readSheet, type SheetDetails } from './readSheet.ts'
+import { MAX_SHEET_BYTES, isPdf, readSheet, type ReadResult, type SheetDetails } from './readSheet.ts'
 import styles from './SheetUpload.module.css'
 
-interface Draft extends SheetDetails {
+interface Draft extends ReadResult {
   file: File
 }
 
@@ -59,6 +59,7 @@ export default function SheetUpload({ onSaved }: SheetUploadProps) {
       classLevel: draft.classLevel.trim(),
       fileName: draft.file.name,
       fileSize: draft.file.size,
+      ...(draft.sheet && { sheet: draft.sheet }),
       createdAt: now,
       updatedAt: now,
     }
@@ -83,6 +84,11 @@ export default function SheetUpload({ onSaved }: SheetUploadProps) {
         <h3 className={styles.title}>Check the details</h3>
         <p className={styles.file}>
           {draft.file.name} · {formatBytes(draft.file.size)}
+        </p>
+        <p className={styles.found}>
+          {draft.sheet
+            ? 'Fillable sheet found: stats, skills, spells and notes will be shown in the app’s own layout.'
+            : 'No filled-in form fields found, so the PDF will be shown as it is.'}
         </p>
         <div className={styles.fields}>
           <div className="field">

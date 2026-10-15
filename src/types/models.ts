@@ -61,8 +61,59 @@ export interface PlayerSheet {
   fileName: string
   /** Size of the PDF in bytes; the file itself lives in the file store. */
   fileSize: number
+  /** Everything read from a fillable PDF, shown in the app's own sheet layout. */
+  sheet?: ImportedSheet
   createdAt: string
   updatedAt: string
+}
+
+/** A skill or saving throw as written on a character sheet. */
+export interface SheetCheck {
+  name: string
+  /** The bonus as written, e.g. "+5". */
+  value: string
+  proficient: boolean
+}
+
+export interface SheetAttack {
+  name: string
+  bonus: string
+  damage: string
+}
+
+/**
+ * The contents of an uploaded character sheet. Values are kept as written on
+ * the sheet (text), because players fill in sheets in many different ways.
+ */
+export interface ImportedSheet {
+  background: string
+  alignment: string
+  experience: string
+  abilityScores: Partial<Record<Ability, number>>
+  abilityModifiers: Partial<Record<Ability, string>>
+  proficiencyBonus: string
+  armorClass: string
+  initiative: string
+  speed: string
+  hitPoints: string
+  hitDice: string
+  passivePerception: string
+  savingThrows: (SheetCheck & { ability: Ability })[]
+  skills: SheetCheck[]
+  attacks: SheetAttack[]
+  attacksNotes: string
+  spellcasting: { class: string; ability: string; saveDc: string; attackBonus: string }
+  /** Spell names in the order they appear on the sheet. */
+  spells: string[]
+  proficienciesAndLanguages: string
+  equipment: string
+  coins: Partial<Record<'cp' | 'sp' | 'ep' | 'gp' | 'pp', string>>
+  featuresAndTraits: string
+  personality: { traits: string; ideals: string; bonds: string; flaws: string }
+  appearance: Partial<Record<'age' | 'height' | 'weight' | 'eyes' | 'skin' | 'hair', string>>
+  backstory: string
+  alliesAndOrganizations: string
+  treasure: string
 }
 
 export interface Scene {

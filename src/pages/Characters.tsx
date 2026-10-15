@@ -125,9 +125,20 @@ export default function Characters() {
                         {[s.race, s.classLevel].filter(Boolean).join(' · ') || 'Character sheet'}
                       </span>
                       <span className={styles.stats}>
-                        <span>
-                          PDF <strong>{formatBytes(s.fileSize)}</strong>
-                        </span>
+                        {s.sheet?.hitPoints || s.sheet?.armorClass ? (
+                          <>
+                            <span>
+                              HP <strong>{s.sheet.hitPoints || '—'}</strong>
+                            </span>
+                            <span>
+                              AC <strong>{s.sheet.armorClass || '—'}</strong>
+                            </span>
+                          </>
+                        ) : (
+                          <span>
+                            PDF <strong>{formatBytes(s.fileSize)}</strong>
+                          </span>
+                        )}
                       </span>
                     </Link>
                     <button
