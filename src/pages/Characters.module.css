@@ -1,0 +1,118 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.empty p {
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  position: relative;
+  background: linear-gradient(180deg, var(--surface), var(--bg-raised));
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold);
+}
+
+.open {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  padding: 1.25rem 1.25rem 1rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.open:hover {
+  color: var(--text);
+}
+
+.badge {
+  padding: 0.1rem 0.6rem;
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 999px;
+}
+
+.enemy {
+  color: #ffd9d4;
+  background: rgb(163 48 42 / 55%);
+  border: 1px solid #c9473d;
+}
+
+.encounter {
+  color: var(--bg);
+  background: var(--gold);
+}
+
+.name {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.meta {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.stats {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.4rem;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.stats strong {
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.delete {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 2rem;
+  height: 2rem;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.delete:hover {
+  color: #e05a4f;
+  border-color: var(--border);
+}

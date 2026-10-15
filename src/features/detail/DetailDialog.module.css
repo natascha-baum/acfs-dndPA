@@ -1,0 +1,121 @@
+.dialog {
+  width: min(640px, calc(100vw - 2rem));
+  max-height: min(80vh, 720px);
+  padding: 0;
+  color: var(--text);
+  background: linear-gradient(180deg, var(--surface), var(--bg-raised));
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  box-shadow:
+    var(--shadow),
+    0 0 50px rgb(212 166 74 / 15%);
+}
+
+.dialog::backdrop {
+  background: rgb(8 6 4 / 75%);
+  backdrop-filter: blur(3px);
+}
+
+.body {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.iconButton {
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  color: var(--gold);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  border-color: var(--border);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.7rem;
+}
+
+.subtitle {
+  margin: 0.15rem 0 1rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.facts div {
+  padding: 0.4rem 0.6rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.facts dt {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.paragraph {
+  margin: 0 0 0.75rem;
+  white-space: pre-line;
+}
+
+.muted {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.linksTitle {
+  margin: 1rem 0 0.4rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  padding: 0.2rem 0.6rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: var(--gold-bright);
+  border-color: var(--gold);
+}

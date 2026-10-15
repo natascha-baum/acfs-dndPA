@@ -14,6 +14,9 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - Re-roll the whole scene or single parts (name, location, weather, mood, details)
 - Save scenes in the browser, reopen them from the "Saved Scenes" list, and delete them
 - Shared weighted random table engine (`src/lib/randomTable.ts`) based on the `RandomTable` schema; indoor places (tavern, dungeon) use their own weather tables
+- My Characters (Milestone 4): list of saved characters, newest first, with role, race, class, level, HP and AC; open or delete them
+- Character sheet view: stats, skills, proficiencies, equipment, spells, appearance and personality, plus racial traits and class features up to the character's level loaded from the API
+- Detail view: click a spell, item, skill, proficiency, trait or feature to read its full description from the API in a dialog; linked entries (e.g. pack contents, weapon categories) can be opened inside it, with a Back button
 
 ## [0.3.0] - 2026-10-15
 

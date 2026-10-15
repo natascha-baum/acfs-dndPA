@@ -1,4 +1,5 @@
-import type { Character } from '../../types/models.ts'
+import type { ApiRef, Character } from '../../types/models.ts'
+import type { LookupKind, LookupRef } from '../detail/resolveDetail.ts'
 import { abilityModifier, ABILITIES, formatModifier } from './rules.ts'
 import { ABILITY_LABELS, SKILL_ABILITY, skillName, spellLevelLabel } from './format.ts'
 import { ROLE_LABELS, type NpcRole } from './tables.ts'
@@ -9,6 +10,8 @@ export type RerollField = 'name' | 'appearance' | 'personality' | 'hook'
 interface NpcCardProps {
   npc: Character
   onReroll?: (field: RerollField) => void
+  /** When given, spells, items, skills and proficiencies become clickable. */
+  onLookup?: (ref: LookupRef) => void
 }
 
 function RerollButton({ label, onClick }: { label: string; onClick?: () => void }) {
@@ -20,7 +23,23 @@ function RerollButton({ label, onClick }: { label: string; onClick?: () => void 
   )
 }
 
-export default function NpcCard({ npc, onReroll }: NpcCardProps) {
+export default function NpcCard({ npc, onReroll, onLookup }: NpcCardProps) {
+  const entry = (kind: LookupKind, ref: ApiRef, label: string = ref.name) =>
+    onLookup ? (
+      <button type="button" className={styles.lookup} onClick={() => onLookup({ kind, index: ref.index, name: ref.name })}>
+        {label}
+      </button>
+    ) : (
+      label
+    )
+  const entries = (kind: LookupKind, refs: ApiRef[]) =>
+    refs.map((ref, i) => (
+      <span key={ref.index}>
+        {entry(kind, ref)}
+        {i < refs.length - 1 && ', '}
+      </span>
+    ))
+
   const reroll = (field: RerollField) => (onReroll ? () => onReroll(field) : undefined)
   const mod = (ability: keyof typeof npc.abilityScores) => abilityModifier(npc.abilityScores[ability])
   const raceName = npc.subrace?.name ?? npc.race.name
@@ -95,21 +114,24 @@ export default function NpcCard({ npc, onReroll }: NpcCardProps) {
               const bonus = (ability ? mod(ability) : 0) + npc.proficiencyBonus
               return (
                 <li key={skill.index}>
-                  {skillName(skill.name)} <span className={styles.muted}>{formatModifier(bonus)}</span>
+                  {entry('proficiency', skill, skillName(skill.name))}{' '}
+                  <span className={styles.muted}>{formatModifier(bonus)}</span>
                 </li>
               )
             })}
           </ul>
 
           <h3>Proficiencies</h3>
-          <p className={styles.tags}>{npc.proficiencies.map((p) => p.name).join(', ') || '—'}</p>
+          <p className={styles.tags}>
+            {npc.proficiencies.length ? entries('proficiency', npc.proficiencies) : '—'}
+          </p>
 
           <h3>Equipment</h3>
           <ul className={styles.list}>
             {npc.equipment.map((e) => (
               <li key={e.item.index}>
                 {e.quantity > 1 && <span className={styles.muted}>{e.quantity}× </span>}
-                {e.item.name}
+                {entry('equipment', e.item)}
               </li>
             ))}
           </ul>
@@ -123,7 +145,7 @@ export default function NpcCard({ npc, onReroll }: NpcCardProps) {
             spellGroups.map((group) => (
               <div key={group.level} className={styles.spellGroup}>
                 <h4>{spellLevelLabel(group.level)}</h4>
-                <p className={styles.tags}>{group.spells.map((s) => s.name).join(', ')}</p>
+                <p className={styles.tags}>{entries('spell', group.spells)}</p>
               </div>
             ))
           )}
