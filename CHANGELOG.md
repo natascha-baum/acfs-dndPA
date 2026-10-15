@@ -21,6 +21,8 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - Upload a character sheet PDF (drag and drop or file picker, up to 25 MB); name, race and class & level are read from fillable sheets (official 5e sheet, D&D Beyond exports) and can be corrected before saving
 - Uploaded sheets are stored in the browser (IndexedDB) and can be viewed inside the app, opened in a new tab, downloaded or deleted
 - Light and dark mode: a sun/moon switch in the header; the app follows the system setting until you pick one, and remembers your choice
+- Fillable character sheet PDFs are imported into the app's own sheet layout: ability scores, saves, skills, vitals, attacks, spells (grouped by level and clickable when they are in the SRD), proficiencies, equipment, coins, features, personality, appearance and backstory; the original PDF stays available
+- Player sheets uploaded earlier are read again automatically the first time they are opened
 - Saving an NPC or scene when browser storage is full now shows a message instead of failing silently
 - A page that crashes shows a "A Spell Gone Wrong" message with a way back instead of a blank screen
 

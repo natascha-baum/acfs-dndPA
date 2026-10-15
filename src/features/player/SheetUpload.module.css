@@ -70,6 +70,12 @@
   overflow-wrap: anywhere;
 }
 
+.found {
+  margin: -0.5rem 0 1rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
 .fields {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

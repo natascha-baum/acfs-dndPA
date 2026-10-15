@@ -1,0 +1,85 @@
+.player {
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.facts {
+  margin: 0.2rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* Up to seven boxes: wrap evenly instead of a fixed four columns */
+.vitals {
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+}
+
+.vitals dd {
+  font-size: 1.3rem;
+}
+
+.otherSkills {
+  margin-top: 0.4rem !important;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.attacks {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.attacks th {
+  padding: 0.2rem 0.4rem 0.2rem 0;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.attacks td {
+  padding: 0.25rem 0.4rem 0.25rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.note {
+  margin: 0.4rem 0 0 !important;
+  font-style: italic;
+  color: var(--text-muted);
+  white-space: pre-line;
+}
+
+.coins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.4rem !important;
+}
+
+.pairs {
+  margin: 0;
+}
+
+.pairs div + div {
+  margin-top: 0.5rem;
+}
+
+.pairs dt {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pairs dd {
+  margin: 0;
+}
+
+.paragraph + .paragraph {
+  margin-top: 0.6rem !important;
+}

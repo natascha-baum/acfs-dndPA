@@ -124,7 +124,7 @@ Last checked: 2026-10-15 (after the player sheets and theme PR). Legend: ✅ don
 | NPC generator: save to "My Characters" | ✅ | Saved to local storage and shown in "My Characters" |
 | Scene generator (location, weather, mood, details, re-roll, save, list) | ✅ | Own tables in `src/features/scene/tables.ts`; saved scenes list with open and delete |
 | Character overview (sheet) with detail lookups for spells/items/features | ✅ | Detail dialog for spells, equipment, skills, proficiencies, racial traits and class features |
-| Player characters: upload and keep a PDF character sheet (own tab in My Characters) | ✅ | Not in the original plan; details read from fillable PDFs, file stored in IndexedDB |
+| Player characters: upload and keep a PDF character sheet (own tab in My Characters) | ✅ | Not in the original plan; fillable PDFs are shown in the app's own sheet layout (stats, skills, spells with lookups, notes), other PDFs as the file; stored in IndexedDB |
 | Editable character sheet | ⬜ | |
 
 ### Cross-cutting
