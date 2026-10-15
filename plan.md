@@ -101,7 +101,7 @@ Deadline: **Tuesday, 2026-10-20**. Features are ordered by priority; if time run
 Definition of done per milestone: works in the browser, data survives a page reload, no console errors.
 
 ## 9. Implementation Status
-Last checked: 2026-10-15 (after the edit mode PR). Legend: ✅ done · 🟡 partly done · ⬜ open.
+Last checked: 2026-10-15 (after the polish and README PR). Legend: ✅ done · 🟡 partly done · ⬜ open.
 
 ### Milestones
 | Milestone | Status | Notes |
@@ -111,7 +111,7 @@ Last checked: 2026-10-15 (after the edit mode PR). Legend: ✅ done · 🟡 part
 | 2. NPC generator | ✅ | PR #3 |
 | 3. Scene generator | ✅ | Scene generator PR; 8 location types, read-aloud text |
 | 4. My Characters list, character sheet (view), detail view | ✅ | PR #6 |
-| 5. Edit mode, polish, generator tests, README | 🟡 | Edit mode done for NPCs, scenes and player characters; polish and README still open |
+| 5. Edit mode, polish, generator tests, README | ✅ | Edit mode for NPCs, scenes and player characters; review of all pages (desktop, mobile, light, dark); README with features, storage, structure and known limits |
 | 6. Final check and submission | ⬜ | Due Tue 2026-10-20 |
 
 ### Features (MVP)
@@ -134,7 +134,7 @@ Last checked: 2026-10-15 (after the edit mode PR). Legend: ✅ done · 🟡 part
 | Storage interface, swappable for a backend later | ✅ | `src/lib/storage/` |
 | API client with local caching | ✅ | `src/lib/api/` |
 | SRD / CC-BY-4.0 attribution in the app | ✅ | Footer |
-| Shared random table schema for all generators | 🟡 | Scene generator uses `RandomTable` with weights (`src/lib/randomTable.ts`); NPC tables are still plain lists |
+| Shared random table schema for all generators | ✅ | Scene and NPC flavor tables (personality, appearance, hooks) use `RandomTable` with weights (`src/lib/randomTable.ts`); name lists stay grouped by race |
 | Data survives page reload | ✅ | Saved NPCs, scenes, player sheets and the theme choice |
 | Light and dark mode | ✅ | Not in the original plan (was in the backlog); switch in the header |
 

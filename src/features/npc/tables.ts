@@ -1,5 +1,7 @@
 // Content the D&D 5e API does not provide: names, personality and story hooks.
-import type { Ability } from '../../types/models.ts'
+// Flavor lists are RandomTables, the same format the scene generator uses.
+import { table } from '../../lib/randomTable.ts'
+import type { Ability, RandomTable } from '../../types/models.ts'
 
 export const GENDERS = ['Female', 'Male', 'Non-binary'] as const
 export type Gender = (typeof GENDERS)[number]
@@ -89,7 +91,7 @@ NAMES['half-elf'] = {
   family: [...NAMES.elf.family, ...NAMES.human.family],
 }
 
-export const PERSONALITY = [
+export const PERSONALITY: RandomTable = table('npc-personality', 'Personality', 'npc', [
   'Speaks in a whisper and never makes eye contact.',
   'Laughs too loudly at their own jokes.',
   'Collects small trinkets from everyone they meet.',
@@ -106,9 +108,9 @@ export const PERSONALITY = [
   'Tells wildly exaggerated stories about past adventures.',
   'Fiercely loyal to family, cold to everyone else.',
   'Distracted, as if listening to a voice nobody else hears.',
-]
+])
 
-export const APPEARANCE = [
+export const APPEARANCE: RandomTable = table('npc-appearance', 'Appearance', 'npc', [
   'a jagged scar across one cheek',
   'mismatched eyes, one blue and one amber',
   'a threadbare cloak patched many times',
@@ -123,9 +125,9 @@ export const APPEARANCE = [
   'a faint smell of smoke and sulfur',
   'soot-smudged clothing',
   'a perfectly groomed appearance',
-]
+])
 
-export const ENEMY_HOOKS = [
+export const ENEMY_HOOKS: RandomTable = table('npc-enemy-hooks', 'Enemy hooks', 'npc', [
   'Hunts the party for a bounty placed by an old rival.',
   'Guards a secret their master would kill to protect.',
   'Believes the party stole something precious from them.',
@@ -136,9 +138,9 @@ export const ENEMY_HOOKS = [
   'Desperate and cornered, fights because there is no way out.',
   'Smuggles forbidden goods and cannot afford witnesses.',
   'Was cursed and attacks anyone who comes too close.',
-]
+])
 
-export const ENCOUNTER_HOOKS = [
+export const ENCOUNTER_HOOKS: RandomTable = table('npc-encounter-hooks', 'Encounter hooks', 'npc', [
   'Is lost and asks the party for directions to the nearest town.',
   'Sells strange curiosities from a battered cart.',
   'Is being chased by something and begs for help.',
@@ -149,4 +151,4 @@ export const ENCOUNTER_HOOKS = [
   'Carries a sealed letter they were told never to open.',
   'Is celebrating loudly and invites everyone to join.',
   'Seems to recognize one of the heroes, though they have never met.',
-]
+])

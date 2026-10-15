@@ -30,8 +30,12 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - NPC editing covers name, gender, role, level, story hook, appearance, personality, notes, hit points, armor class, speed, proficiency bonus, ability scores, saving throws, skills, proficiencies, equipment with quantities (including own items) and spells from the class spell list
 - Scene editing covers name, location type, time of day, location, weather, mood, the three details, an own read-aloud text and notes
 - Player characters can edit every imported sheet field; sheets kept only as a PDF can be filled in by hand to get the app's layout
+- README: features, how data is stored, development commands, project structure, how to extend the app and known limits
 
 ### Changed
+- NPC personality, appearance and story hook lists use the shared `RandomTable` format, like the scene tables
+- The page background no longer shows a seam on long pages
+- Character sheets show "None." when a race has no traits or a class has no features yet
 - Cached API responses make room for saved data: when storage is full the cache is cleared first, and expired entries are removed
 - Saved collections carry a schema version, so later model changes can migrate data already stored in a browser
 - Routes are created from the module registry; each page is loaded on demand, which makes the first load smaller

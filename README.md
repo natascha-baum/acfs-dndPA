@@ -1,15 +1,46 @@
 # acfs-dndPA
 
-DnD Personal Assistant: a web app for Dungeons & Dragons 5th Edition that helps Dungeon Masters and players during their sessions.
+DnD Personal Assistant: a web app for Dungeons & Dragons 5th Edition that helps Game Masters and players during their sessions.
 
 - Live: https://natascha-baum.github.io/acfs-dndPA/
-- Plan: [plan.md](plan.md)
+- Plan and status: [plan.md](plan.md)
+- Changes: [CHANGELOG.md](CHANGELOG.md)
 
 ## Features
 
-- NPC Generator: playable random characters from a few inputs (role, gender, race, class)
-- Scene Generator: weather, mood and location descriptions
-- My Characters: character sheets with spell and item lookups, editable
+### NPC Generator
+
+Pick a role (enemy or random encounter), gender, race, class and level, or leave them on "Random", and summon a playable 5e character:
+
+- Ability scores from the standard array, placed by what the class needs, plus racial bonuses.
+- Hit points, armor class, speed, proficiency bonus, saving throws, skills, proficiencies, starting equipment and spells, all taken from the D&D 5e API.
+- A name, appearance, personality and story hook. Each of these can be re-rolled on its own (↻).
+- **✎ Customize** changes any field before saving. Saved NPCs appear in My Characters.
+
+### Scene Generator
+
+Choose a location and time of day, or let the dice decide. The scene comes with a read-aloud text, weather, mood and sensory details (see, hear, smell). Every part can be re-rolled or edited by hand, and scenes can be saved for later.
+
+### My Characters
+
+Two tabs:
+
+- **NPCs & Enemies:** every saved NPC as a full character sheet. Click a spell, item, skill, trait or feature to read its description. **✎ Edit** changes any field, including custom spells or items that are not in the SRD.
+- **Players:** upload your own character sheet as a PDF (drag and drop or click). Fillable sheets that use the official 5e field names are read automatically: stats, skills, saves, attacks, spells, equipment, personality and backstory are shown in the app's own layout. The original PDF stays available ("Open PDF", "Download"). Sheets without form fields are kept as a file and can be filled in by hand.
+
+### Light and dark mode
+
+The sun and moon button in the header switches between the dark tavern theme and a light parchment theme. The first visit follows the system setting; the choice is remembered.
+
+## How data is stored
+
+Everything stays in your browser. There are no accounts and nothing is sent to a server except requests to the D&D 5e API.
+
+- Characters, scenes and player sheet details are stored in `localStorage`.
+- Uploaded PDFs are stored in IndexedDB (up to 25 MB each).
+- API responses are cached locally, so pages you have visited load faster the next time.
+
+Clearing the site data in your browser deletes your saved characters and scenes.
 
 ## Development
 
@@ -18,10 +49,13 @@ Requires Node.js 22.
 ```bash
 npm install
 npm run dev      # start the dev server
-npm test         # run unit tests
-npm run lint     # lint
-npm run build    # production build into dist/
+npm test         # run unit tests (Vitest)
+npm run lint     # lint (oxlint)
+npm run build    # type check and production build into dist/
+npm run preview  # serve the production build locally
 ```
+
+Tech stack: React 19, TypeScript, Vite, React Router (hash routing for GitHub Pages), CSS Modules and pdf-lib.
 
 ## Project structure
 
@@ -29,22 +63,38 @@ npm run build    # production build into dist/
 src/
   modules/registry.ts   list of app modules: routes, navigation and home tiles
   pages/                one page per route, loaded on demand
-  features/             logic and UI of each feature (npc, scene, character, detail, player)
-  components/           shared UI (layout, error boundary, icons)
+  features/
+    npc/                NPC generation, card, editor and flavor tables
+    scene/              scene generation, card, editor and tables
+    character/          traits and class features for a saved character
+    detail/             lookup dialog for spells, items, skills and features
+    player/             PDF upload, sheet parsing, player sheet card and editor
+  components/           shared UI (layout, theme toggle, editor fields, icons)
   lib/api/              D&D 5e API client with local caching
-  lib/storage/          storage layer: versioned collections in localStorage, files in IndexedDB
+  lib/storage/          versioned collections in localStorage, files in IndexedDB
+  lib/randomTable.ts    weighted random tables shared by all generators
+  lib/theme.ts          light and dark theme
   lib/useAsync.ts       hook for loading data with loading, error and retry states
-  types/models.ts       domain models (Character, Scene, ...)
+  types/models.ts       domain models (Character, Scene, PlayerSheet, RandomTable)
 ```
 
-To add a new module: create a page in `src/pages` and add an entry in `src/modules/registry.ts`. The registry creates its routes, its navigation link and its home tile.
+### Extending the app
 
-When a stored model in `types/models.ts` changes, raise its `version` in `src/lib/storage/index.ts` and add a `migrate` step, so data already saved in a browser keeps working.
+- **New module:** create a page in `src/pages` and add an entry in `src/modules/registry.ts`. The registry creates its route, its navigation link and its home tile.
+- **New random content:** add a table with `table(id, name, category, entries)` from `src/lib/randomTable.ts`. Entries are plain text or `[text, weight]`. Roll with `rollTable` or `rollDistinct`.
+- **Changed stored model:** when a model in `types/models.ts` changes, raise its `version` in `src/lib/storage/index.ts` and add a `migrate` step, so data already saved in a browser keeps working.
+- **Colors:** use the CSS variables in `src/index.css` (for example `--gold`, `--text-accent`, `--danger`), so both themes keep working.
+
+## Known limits
+
+- The PDF import reads fillable sheets with the official 5e field names. Other layouts or scanned sheets are stored as files only and can be filled in by hand.
+- Game data covers the SRD 5.1 only (for example one subclass per class and a limited set of races).
+- Data is stored per browser and device; there is no sync between devices yet.
 
 ## Deployment
 
-Every push to `main` is built and published to GitHub Pages by `.github/workflows/deploy.yml`.
+Pull requests run lint, tests and the build (`.github/workflows/ci.yml`). Every push to `main` is built and published to GitHub Pages by `.github/workflows/deploy.yml`.
 
 ## Credits
 
-Game data from the [D&D 5e API](https://www.dnd5eapi.co), based on the System Reference Document 5.1 by Wizards of the Coast LLC, licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
+Game data from the [D&D 5e API](https://www.dnd5eapi.co), based on the System Reference Document 5.1 by Wizards of the Coast LLC, licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/). Names, personalities, story hooks and scene descriptions are original content of this project.
