@@ -13,6 +13,8 @@ Every change follows [docs/workflow.md](docs/workflow.md), using the skills in `
 2. `/plan`: write `docs/plans/YYYY-MM-DD-topic.md`. Wait for the human to approve it.
 3. `/implement`: follow the approved plan on a feature branch, then open a pull request.
 
+Supporting skills: `/review` before merging, `/explain` to walk the human through code, `/code-check` for the regular health report in `docs/research/code-checks/`.
+
 Do not skip the plan, and do not write code the plan does not cover. If the code differs from what the plan expects, stop and say so.
 
 ## Backpressure
