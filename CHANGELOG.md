@@ -9,6 +9,11 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ### Added
 - Implementation status overview and feature ideas backlog in `plan.md`
 - This changelog
+- Scene generator (Milestone 3): pick a location type (forest, city, dungeon, tavern, mountains, swamp, coast, ruins) and time of day, or leave them on "Random"
+- Generated scenes have a place name, location description, weather, mood and three sensory details (see, hear, smell), plus a "read aloud" paragraph for the DM
+- Re-roll the whole scene or single parts (name, location, weather, mood, details)
+- Save scenes in the browser, reopen them from the "Saved Scenes" list, and delete them
+- Shared weighted random table engine (`src/lib/randomTable.ts`) based on the `RandomTable` schema; indoor places (tavern, dungeon) use their own weather tables
 
 ## [0.3.0] - 2026-10-15
 
