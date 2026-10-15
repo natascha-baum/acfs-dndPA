@@ -96,6 +96,7 @@ export default function CharacterSheet() {
           <div className={styles.columns}>
             <div>
               <h3>Racial Traits</h3>
+              {features.data.traits.length === 0 && <p className={styles.muted}>None.</p>}
               <ul className={styles.list}>
                 {features.data.traits.map((t) => (
                   <li key={t.index}>
@@ -112,6 +113,7 @@ export default function CharacterSheet() {
             </div>
             <div>
               <h3>Class Features</h3>
+              {features.data.features.length === 0 && <p className={styles.muted}>None.</p>}
               <ul className={styles.list}>
                 {features.data.features.map((f) => (
                   <li key={f.index}>

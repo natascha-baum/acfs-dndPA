@@ -78,6 +78,8 @@ body {
     radial-gradient(ellipse at 50% -10%, rgb(212 166 74 / 14%), transparent 55%),
     radial-gradient(ellipse at 100% 100%, rgb(163 48 42 / 12%), transparent 50%),
     var(--bg);
+  /* Pin the glows to the window so long pages don't show a seam */
+  background-attachment: fixed;
 }
 
 /* Subtle grain over everything for a worn, hand-made feel */

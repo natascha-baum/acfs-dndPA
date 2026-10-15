@@ -12,6 +12,7 @@ import type {
   Trait,
 } from '../../lib/api/types.ts'
 import { defaultRng, pick, pickMany, type Rng } from '../../lib/random.ts'
+import { rollDistinct, rollTable } from '../../lib/randomTable.ts'
 import type {
   Ability,
   ApiRef,
@@ -66,15 +67,15 @@ export function rollName(raceIndex: string, gender: string, rng: Rng = defaultRn
   return `${pick(firstNames, rng)} ${pick(names.family, rng)}`
 }
 
-export const rollPersonality = (rng: Rng = defaultRng) => pick(PERSONALITY, rng)
+export const rollPersonality = (rng: Rng = defaultRng) => rollTable(PERSONALITY, rng)
 
 export function rollAppearance(rng: Rng = defaultRng): string {
-  const [a, b] = pickMany(APPEARANCE, 2, rng)
+  const [a, b] = rollDistinct(APPEARANCE, 2, rng)
   return `Notable for ${a} and ${b}.`
 }
 
 export function rollHook(role: NpcRole, rng: Rng = defaultRng): string {
-  return pick(role === 'enemy' ? ENEMY_HOOKS : ENCOUNTER_HOOKS, rng)
+  return rollTable(role === 'enemy' ? ENEMY_HOOKS : ENCOUNTER_HOOKS, rng)
 }
 
 /** Resolves a "choose N from ..." block into concrete items. */
