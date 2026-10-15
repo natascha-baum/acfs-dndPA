@@ -1,8 +1,13 @@
+import ComingSoon from '../components/ComingSoon.tsx'
+import PageHeader from '../components/PageHeader.tsx'
+
 export default function CharacterGenerator() {
   return (
     <>
-      <h1>NPC Generator</h1>
-      <p>Coming in Milestone 2.</p>
+      <PageHeader title="NPC Generator" icon="npc">
+        A stranger steps out of the shadows…
+      </PageHeader>
+      <ComingSoon milestone={2} />
     </>
   )
 }

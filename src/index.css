@@ -1,29 +1,36 @@
-:root {
-  --bg: #f7f3ea;
-  --surface: #fffdf8;
-  --text: #2b2118;
-  --text-muted: #6f6357;
-  --border: #e2d8c6;
-  --accent: #9b2c2c;
-  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: Georgia, 'Times New Roman', serif;
+@import '@fontsource/cinzel-decorative/700.css';
+@import '@fontsource/cinzel/400.css';
+@import '@fontsource/cinzel/600.css';
+@import '@fontsource/crimson-pro/400.css';
+@import '@fontsource/crimson-pro/400-italic.css';
+@import '@fontsource/crimson-pro/600.css';
 
-  color-scheme: light dark;
+:root {
+  /* Night-time tavern palette */
+  --bg: #120e0b;
+  --bg-raised: #1d1712;
+  --surface: #241c15;
+  --surface-hover: #2e241b;
+  --parchment: #ecdcb8;
+  --text: #e8dcc4;
+  --text-muted: #a8977b;
+  --border: #4a3a28;
+  --gold: #d4a64a;
+  --gold-bright: #f0c96a;
+  --crimson: #a3302a;
+  --ember: #ff9a3c;
+  --shadow: 0 10px 30px rgb(0 0 0 / 45%);
+
+  --font-display: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+  --font-heading: 'Cinzel', Georgia, serif;
+  --font-body: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+
+  color-scheme: dark;
   font-family: var(--font-body);
-  line-height: 1.5;
+  font-size: 1.125rem;
+  line-height: 1.55;
   color: var(--text);
   background: var(--bg);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1c1814;
-    --surface: #26201b;
-    --text: #efe6d8;
-    --text-muted: #b1a594;
-    --border: #3d342b;
-    --accent: #e07a5f;
-  }
 }
 
 * {
@@ -32,15 +39,62 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgb(212 166 74 / 14%), transparent 55%),
+    radial-gradient(ellipse at 100% 100%, rgb(163 48 42 / 12%), transparent 50%),
+    var(--bg);
+}
+
+/* Subtle grain over everything for a worn, hand-made feel */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 100;
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--font-heading);
+  font-weight: 600;
   line-height: 1.2;
+  color: var(--gold);
+  letter-spacing: 0.02em;
 }
 
 a {
-  color: var(--accent);
+  color: var(--gold);
+}
+
+a:hover {
+  color: var(--gold-bright);
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--crimson);
+  color: var(--parchment);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

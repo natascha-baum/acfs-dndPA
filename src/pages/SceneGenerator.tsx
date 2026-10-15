@@ -1,8 +1,13 @@
+import ComingSoon from '../components/ComingSoon.tsx'
+import PageHeader from '../components/PageHeader.tsx'
+
 export default function SceneGenerator() {
   return (
     <>
-      <h1>Scene Generator</h1>
-      <p>Coming in Milestone 3.</p>
+      <PageHeader title="Scene Generator" icon="scene">
+        Paint the world your heroes walk into.
+      </PageHeader>
+      <ComingSoon milestone={3} />
     </>
   )
 }
