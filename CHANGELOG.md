@@ -21,6 +21,15 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - Upload a character sheet PDF (drag and drop or file picker, up to 25 MB); name, race and class & level are read from fillable sheets (official 5e sheet, D&D Beyond exports) and can be corrected before saving
 - Uploaded sheets are stored in the browser (IndexedDB) and can be viewed inside the app, opened in a new tab, downloaded or deleted
 - Light and dark mode: a sun/moon switch in the header; the app follows the system setting until you pick one, and remembers your choice
+- Saving an NPC or scene when browser storage is full now shows a message instead of failing silently
+- A page that crashes shows a "A Spell Gone Wrong" message with a way back instead of a blank screen
+
+### Changed
+- Cached API responses make room for saved data: when storage is full the cache is cleared first, and expired entries are removed
+- Saved collections carry a schema version, so later model changes can migrate data already stored in a browser
+- Routes are created from the module registry; each page is loaded on demand, which makes the first load smaller
+- Shared `useAsync` hook for loading data with loading, error and retry states
+- The deploy workflow also runs the linter
 
 ## [0.3.0] - 2026-10-15
 

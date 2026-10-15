@@ -1,33 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import PageHeader from '../components/PageHeader.tsx'
-import { loadFeatures, type CharacterFeatures } from '../features/character/loadFeatures.ts'
+import { loadFeatures } from '../features/character/loadFeatures.ts'
 import DetailDialog from '../features/detail/DetailDialog.tsx'
 import type { LookupRef } from '../features/detail/resolveDetail.ts'
 import NpcCard from '../features/npc/NpcCard.tsx'
 import { api } from '../lib/api/index.ts'
 import { characters } from '../lib/storage/index.ts'
+import { useAsync } from '../lib/useAsync.ts'
+import type { Character } from '../types/models.ts'
 import styles from './CharacterSheet.module.css'
 
-type FeatureState = { status: 'loading' } | { status: 'error' } | { status: 'ready'; data: CharacterFeatures }
+const loadCharacterFeatures = (character: Character | undefined) =>
+  character ? loadFeatures(character, api) : Promise.reject(new Error('Character not found'))
 
 export default function CharacterSheet() {
   const { id = '' } = useParams()
   const navigate = useNavigate()
   const [character] = useState(() => characters.get(id))
   const [lookup, setLookup] = useState<LookupRef | null>(null)
-  const [features, setFeatures] = useState<FeatureState>({ status: 'loading' })
-
-  useEffect(() => {
-    if (!character) return
-    let cancelled = false
-    loadFeatures(character, api)
-      .then((data) => !cancelled && setFeatures({ status: 'ready', data }))
-      .catch(() => !cancelled && setFeatures({ status: 'error' }))
-    return () => {
-      cancelled = true
-    }
-  }, [character])
+  const features = useAsync(character, loadCharacterFeatures)
 
   if (!character) {
     return (

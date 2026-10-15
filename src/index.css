@@ -133,6 +133,23 @@ button {
   }
 }
 
+/* Shared messages */
+.notice {
+  margin: 2rem 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.notice-error {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  color: var(--error-text);
+  background: rgb(163 48 42 / 25%);
+  border: 1px solid var(--crimson);
+  border-radius: 4px;
+}
+
 /* Shared controls */
 .btn {
   display: inline-flex;

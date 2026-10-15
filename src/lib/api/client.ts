@@ -1,9 +1,8 @@
-import type { KeyValueStore } from '../storage/storage.ts'
+import { CACHE_PREFIX, cacheKeys, setItemSafely, type KeyValueStore } from '../storage/storage.ts'
 import type { ApiList, Class, Equipment, Race, Spell } from './types.ts'
 
 export const API_ORIGIN = 'https://www.dnd5eapi.co'
 const API_BASE = `${API_ORIGIN}/api/2014`
-const CACHE_PREFIX = 'dndpa:api:'
 /** SRD data rarely changes, so cached responses stay valid for a week. */
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
 
@@ -24,23 +23,35 @@ export function createApiClient(options: ApiClientOptions = {}) {
   const now = options.now ?? Date.now
   // Concurrent requests for the same path share one fetch.
   const inFlight = new Map<string, Promise<unknown>>()
+  let pruned = false
 
-  function readCache(path: string): unknown {
-    const raw = store.getItem(CACHE_PREFIX + path)
+  /** Reads a cache entry by its full key; expired or corrupt entries are removed. */
+  function readEntry(key: string): unknown {
+    const raw = store.getItem(key)
     if (!raw) return undefined
     try {
       const entry = JSON.parse(raw) as CacheEntry
-      return now() - entry.storedAt < CACHE_TTL_MS ? entry.data : undefined
+      if (now() - entry.storedAt < CACHE_TTL_MS) return entry.data
     } catch {
-      return undefined
+      // Corrupt entry: dropped below.
     }
+    store.removeItem(key)
+    return undefined
+  }
+
+  /** Once per client: drop expired entries so the cache does not grow forever. */
+  function pruneExpired(): void {
+    if (pruned) return
+    pruned = true
+    cacheKeys(store).forEach(readEntry)
   }
 
   function writeCache(path: string, data: unknown): void {
     try {
-      store.setItem(CACHE_PREFIX + path, JSON.stringify({ storedAt: now(), data }))
+      // Frees the whole cache if storage is full, so newer entries replace older ones.
+      setItemSafely(store, CACHE_PREFIX + path, JSON.stringify({ storedAt: now(), data }))
     } catch {
-      // Storage full: the app still works, just without caching this response.
+      // Still no space: the app works, just without caching this response.
     }
   }
 
@@ -50,7 +61,8 @@ export function createApiClient(options: ApiClientOptions = {}) {
    */
   async function get<T>(path: string): Promise<T> {
     const normalized = path.replace(/^\/api\/2014\//, '').replace(/^\//, '')
-    const cached = readCache(normalized)
+    pruneExpired()
+    const cached = readEntry(CACHE_PREFIX + normalized)
     if (cached !== undefined) return cached as T
 
     let request = inFlight.get(normalized)

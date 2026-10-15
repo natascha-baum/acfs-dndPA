@@ -27,15 +27,19 @@ npm run build    # production build into dist/
 
 ```
 src/
-  modules/registry.ts   list of app modules (navigation + home tiles)
-  pages/                one page per route
-  components/           shared UI (layout)
+  modules/registry.ts   list of app modules: routes, navigation and home tiles
+  pages/                one page per route, loaded on demand
+  features/             logic and UI of each feature (npc, scene, character, detail, player)
+  components/           shared UI (layout, error boundary, icons)
   lib/api/              D&D 5e API client with local caching
-  lib/storage/          storage layer (browser localStorage for now)
+  lib/storage/          storage layer: versioned collections in localStorage, files in IndexedDB
+  lib/useAsync.ts       hook for loading data with loading, error and retry states
   types/models.ts       domain models (Character, Scene, ...)
 ```
 
-To add a new module: create a page in `src/pages`, add a route in `src/App.tsx` and an entry in `src/modules/registry.ts`.
+To add a new module: create a page in `src/pages` and add an entry in `src/modules/registry.ts`. The registry creates its routes, its navigation link and its home tile.
+
+When a stored model in `types/models.ts` changes, raise its `version` in `src/lib/storage/index.ts` and add a `migrate` step, so data already saved in a browser keeps working.
 
 ## Deployment
 

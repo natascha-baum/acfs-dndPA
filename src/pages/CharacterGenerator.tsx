@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router'
 import Icon from '../components/Icon.tsx'
 import PageHeader from '../components/PageHeader.tsx'
@@ -13,42 +13,28 @@ import {
 } from '../features/npc/generateNpc.ts'
 import type { NpcRole } from '../features/npc/tables.ts'
 import { api } from '../lib/api/index.ts'
-import { characters } from '../lib/storage/index.ts'
+import { characters, SAVE_FAILED_MESSAGE } from '../lib/storage/index.ts'
+import { useAsync } from '../lib/useAsync.ts'
 import type { ApiRef, Character, NpcOptions } from '../types/models.ts'
 import styles from './CharacterGenerator.module.css'
 
-type ListState =
-  | { status: 'loading' }
-  | { status: 'error' }
-  | { status: 'ready'; races: ApiRef[]; classes: ApiRef[] }
+interface Lists {
+  races: ApiRef[]
+  classes: ApiRef[]
+}
+
+async function loadLists(): Promise<Lists> {
+  const [races, classes] = await Promise.all([api.races(), api.classes()])
+  return { races: races.results, classes: classes.results }
+}
 
 export default function CharacterGenerator() {
-  const [lists, setLists] = useState<ListState>({ status: 'loading' })
-  const [attempt, setAttempt] = useState(0)
+  const lists = useAsync(undefined, loadLists)
   const [lastOptions, setLastOptions] = useState<NpcOptions | null>(null)
   const [npc, setNpc] = useState<Character | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [savedId, setSavedId] = useState<string | null>(null)
-
-  useEffect(() => {
-    let cancelled = false
-    Promise.all([api.races(), api.classes()])
-      .then(([races, classes]) => {
-        if (!cancelled) setLists({ status: 'ready', races: races.results, classes: classes.results })
-      })
-      .catch(() => {
-        if (!cancelled) setLists({ status: 'error' })
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [attempt])
-
-  function retryLists() {
-    setLists({ status: 'loading' })
-    setAttempt((n) => n + 1)
-  }
 
   async function summon(options: NpcOptions) {
     setBusy(true)
@@ -79,7 +65,13 @@ export default function CharacterGenerator() {
     if (!npc) return
     const now = new Date().toISOString()
     const stored = { ...npc, updatedAt: now }
-    characters.save(stored)
+    try {
+      characters.save(stored)
+    } catch {
+      setError(SAVE_FAILED_MESSAGE)
+      return
+    }
+    setError(null)
     setNpc(stored)
     setSavedId(stored.id)
   }
@@ -90,20 +82,20 @@ export default function CharacterGenerator() {
         A stranger steps out of the shadows…
       </PageHeader>
 
-      {lists.status === 'loading' && <p className={styles.status}>Consulting the archives…</p>}
+      {lists.status === 'loading' && <p className="notice">Consulting the archives…</p>}
       {lists.status === 'error' && (
-        <div className={styles.status}>
+        <div className="notice">
           <p>The archives are unreachable right now. Check your connection and try again.</p>
-          <button type="button" className="btn" onClick={retryLists}>
+          <button type="button" className="btn" onClick={lists.retry}>
             Try again
           </button>
         </div>
       )}
       {lists.status === 'ready' && (
-        <NpcForm races={lists.races} classes={lists.classes} busy={busy} onSubmit={summon} />
+        <NpcForm races={lists.data.races} classes={lists.data.classes} busy={busy} onSubmit={summon} />
       )}
 
-      {error && <p className={styles.error} role="alert">{error}</p>}
+      {error && <p className="notice-error" role="alert">{error}</p>}
 
       {busy && !npc && (
         <div className={styles.summoning} aria-live="polite">

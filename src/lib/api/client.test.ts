@@ -53,4 +53,16 @@ describe('createApiClient', () => {
     await expect(api.spell('nope')).rejects.toThrow('404')
     expect(store.data.size).toBe(0)
   })
+
+  it('removes expired cache entries', async () => {
+    let time = 0
+    const store = memoryStore()
+    const fetchFn = vi.fn(async () => jsonResponse({ count: 0, results: [] }))
+    await createApiClient({ fetchFn, store, now: () => time }).races()
+    expect(store.data.has('dndpa:api:races')).toBe(true)
+
+    time = 8 * 24 * 60 * 60 * 1000
+    await createApiClient({ fetchFn, store, now: () => time }).classes()
+    expect(store.data.has('dndpa:api:races')).toBe(false)
+  })
 })

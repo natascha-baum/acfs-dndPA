@@ -1,23 +1,18 @@
 import { Route, Routes } from 'react-router'
 import Layout from './components/Layout.tsx'
+import { moduleRoutes } from './modules/registry.ts'
 import Home from './pages/Home.tsx'
-import CharacterGenerator from './pages/CharacterGenerator.tsx'
-import SceneGenerator from './pages/SceneGenerator.tsx'
-import Characters from './pages/Characters.tsx'
-import CharacterSheet from './pages/CharacterSheet.tsx'
-import PlayerSheetView from './pages/PlayerSheetView.tsx'
 import NotFound from './pages/NotFound.tsx'
 
+// Module routes come from the registry; only Home and NotFound live here.
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="generate/character" element={<CharacterGenerator />} />
-        <Route path="generate/scene" element={<SceneGenerator />} />
-        <Route path="characters" element={<Characters />} />
-        <Route path="characters/:id" element={<CharacterSheet />} />
-        <Route path="characters/player/:id" element={<PlayerSheetView />} />
+        {moduleRoutes.map(({ path, page: Page }) => (
+          <Route key={path} path={path} element={<Page />} />
+        ))}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

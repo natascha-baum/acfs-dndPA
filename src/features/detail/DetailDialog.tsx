@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../../lib/api/index.ts'
-import { resolveDetail, type DetailContent, type LookupRef } from './resolveDetail.ts'
+import { useAsync } from '../../lib/useAsync.ts'
+import { resolveDetail, type LookupRef } from './resolveDetail.ts'
 import styles from './DetailDialog.module.css'
 
 interface DetailDialogProps {
@@ -8,37 +9,25 @@ interface DetailDialogProps {
   onClose: () => void
 }
 
-type State = { status: 'loading' } | { status: 'error' } | { status: 'ready'; content: DetailContent }
+const loadDetail = (ref: LookupRef) => resolveDetail(ref, api)
 
 /** Modal that shows an API entry; related entries open inside it with a back button. */
 export default function DetailDialog({ lookup, onClose }: DetailDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [stack, setStack] = useState<LookupRef[]>([lookup])
-  const [state, setState] = useState<State>({ status: 'loading' })
   const current = stack[stack.length - 1]
+  const state = useAsync(current, loadDetail)
 
   useEffect(() => {
     const dialog = dialogRef.current
     if (dialog && !dialog.open) dialog.showModal()
   }, [])
 
-  useEffect(() => {
-    let cancelled = false
-    resolveDetail(current, api)
-      .then((content) => !cancelled && setState({ status: 'ready', content }))
-      .catch(() => !cancelled && setState({ status: 'error' }))
-    return () => {
-      cancelled = true
-    }
-  }, [current])
-
   function open(next: LookupRef) {
-    setState({ status: 'loading' })
     setStack((s) => [...s, next])
   }
 
   function back() {
-    setState({ status: 'loading' })
     setStack((s) => s.slice(0, -1))
   }
 
@@ -88,12 +77,12 @@ export default function DetailDialog({ lookup, onClose }: DetailDialogProps) {
         {state.status === 'ready' && (
           <>
             <h2 id="detail-title" className={styles.title}>
-              {state.content.title}
+              {state.data.title}
             </h2>
-            {state.content.subtitle && <p className={styles.subtitle}>{state.content.subtitle}</p>}
-            {state.content.facts.length > 0 && (
+            {state.data.subtitle && <p className={styles.subtitle}>{state.data.subtitle}</p>}
+            {state.data.facts.length > 0 && (
               <dl className={styles.facts}>
-                {state.content.facts.map((fact) => (
+                {state.data.facts.map((fact) => (
                   <div key={fact.label}>
                     <dt>{fact.label}</dt>
                     <dd>{fact.value}</dd>
@@ -101,12 +90,12 @@ export default function DetailDialog({ lookup, onClose }: DetailDialogProps) {
                 ))}
               </dl>
             )}
-            {state.content.paragraphs.map((text, i) => (
+            {state.data.paragraphs.map((text, i) => (
               <p key={i} className={styles.paragraph}>
                 {text}
               </p>
             ))}
-            {state.content.links.map((group) => (
+            {state.data.links.map((group) => (
               <section key={group.label}>
                 <h3 className={styles.linksTitle}>{group.label}</h3>
                 <ul className={styles.links}>

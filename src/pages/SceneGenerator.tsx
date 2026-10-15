@@ -4,7 +4,7 @@ import SavedScenes from '../features/scene/SavedScenes.tsx'
 import SceneCard from '../features/scene/SceneCard.tsx'
 import { generateScene, rollSceneField, type SceneField } from '../features/scene/generateScene.ts'
 import { LOCATION_LABELS, LOCATION_TYPES, TIME_LABELS, TIMES_OF_DAY } from '../features/scene/tables.ts'
-import { scenes } from '../lib/storage/index.ts'
+import { SAVE_FAILED_MESSAGE, scenes } from '../lib/storage/index.ts'
 import type { Scene, SceneOptions } from '../types/models.ts'
 import styles from './SceneGenerator.module.css'
 
@@ -19,6 +19,7 @@ export default function SceneGenerator() {
   const [lastOptions, setLastOptions] = useState<SceneOptions | null>(null)
   const [scene, setScene] = useState<Scene | null>(null)
   const [saved, setSaved] = useState<Scene[]>(loadSaved)
+  const [saveError, setSaveError] = useState(false)
 
   const isSaved = scene ? saved.some((s) => s.id === scene.id) : false
 
@@ -41,7 +42,13 @@ export default function SceneGenerator() {
 
   function save() {
     if (!scene) return
-    scenes.save(scene)
+    try {
+      scenes.save(scene)
+    } catch {
+      setSaveError(true)
+      return
+    }
+    setSaveError(false)
     setSaved(loadSaved())
   }
 
@@ -101,6 +108,11 @@ export default function SceneGenerator() {
               {isSaved ? '✓ Saved' : 'Save scene'}
             </button>
           </div>
+          {saveError && (
+            <p className="notice-error" role="alert">
+              {SAVE_FAILED_MESSAGE}
+            </p>
+          )}
           <SceneCard scene={scene} onReroll={reroll} />
         </>
       )}
