@@ -1,8 +1,13 @@
+import ComingSoon from '../components/ComingSoon.tsx'
+import PageHeader from '../components/PageHeader.tsx'
+
 export default function Characters() {
   return (
     <>
-      <h1>My Characters</h1>
-      <p>Coming in Milestone 4.</p>
+      <PageHeader title="My Characters" icon="characters">
+        Every legend is written down somewhere.
+      </PageHeader>
+      <ComingSoon milestone={4} />
     </>
   )
 }
