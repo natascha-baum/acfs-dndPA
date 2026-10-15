@@ -12,23 +12,40 @@ export type AbilityScores = Record<Ability, number>
 
 export type CharacterRole = 'enemy' | 'encounter' | 'player'
 
+export interface SpellRef extends ApiRef {
+  level: number
+}
+
+export interface EquipmentEntry {
+  item: ApiRef
+  quantity: number
+}
+
 export interface Character {
   id: string
   name: string
   role: CharacterRole
   gender: string
   race: ApiRef
+  subrace?: ApiRef
   class: ApiRef
   level: number
   abilityScores: AbilityScores
   hitPoints: number
   armorClass: number
-  proficiencies: ApiRef[]
+  speed: number
+  proficiencyBonus: number
   savingThrows: Ability[]
-  spells: ApiRef[]
-  equipment: ApiRef[]
+  /** Skill proficiencies, e.g. "Skill: Stealth". */
+  skills: ApiRef[]
+  /** Armor, weapon and tool proficiencies. */
+  proficiencies: ApiRef[]
+  spells: SpellRef[]
+  equipment: EquipmentEntry[]
+  appearance: string
   personality: string
-  description: string
+  /** Why this NPC is here: an enemy's motive or an encounter's situation. */
+  hook: string
   notes: string
   createdAt: string
   updatedAt: string
