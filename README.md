@@ -3,7 +3,8 @@
 DnD Personal Assistant: a web app for Dungeons & Dragons 5th Edition that helps Game Masters and players during their sessions.
 
 - Live: https://natascha-baum.github.io/acfs-dndPA/
-- Plan and status: [plan.md](plan.md)
+- Plan and status: [docs/plans/plan.md](docs/plans/plan.md)
+- How this project is built (workflow, research, best practices, code walkthrough): [docs/](docs/README.md)
 - Changes: [CHANGELOG.md](CHANGELOG.md)
 
 ## Features
@@ -52,6 +53,7 @@ npm run dev      # start the dev server
 npm test         # run unit tests (Vitest)
 npm run lint     # lint (oxlint)
 npm run build    # type check and production build into dist/
+npm run check    # everything a pull request must pass: typecheck, lint, tests, build
 npm run preview  # serve the production build locally
 ```
 

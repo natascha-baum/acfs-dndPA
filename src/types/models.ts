@@ -1,4 +1,4 @@
-// Domain models from plan.md, section 6.
+// Domain models from docs/plans/plan.md, section 6.
 
 /** A pointer to an entry in the D&D 5e API, e.g. a spell or an item. */
 export interface ApiRef {

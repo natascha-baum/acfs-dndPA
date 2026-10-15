@@ -7,6 +7,8 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ## [Unreleased]
 
 ### Added
+- Project docs in `docs/`: Research → Plan → Implement workflow, best practices and backpressure, codebase walkthrough, research notes and work log; the app plan moved to `docs/plans/plan.md`
+- `CLAUDE.md`, RPI skills in `.claude/skills/`, a pull request template and `npm run check` (typecheck, lint, tests, build in one command)
 - Implementation status overview and feature ideas backlog in `plan.md`
 - This changelog
 - Scene generator (Milestone 3): pick a location type (forest, city, dungeon, tavern, mountains, swamp, coast, ruins) and time of day, or leave them on "Random"
