@@ -1,7 +1,8 @@
 # App Plan: D&D Companion Web App
 
-> Status: complete, ready for implementation.
+> Status: in implementation (Milestones 1 and 2 done). See [Implementation Status](#9-implementation-status).
 > Last updated: 2026-10-15
+> History of released changes: [CHANGELOG.md](CHANGELOG.md)
 
 ## 1. Goal
 A web app for Dungeons & Dragons 5th Edition that supports both Dungeon Masters and players during and between sessions. It bundles several tools and is built as a set of modules so new features can be added later without reworking existing ones.
@@ -99,7 +100,86 @@ Deadline: **Tuesday, 2026-10-20**. Features are ordered by priority; if time run
 
 Definition of done per milestone: works in the browser, data survives a page reload, no console errors.
 
-## 9. Decisions Log
+## 9. Implementation Status
+Last checked: 2026-10-15 (after PR #3). Legend: ✅ done · 🟡 partly done · ⬜ open.
+
+### Milestones
+| Milestone | Status | Notes |
+|---|---|---|
+| 1. Project setup (Vite + React + TS, routing, layout, storage layer, API client with caching, GitHub Pages) | ✅ | PR #1; CI and deploy workflows run on every push to `main` |
+| Design: dark "tavern at night" theme | ✅ | PR #2 (not in the original plan); fonts, icons, home page hero |
+| 2. NPC generator | ✅ | PR #3 |
+| 3. Scene generator | ⬜ | Page is a placeholder |
+| 4. My Characters list, character sheet (view), detail view | ⬜ | Pages are placeholders |
+| 5. Edit mode, polish, generator tests, README | 🟡 | NPC generator tests and a basic README exist; edit mode open |
+| 6. Final check and submission | ⬜ | Due Tue 2026-10-20 |
+
+### Features (MVP)
+| Feature | Status | Notes |
+|---|---|---|
+| NPC generator: input form (role, gender, race, class, level, "Random") | ✅ | Races and classes loaded from the API |
+| NPC generator: valid 5e stats (standard array, racial bonuses, HP, AC, proficiencies, saves, equipment, spells) | ✅ | Tested against real SRD records |
+| NPC generator: name, personality, appearance, role-based story hook | ✅ | Own tables in `src/features/npc/tables.ts` |
+| NPC generator: re-roll all or per field | ✅ | Per field: name, appearance, personality, hook |
+| NPC generator: save to "My Characters" | ✅ | Saved to local storage; the list to show them is still open |
+| Scene generator (location, weather, mood, details, re-roll, save, list) | ⬜ | |
+| Character overview (sheet) with detail lookups for spells/items/features | ⬜ | |
+| Editable character sheet | ⬜ | |
+
+### Cross-cutting
+| Item | Status | Notes |
+|---|---|---|
+| Module registry (each feature = own module and route) | ✅ | `src/modules/registry.ts` |
+| Storage interface, swappable for a backend later | ✅ | `src/lib/storage/` |
+| API client with local caching | ✅ | `src/lib/api/` |
+| SRD / CC-BY-4.0 attribution in the app | ✅ | Footer |
+| Shared random table schema for all generators | 🟡 | `RandomTable` type exists; NPC tables are still plain lists, scene generator should use the schema |
+| Data survives page reload | ✅ | For saved NPCs |
+
+## 10. Feature Ideas (backlog)
+A running list so there are always ideas for extensions. Nothing here is committed; pick from it after the MVP. Add new ideas at the end of the matching group.
+
+### For Dungeon Masters
+- Initiative tracker with HP, conditions and turn order
+- Monster lookup and quick stat blocks from the API (`monsters`)
+- Encounter builder: pick monsters, calculate difficulty for the party (XP thresholds)
+- Loot generator (coins, items, magic items from the API by rarity)
+- Tavern / shop generator (name, owner NPC, menu or inventory with prices)
+- Quest hook and rumor generator
+- Town / settlement generator (size, ruler, notable places, problems)
+- Dungeon room generator (traps, features, contents)
+- Name generator per race as a standalone tool
+- Session notes and campaign log
+- Party overview for the DM (passive perception, AC, HP of all players at a glance)
+- "Quick NPC" mode: name + one line of personality, no stats
+
+### For players
+- Dice roller with roll history and advantage/disadvantage
+- Spell slot and hit dice tracker, short/long rest buttons
+- Level-up assistant (new HP, features, spells)
+- Point buy and 4d6-drop-lowest as alternatives to the standard array
+- Inventory with weight and currency
+- Condition reference (poisoned, prone, ...) and rules quick reference
+- Spell book: filter spells by class, level, school; mark prepared spells
+
+### Characters and data
+- Export / import characters as JSON (backup, share between devices)
+- Print view / PDF export of the character sheet
+- Duplicate a character, turn a generated NPC into a player character
+- Search and filter in "My Characters" (role, class, level)
+- Portrait: pick an icon or upload an image
+- Favorites and tags for saved characters and scenes
+
+### App and platform
+- User accounts and cloud sync (storage interface is ready for it)
+- Offline support as a Progressive Web App (installable on phones)
+- Light theme / theme switch
+- Sound ambience for scenes (rain, tavern, forest)
+- German translation (would need own translations, the API is English only)
+- Custom random tables: users add their own entries to generators
+- Share a generated NPC or scene via link
+
+## 11. Decisions Log
 - English only (UI, code, docs)
 - Web app, React + TypeScript + Vite, plain CSS
 - Data source: D&D 5e API (SRD 5.1)
@@ -110,6 +190,8 @@ Definition of done per milestone: works in the browser, data survives a page rel
 - Scene generator: own free-form flavor tables
 - Submission: GitHub repository; live version on GitHub Pages
 - Deadline: Tuesday, 2026-10-20
+- Design: dark "tavern at night" fantasy theme with gold accents
+- Version history kept in CHANGELOG.md (Keep a Changelog), one entry per merged PR
 
-## 10. Open Questions
+## 12. Open Questions
 - none
