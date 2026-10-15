@@ -1,0 +1,178 @@
+.card {
+  position: relative;
+  padding: 2rem 1.75rem;
+  background:
+    radial-gradient(ellipse at top, rgb(212 166 74 / 8%), transparent 60%),
+    linear-gradient(180deg, var(--surface), var(--bg-raised));
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  box-shadow:
+    var(--shadow),
+    0 0 40px rgb(212 166 74 / 10%);
+  animation: appear 0.5s ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgb(212 166 74 / 20%);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.header {
+  text-align: center;
+}
+
+.tags {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tags span[aria-hidden] {
+  color: var(--gold);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.title {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 5vw, 2.3rem);
+}
+
+.readAloud {
+  position: relative;
+  margin: 1.5rem 0;
+  padding: 1.5rem 1.75rem 1.25rem;
+  color: #3b2a18;
+  background:
+    radial-gradient(ellipse at center, transparent 55%, rgb(120 80 30 / 30%) 100%),
+    linear-gradient(180deg, #f1e2bd, #e2cc9a);
+  border-radius: 4px;
+  box-shadow: inset 0 0 30px rgb(110 70 20 / 25%);
+}
+
+.readAloud p {
+  margin: 0;
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.readAloudLabel {
+  position: absolute;
+  top: -0.65rem;
+  left: 1.25rem;
+  padding: 0.1rem 0.6rem;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  background: #7a2620;
+  border-radius: 2px;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 2rem;
+  margin: 0;
+}
+
+.fields dt {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-bottom: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--border);
+}
+
+.fields dd {
+  margin: 0.4rem 0 0;
+}
+
+.senses {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.senses span {
+  display: inline-block;
+  min-width: 3.2rem;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.reroll {
+  display: inline-grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: none;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    border-color 0.2s ease;
+}
+
+.reroll:hover {
+  border-color: var(--gold);
+  transform: rotate(180deg);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 1.5rem 1rem;
+  }
+
+  .readAloud {
+    padding: 1.4rem 1.1rem 1rem;
+  }
+
+  .fields {
+    grid-template-columns: 1fr;
+  }
+}

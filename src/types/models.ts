@@ -53,13 +53,22 @@ export interface Character {
 
 export interface Scene {
   id: string
+  /** Evocative place name, e.g. "The Whispering Hollow". */
+  title: string
   locationType: string
   location: string
   timeOfDay: string
   weather: string
   mood: string
+  /** Sensory details: something seen, heard and smelled. */
   details: string[]
   createdAt: string
+}
+
+/** Input for the scene generator. `undefined` means "Random". */
+export interface SceneOptions {
+  locationType?: string
+  timeOfDay?: string
 }
 
 export interface RandomTableEntry {

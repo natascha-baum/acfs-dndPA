@@ -101,7 +101,7 @@ Deadline: **Tuesday, 2026-10-20**. Features are ordered by priority; if time run
 Definition of done per milestone: works in the browser, data survives a page reload, no console errors.
 
 ## 9. Implementation Status
-Last checked: 2026-10-15 (after PR #3). Legend: ✅ done · 🟡 partly done · ⬜ open.
+Last checked: 2026-10-15 (after the scene generator PR). Legend: ✅ done · 🟡 partly done · ⬜ open.
 
 ### Milestones
 | Milestone | Status | Notes |
@@ -109,7 +109,7 @@ Last checked: 2026-10-15 (after PR #3). Legend: ✅ done · 🟡 partly done · 
 | 1. Project setup (Vite + React + TS, routing, layout, storage layer, API client with caching, GitHub Pages) | ✅ | PR #1; CI and deploy workflows run on every push to `main` |
 | Design: dark "tavern at night" theme | ✅ | PR #2 (not in the original plan); fonts, icons, home page hero |
 | 2. NPC generator | ✅ | PR #3 |
-| 3. Scene generator | ⬜ | Page is a placeholder |
+| 3. Scene generator | ✅ | Scene generator PR; 8 location types, read-aloud text |
 | 4. My Characters list, character sheet (view), detail view | ⬜ | Pages are placeholders |
 | 5. Edit mode, polish, generator tests, README | 🟡 | NPC generator tests and a basic README exist; edit mode open |
 | 6. Final check and submission | ⬜ | Due Tue 2026-10-20 |
@@ -122,7 +122,7 @@ Last checked: 2026-10-15 (after PR #3). Legend: ✅ done · 🟡 partly done · 
 | NPC generator: name, personality, appearance, role-based story hook | ✅ | Own tables in `src/features/npc/tables.ts` |
 | NPC generator: re-roll all or per field | ✅ | Per field: name, appearance, personality, hook |
 | NPC generator: save to "My Characters" | ✅ | Saved to local storage; the list to show them is still open |
-| Scene generator (location, weather, mood, details, re-roll, save, list) | ⬜ | |
+| Scene generator (location, weather, mood, details, re-roll, save, list) | ✅ | Own tables in `src/features/scene/tables.ts`; saved scenes list with open and delete |
 | Character overview (sheet) with detail lookups for spells/items/features | ⬜ | |
 | Editable character sheet | ⬜ | |
 
@@ -133,8 +133,8 @@ Last checked: 2026-10-15 (after PR #3). Legend: ✅ done · 🟡 partly done · 
 | Storage interface, swappable for a backend later | ✅ | `src/lib/storage/` |
 | API client with local caching | ✅ | `src/lib/api/` |
 | SRD / CC-BY-4.0 attribution in the app | ✅ | Footer |
-| Shared random table schema for all generators | 🟡 | `RandomTable` type exists; NPC tables are still plain lists, scene generator should use the schema |
-| Data survives page reload | ✅ | For saved NPCs |
+| Shared random table schema for all generators | 🟡 | Scene generator uses `RandomTable` with weights (`src/lib/randomTable.ts`); NPC tables are still plain lists |
+| Data survives page reload | ✅ | For saved NPCs and scenes |
 
 ## 10. Feature Ideas (backlog)
 A running list so there are always ideas for extensions. Nothing here is committed; pick from it after the MVP. Add new ideas at the end of the matching group.
