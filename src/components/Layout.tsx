@@ -1,10 +1,13 @@
-import { NavLink, Outlet } from 'react-router'
+import { Suspense } from 'react'
+import { NavLink, Outlet, useLocation } from 'react-router'
 import { modules } from '../modules/registry.ts'
+import ErrorBoundary from './ErrorBoundary.tsx'
 import Icon from './Icon.tsx'
 import ThemeToggle from './ThemeToggle.tsx'
 import styles from './Layout.module.css'
 
 export default function Layout() {
+  const { pathname } = useLocation()
   return (
     <div className={styles.shell}>
       <header className={styles.header}>
@@ -30,7 +33,11 @@ export default function Layout() {
         </div>
       </header>
       <main className={styles.main}>
-        <Outlet />
+        <ErrorBoundary key={pathname}>
+          <Suspense fallback={<p className="notice">Turning the pages…</p>}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </main>
       <footer className={styles.footer}>
         <Icon name="flourish" className={styles.footerFlourish} />

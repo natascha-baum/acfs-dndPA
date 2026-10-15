@@ -1,6 +1,17 @@
+import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
+
 // Every feature of the app is a module. To add a new one, create its page
-// and add an entry here: it then shows up in the navigation and on Home.
+// and add an entry here: it then gets its routes, shows up in the navigation
+// and on Home. Pages are loaded on demand, so each one is its own bundle chunk.
 export type ModuleIcon = 'npc' | 'scene' | 'characters'
+
+type Page = LazyExoticComponent<ComponentType>
+
+export interface ModuleRoute {
+  /** Absolute path, may contain parameters such as `:id`. */
+  path: string
+  page: Page
+}
 
 export interface AppModule {
   id: string
@@ -11,7 +22,11 @@ export interface AppModule {
   /** Short in-world line shown on the home page tile. */
   flavor: string
   icon: ModuleIcon
+  /** Entry point used by the navigation and the home page. */
   path: string
+  page: Page
+  /** Further pages of the module, e.g. detail views. */
+  routes?: ModuleRoute[]
 }
 
 export const modules: AppModule[] = [
@@ -23,6 +38,7 @@ export const modules: AppModule[] = [
     flavor: 'A stranger steps out of the shadows…',
     icon: 'npc',
     path: '/generate/character',
+    page: lazy(() => import('../pages/CharacterGenerator.tsx')),
   },
   {
     id: 'scene-generator',
@@ -32,6 +48,7 @@ export const modules: AppModule[] = [
     flavor: 'Paint the world your heroes walk into.',
     icon: 'scene',
     path: '/generate/scene',
+    page: lazy(() => import('../pages/SceneGenerator.tsx')),
   },
   {
     id: 'characters',
@@ -41,5 +58,13 @@ export const modules: AppModule[] = [
     flavor: 'Every legend is written down somewhere.',
     icon: 'characters',
     path: '/characters',
+    page: lazy(() => import('../pages/Characters.tsx')),
+    routes: [
+      { path: '/characters/:id', page: lazy(() => import('../pages/CharacterSheet.tsx')) },
+      { path: '/characters/player/:id', page: lazy(() => import('../pages/PlayerSheetView.tsx')) },
+    ],
   },
 ]
+
+/** Every route of every module, for the router. */
+export const moduleRoutes: ModuleRoute[] = modules.flatMap((m) => [{ path: m.path, page: m.page }, ...(m.routes ?? [])])
