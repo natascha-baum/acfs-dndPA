@@ -94,5 +94,5 @@
 }
 
 .delete:hover {
-  color: #e05a4f;
+  color: var(--danger);
 }

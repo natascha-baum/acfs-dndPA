@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router'
 import { modules } from '../modules/registry.ts'
 import Icon from './Icon.tsx'
+import ThemeToggle from './ThemeToggle.tsx'
 import styles from './Layout.module.css'
 
 export default function Layout() {
@@ -24,6 +25,9 @@ export default function Layout() {
             </NavLink>
           ))}
         </nav>
+        <div className={styles.theme}>
+          <ThemeToggle />
+        </div>
       </header>
       <main className={styles.main}>
         <Outlet />

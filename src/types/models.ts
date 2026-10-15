@@ -51,6 +51,20 @@ export interface Character {
   updatedAt: string
 }
 
+/** A player's own character, kept as an uploaded PDF character sheet. */
+export interface PlayerSheet {
+  id: string
+  name: string
+  race: string
+  /** Free text as written on the sheet, e.g. "Rogue 3 / Fighter 1". */
+  classLevel: string
+  fileName: string
+  /** Size of the PDF in bytes; the file itself lives in the file store. */
+  fileSize: number
+  createdAt: string
+  updatedAt: string
+}
+
 export interface Scene {
   id: string
   /** Evocative place name, e.g. "The Whispering Hollow". */
