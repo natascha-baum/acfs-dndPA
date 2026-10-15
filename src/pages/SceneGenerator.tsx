@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import PageHeader from '../components/PageHeader.tsx'
 import SavedScenes from '../features/scene/SavedScenes.tsx'
 import SceneCard from '../features/scene/SceneCard.tsx'
+import SceneEditor from '../features/scene/SceneEditor.tsx'
 import { generateScene, rollSceneField, type SceneField } from '../features/scene/generateScene.ts'
 import { LOCATION_LABELS, LOCATION_TYPES, TIME_LABELS, TIMES_OF_DAY } from '../features/scene/tables.ts'
 import { SAVE_FAILED_MESSAGE, scenes } from '../lib/storage/index.ts'
@@ -20,12 +21,14 @@ export default function SceneGenerator() {
   const [scene, setScene] = useState<Scene | null>(null)
   const [saved, setSaved] = useState<Scene[]>(loadSaved)
   const [saveError, setSaveError] = useState(false)
+  const [editing, setEditing] = useState(false)
 
   const isSaved = scene ? saved.some((s) => s.id === scene.id) : false
 
   function conjure(options: SceneOptions) {
     setLastOptions(options)
     setScene(generateScene(options))
+    setEditing(false)
   }
 
   function handleSubmit(event: FormEvent) {
@@ -37,7 +40,8 @@ export default function SceneGenerator() {
     if (!scene) return
     const value = rollSceneField(field, scene.locationType)
     // A changed scene is a new, unsaved draft; the saved original stays as it was.
-    setScene({ ...scene, id: crypto.randomUUID(), [field]: value })
+    // An own read-aloud text would no longer match the new field, so it is dropped.
+    setScene({ ...scene, id: crypto.randomUUID(), [field]: value, readAloud: undefined })
   }
 
   function save() {
@@ -50,6 +54,27 @@ export default function SceneGenerator() {
     }
     setSaveError(false)
     setSaved(loadSaved())
+  }
+
+  function saveEdit(edited: Scene) {
+    // Edits to a saved scene are saved right away; a new draft stays unsaved.
+    if (isSaved) {
+      try {
+        scenes.save(edited)
+      } catch {
+        setSaveError(true)
+        return
+      }
+      setSaved(loadSaved())
+    }
+    setSaveError(false)
+    setScene(edited)
+    setEditing(false)
+  }
+
+  function open(target: Scene) {
+    setScene(target)
+    setEditing(false)
   }
 
   function remove(target: Scene) {
@@ -93,7 +118,19 @@ export default function SceneGenerator() {
         </button>
       </form>
 
-      {scene && (
+      {scene && editing && (
+        <SceneEditor
+          scene={scene}
+          error={saveError ? SAVE_FAILED_MESSAGE : null}
+          onSave={saveEdit}
+          onCancel={() => {
+            setSaveError(false)
+            setEditing(false)
+          }}
+        />
+      )}
+
+      {scene && !editing && (
         <>
           <div className={styles.actions}>
             <button
@@ -103,6 +140,9 @@ export default function SceneGenerator() {
               onClick={() => lastOptions && conjure(lastOptions)}
             >
               ↻ Re-roll scene
+            </button>
+            <button type="button" className="btn" onClick={() => setEditing(true)}>
+              ✎ Edit
             </button>
             <button type="button" className="btn btn-primary" onClick={save} disabled={isSaved}>
               {isSaved ? '✓ Saved' : 'Save scene'}
@@ -117,7 +157,7 @@ export default function SceneGenerator() {
         </>
       )}
 
-      <SavedScenes scenes={saved} activeId={scene?.id} onOpen={setScene} onDelete={remove} />
+      <SavedScenes scenes={saved} activeId={scene?.id} onOpen={open} onDelete={remove} />
     </>
   )
 }

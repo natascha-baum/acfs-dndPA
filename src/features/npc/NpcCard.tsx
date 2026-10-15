@@ -2,6 +2,7 @@ import type { ApiRef, Character } from '../../types/models.ts'
 import type { LookupKind, LookupRef } from '../detail/resolveDetail.ts'
 import { abilityModifier, ABILITIES, formatModifier } from './rules.ts'
 import { ABILITY_LABELS, SKILL_ABILITY, skillName, spellLevelLabel } from './format.ts'
+import { isCustom } from './editNpc.ts'
 import { ROLE_LABELS, type NpcRole } from './tables.ts'
 import styles from './NpcCard.module.css'
 
@@ -25,7 +26,7 @@ function RerollButton({ label, onClick }: { label: string; onClick?: () => void 
 
 export default function NpcCard({ npc, onReroll, onLookup }: NpcCardProps) {
   const entry = (kind: LookupKind, ref: ApiRef, label: string = ref.name) =>
-    onLookup ? (
+    onLookup && !isCustom(ref) ? (
       <button type="button" className={styles.lookup} onClick={() => onLookup({ kind, index: ref.index, name: ref.name })}>
         {label}
       </button>

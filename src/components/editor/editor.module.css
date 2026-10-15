@@ -1,0 +1,206 @@
+.form {
+  padding: 1.75rem 2rem;
+  background: linear-gradient(180deg, var(--surface), var(--bg-raised));
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.heading {
+  margin: 0 0 0.25rem;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.intro {
+  margin: 0 0 1.25rem;
+  text-align: center;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.section {
+  min-width: 0;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: none;
+}
+
+.section legend {
+  width: 100%;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--border);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem 1rem;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.number input {
+  max-width: 9rem;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.check input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--gold);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.2rem 0.15rem 0.65rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.chip button {
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.chip button:hover {
+  color: var(--danger);
+}
+
+.chip input {
+  width: 3.5rem;
+  padding: 0.1rem 0.3rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.empty {
+  margin: 0;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* A select or text box plus an "Add" button in one row */
+.adder {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.adder .field {
+  flex: 1;
+  min-width: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr auto;
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.remove {
+  width: 2.4rem;
+  height: 2.4rem;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.actionsWrap {
+  position: sticky;
+  bottom: 0;
+  margin: 0 -2rem -1.75rem;
+  padding: 1rem 2rem;
+  background: var(--bg-raised);
+  border-top: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+}
+
+.actionsWrap :global(.notice-error) {
+  margin: 0 0 0.75rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .form {
+    padding: 1.25rem 1rem;
+  }
+
+  .actionsWrap {
+    margin: 0 -1rem -1.25rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* One ability: score, modifier, save value and proficiency together */
+.ability {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.ability :global(.field) input,
+.skill :global(.field) input {
+  max-width: none;
+}
+
+.skill {
+  display: grid;
+  gap: 0.3rem;
+}
