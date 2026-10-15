@@ -8,7 +8,7 @@
 .error {
   padding: 0.75rem 1rem;
   text-align: center;
-  color: #ffd9d4;
+  color: var(--error-text);
   background: rgb(163 48 42 / 25%);
   border: 1px solid var(--crimson);
   border-radius: 4px;

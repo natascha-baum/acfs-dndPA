@@ -17,6 +17,10 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - My Characters (Milestone 4): list of saved characters, newest first, with role, race, class, level, HP and AC; open or delete them
 - Character sheet view: stats, skills, proficiencies, equipment, spells, appearance and personality, plus racial traits and class features up to the character's level loaded from the API
 - Detail view: click a spell, item, skill, proficiency, trait or feature to read its full description from the API in a dialog; linked entries (e.g. pack contents, weapon categories) can be opened inside it, with a Back button
+- My Characters has two tabs: "NPCs & Enemies" for generated characters and "Player Characters" for your own heroes
+- Upload a character sheet PDF (drag and drop or file picker, up to 25 MB); name, race and class & level are read from fillable sheets (official 5e sheet, D&D Beyond exports) and can be corrected before saving
+- Uploaded sheets are stored in the browser (IndexedDB) and can be viewed inside the app, opened in a new tab, downloaded or deleted
+- Light and dark mode: a sun/moon switch in the header; the app follows the system setting until you pick one, and remembers your choice
 
 ## [0.3.0] - 2026-10-15
 

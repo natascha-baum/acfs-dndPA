@@ -101,7 +101,7 @@ Deadline: **Tuesday, 2026-10-20**. Features are ordered by priority; if time run
 Definition of done per milestone: works in the browser, data survives a page reload, no console errors.
 
 ## 9. Implementation Status
-Last checked: 2026-10-15 (after the character sheet PR). Legend: ✅ done · 🟡 partly done · ⬜ open.
+Last checked: 2026-10-15 (after the player sheets and theme PR). Legend: ✅ done · 🟡 partly done · ⬜ open.
 
 ### Milestones
 | Milestone | Status | Notes |
@@ -124,6 +124,7 @@ Last checked: 2026-10-15 (after the character sheet PR). Legend: ✅ done · �
 | NPC generator: save to "My Characters" | ✅ | Saved to local storage and shown in "My Characters" |
 | Scene generator (location, weather, mood, details, re-roll, save, list) | ✅ | Own tables in `src/features/scene/tables.ts`; saved scenes list with open and delete |
 | Character overview (sheet) with detail lookups for spells/items/features | ✅ | Detail dialog for spells, equipment, skills, proficiencies, racial traits and class features |
+| Player characters: upload and keep a PDF character sheet (own tab in My Characters) | ✅ | Not in the original plan; details read from fillable PDFs, file stored in IndexedDB |
 | Editable character sheet | ⬜ | |
 
 ### Cross-cutting
@@ -134,7 +135,8 @@ Last checked: 2026-10-15 (after the character sheet PR). Legend: ✅ done · �
 | API client with local caching | ✅ | `src/lib/api/` |
 | SRD / CC-BY-4.0 attribution in the app | ✅ | Footer |
 | Shared random table schema for all generators | 🟡 | Scene generator uses `RandomTable` with weights (`src/lib/randomTable.ts`); NPC tables are still plain lists |
-| Data survives page reload | ✅ | For saved NPCs and scenes |
+| Data survives page reload | ✅ | Saved NPCs, scenes, player sheets and the theme choice |
+| Light and dark mode | ✅ | Not in the original plan (was in the backlog); switch in the header |
 
 ## 10. Feature Ideas (backlog)
 A running list so there are always ideas for extensions. Nothing here is committed; pick from it after the MVP. Add new ideas at the end of the matching group.
@@ -173,7 +175,7 @@ A running list so there are always ideas for extensions. Nothing here is committ
 ### App and platform
 - User accounts and cloud sync (storage interface is ready for it)
 - Offline support as a Progressive Web App (installable on phones)
-- Light theme / theme switch
+- ~~Light theme / theme switch~~ (done)
 - Sound ambience for scenes (rain, tavern, forest)
 - German translation (would need own translations, the API is English only)
 - Custom random tables: users add their own entries to generators
@@ -190,7 +192,8 @@ A running list so there are always ideas for extensions. Nothing here is committ
 - Scene generator: own free-form flavor tables
 - Submission: GitHub repository; live version on GitHub Pages
 - Deadline: Tuesday, 2026-10-20
-- Design: dark "tavern at night" fantasy theme with gold accents
+- Design: dark "tavern at night" fantasy theme with gold accents, plus a light "daylight parchment" theme
+- Player characters are kept as uploaded PDF sheets (stored in IndexedDB, since localStorage is too small for files)
 - Version history kept in CHANGELOG.md (Keep a Changelog), one entry per merged PR
 
 ## 12. Open Questions

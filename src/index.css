@@ -14,12 +14,20 @@
   --parchment: #ecdcb8;
   --text: #e8dcc4;
   --text-muted: #a8977b;
+  /* Highlighted prose, e.g. flavor lines */
+  --text-accent: #ecdcb8;
   --border: #4a3a28;
   --gold: #d4a64a;
   --gold-bright: #f0c96a;
   --crimson: #a3302a;
   --ember: #ff9a3c;
   --shadow: 0 10px 30px rgb(0 0 0 / 45%);
+  --header-bg: rgb(18 14 11 / 82%);
+  --danger: #e05a4f;
+  --on-crimson: #ffd9d4;
+  --error-text: #ffd9d4;
+  --crimson-soft: rgb(163 48 42 / 55%);
+  --title-shadow: rgb(0 0 0 / 60%);
 
   --font-display: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
   --font-heading: 'Cinzel', Georgia, serif;
@@ -31,6 +39,32 @@
   line-height: 1.55;
   color: var(--text);
   background: var(--bg);
+}
+
+/* Daylight palette: the same tavern, with the shutters open */
+:root[data-theme='light'] {
+  --bg: #efe3c8;
+  --bg-raised: #f6ecd6;
+  --surface: #fbf5e7;
+  --surface-hover: #f3e7cc;
+  --parchment: #fbf5e7;
+  --text: #2b1f14;
+  --text-muted: #6b5537;
+  --text-accent: #4a3420;
+  --border: #c9b085;
+  --gold: #8a6220;
+  --gold-bright: #6c4912;
+  --crimson: #a3302a;
+  --ember: #c8641c;
+  --shadow: 0 8px 22px rgb(80 55 20 / 18%);
+  --header-bg: rgb(246 236 214 / 88%);
+  --danger: #a3302a;
+  --on-crimson: #fff4f1;
+  --error-text: #7a2620;
+  --crimson-soft: rgb(163 48 42 / 88%);
+  --title-shadow: rgb(120 80 30 / 25%);
+
+  color-scheme: light;
 }
 
 * {

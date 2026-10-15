@@ -36,8 +36,8 @@
 }
 
 .enemy {
-  color: #ffd9d4;
-  background: rgb(163 48 42 / 55%);
+  color: var(--on-crimson);
+  background: var(--crimson-soft);
   border: 1px solid #c9473d;
 }
 
@@ -76,7 +76,7 @@
   font-size: 1.1rem;
   font-style: italic;
   text-align: center;
-  color: var(--parchment);
+  color: var(--text-accent);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
