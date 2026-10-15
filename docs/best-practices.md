@@ -13,7 +13,8 @@
 | 5 | All of the above | `npm run check` | | before every commit |
 | 6 | CI on every pull request | [ci.yml](../.github/workflows/ci.yml) | everything above, on a clean machine | GitHub |
 | 7 | Same checks before deploy | [deploy.yml](../.github/workflows/deploy.yml) | a broken `main` never reaches GitHub Pages | GitHub |
-| 8 | Human review | [PR template](../.github/pull_request_template.md) | design problems, code I don't understand | me |
+| 8 | Regular code check | `/code-check` skill | falling coverage, outdated or vulnerable dependencies, broken conventions | weekly, before submission |
+| 9 | Human review | [PR template](../.github/pull_request_template.md) | design problems, code I don't understand | me, with `/review` |
 
 Recommended in GitHub settings: protect `main` (Settings → Branches → require a pull request and the "CI" check to pass before merging), so rule 6 cannot be skipped.
 

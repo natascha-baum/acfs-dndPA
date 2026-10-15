@@ -8,6 +8,7 @@ Everything about *how* this app is built: research, plans, the workflow and the 
 | [best-practices.md](best-practices.md) | Backpressure (the automatic checks every change has to pass) and coding conventions |
 | [codebase-walkthrough.md](codebase-walkthrough.md) | A guided tour through the code: where things live and how data flows |
 | [research/](research/) | Research notes, one file per topic, named `YYYY-MM-DD-topic.md` |
+| [research/code-checks/](research/code-checks/) | Regular code health reports from the `/code-check` skill |
 | [plans/](plans/) | The app plan and implementation plans, named `YYYY-MM-DD-topic.md` |
 | [worklog.md](worklog.md) | Time spent on the project |
 
@@ -17,7 +18,7 @@ Everything about *how* this app is built: research, plans, the workflow and the 
 |---|---|
 | At least one day (8 hours) of work | [worklog.md](worklog.md), git history, pull requests #1 to #11 |
 | No vibe coding: understand the codebase | [codebase-walkthrough.md](codebase-walkthrough.md), small reviewed pull requests, tests that document behavior |
-| Skill-based workflow (RPI) | [workflow.md](workflow.md), skills in [`.claude/skills/`](../.claude/skills/), [CLAUDE.md](../CLAUDE.md) |
+| Skill-based workflow (RPI) | [workflow.md](workflow.md), skills in [`.claude/skills/`](../.claude/skills/) (research, plan, implement, review, explain, code-check), [CLAUDE.md](../CLAUDE.md) |
 | Research and plans in `./docs` | [research/](research/), [plans/](plans/) |
-| Good backpressure, best practices in Markdown | [best-practices.md](best-practices.md), [CI workflow](../.github/workflows/ci.yml), [PR template](../.github/pull_request_template.md) |
+| Good backpressure, best practices in Markdown | [best-practices.md](best-practices.md), [code checks](research/code-checks/), [CI workflow](../.github/workflows/ci.yml), [PR template](../.github/pull_request_template.md) |
 | Push to the school repository | Pending: link not provided yet |

@@ -38,10 +38,19 @@ Every change to this app goes through three phases. Each phase is a skill in [`.
 - Updates `CHANGELOG.md` and the status tables in [plans/plan.md](plans/plan.md).
 - Opens a pull request using the [PR template](../.github/pull_request_template.md). CI must be green and I review and merge.
 
+## Supporting skills
+
+| Skill | When | Output |
+|---|---|---|
+| `/review` | after `/implement`, before merging | findings (🔴 / 🟡 / ⚪) with `file:line`, plus questions I should be able to answer |
+| `/explain` | whenever I don't fully understand a file or a change | explanation with references and check questions |
+| `/code-check` | regularly (weekly, and before submission) | health report in `docs/research/code-checks/YYYY-MM-DD.md`; findings feed into `/research` or `/plan` |
+
 ## Example from this project
 
 | Phase | Result |
 |---|---|
-| Research | [research/2026-10-15-dnd5e-api.md](research/2026-10-15-dnd5e-api.md), [research/2026-10-15-architecture-review.md](research/2026-10-15-architecture-review.md) |
+| Research | [research/2026-10-15-dnd5e-api.md](research/2026-10-15-dnd5e-api.md), [research/2026-10-15-architecture-review.md](research/2026-10-15-architecture-review.md), [research/2026-10-15-improvement-options.md](research/2026-10-15-improvement-options.md) |
+| Code check | [research/code-checks/2026-10-15.md](research/code-checks/2026-10-15.md) (baseline) |
 | Plan | [plans/plan.md](plans/plan.md) (milestones, data model, decisions) |
 | Implement | Pull requests #1 to #11, each with a CHANGELOG entry; the review's findings became PR #8 |
