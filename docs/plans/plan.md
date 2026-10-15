@@ -2,7 +2,7 @@
 
 > Status: in implementation (Milestones 1 to 4 done). See [Implementation Status](#9-implementation-status).
 > Last updated: 2026-10-15
-> History of released changes: [CHANGELOG.md](CHANGELOG.md)
+> History of released changes: [CHANGELOG.md](../../CHANGELOG.md)
 
 ## 1. Goal
 A web app for Dungeons & Dragons 5th Edition that supports both Dungeon Masters and players during and between sessions. It bundles several tools and is built as a set of modules so new features can be added later without reworking existing ones.
@@ -136,6 +136,7 @@ Last checked: 2026-10-15 (after the polish and README PR). Legend: ✅ done · �
 | SRD / CC-BY-4.0 attribution in the app | ✅ | Footer |
 | Shared random table schema for all generators | ✅ | Scene and NPC flavor tables (personality, appearance, hooks) use `RandomTable` with weights (`src/lib/randomTable.ts`); name lists stay grouped by race |
 | Data survives page reload | ✅ | Saved NPCs, scenes, player sheets and the theme choice |
+| Docs, RPI workflow and backpressure (`docs/`, `CLAUDE.md`, `.claude/skills/`) | ✅ | Homework requirements; see `docs/README.md` |
 | Light and dark mode | ✅ | Not in the original plan (was in the backlog); switch in the header |
 
 ## 10. Feature Ideas (backlog)
@@ -195,6 +196,7 @@ A running list so there are always ideas for extensions. Nothing here is committ
 - Design: dark "tavern at night" fantasy theme with gold accents, plus a light "daylight parchment" theme
 - Player characters are kept as uploaded PDF sheets (stored in IndexedDB, since localStorage is too small for files)
 - Version history kept in CHANGELOG.md (Keep a Changelog), one entry per merged PR
+- Research → Plan → Implement workflow with skills; research and plans saved in `docs/` (homework requirement)
 
 ## 12. Open Questions
 - none
