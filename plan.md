@@ -101,7 +101,7 @@ Deadline: **Tuesday, 2026-10-20**. Features are ordered by priority; if time run
 Definition of done per milestone: works in the browser, data survives a page reload, no console errors.
 
 ## 9. Implementation Status
-Last checked: 2026-10-15 (after the player sheets and theme PR). Legend: ✅ done · 🟡 partly done · ⬜ open.
+Last checked: 2026-10-15 (after the edit mode PR). Legend: ✅ done · 🟡 partly done · ⬜ open.
 
 ### Milestones
 | Milestone | Status | Notes |
@@ -111,7 +111,7 @@ Last checked: 2026-10-15 (after the player sheets and theme PR). Legend: ✅ don
 | 2. NPC generator | ✅ | PR #3 |
 | 3. Scene generator | ✅ | Scene generator PR; 8 location types, read-aloud text |
 | 4. My Characters list, character sheet (view), detail view | ✅ | PR #6 |
-| 5. Edit mode, polish, generator tests, README | 🟡 | NPC generator tests and a basic README exist; edit mode open |
+| 5. Edit mode, polish, generator tests, README | 🟡 | Edit mode done for NPCs, scenes and player characters; polish and README still open |
 | 6. Final check and submission | ⬜ | Due Tue 2026-10-20 |
 
 ### Features (MVP)
@@ -125,7 +125,7 @@ Last checked: 2026-10-15 (after the player sheets and theme PR). Legend: ✅ don
 | Scene generator (location, weather, mood, details, re-roll, save, list) | ✅ | Own tables in `src/features/scene/tables.ts`; saved scenes list with open and delete |
 | Character overview (sheet) with detail lookups for spells/items/features | ✅ | Detail dialog for spells, equipment, skills, proficiencies, racial traits and class features |
 | Player characters: upload and keep a PDF character sheet (own tab in My Characters) | ✅ | Not in the original plan; fillable PDFs are shown in the app's own sheet layout (stats, skills, spells with lookups, notes), other PDFs as the file; stored in IndexedDB |
-| Editable character sheet | ⬜ | |
+| Editable character sheet | ✅ | NPCs, scenes and player characters can be edited and saved; NPCs also right after generating ("Customize") |
 
 ### Cross-cutting
 | Item | Status | Notes |

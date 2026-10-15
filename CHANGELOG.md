@@ -26,6 +26,11 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - Saving an NPC or scene when browser storage is full now shows a message instead of failing silently
 - A page that crashes shows a "A Spell Gone Wrong" message with a way back instead of a blank screen
 
+- Edit mode for everything you create: NPCs (on their sheet, or "Customize" right after generating), scenes and player characters can be changed field by field and saved
+- NPC editing covers name, gender, role, level, story hook, appearance, personality, notes, hit points, armor class, speed, proficiency bonus, ability scores, saving throws, skills, proficiencies, equipment with quantities (including own items) and spells from the class spell list
+- Scene editing covers name, location type, time of day, location, weather, mood, the three details, an own read-aloud text and notes
+- Player characters can edit every imported sheet field; sheets kept only as a PDF can be filled in by hand to get the app's layout
+
 ### Changed
 - Cached API responses make room for saved data: when storage is full the cache is cleared first, and expired entries are removed
 - Saved collections carry a schema version, so later model changes can migrate data already stored in a browser

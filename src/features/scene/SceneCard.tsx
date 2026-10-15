@@ -43,7 +43,7 @@ export default function SceneCard({ scene, onReroll }: SceneCardProps) {
 
       <blockquote className={styles.readAloud}>
         <span className={styles.readAloudLabel}>Read aloud</span>
-        <p>{readAloud(scene)}</p>
+        <p>{scene.readAloud || readAloud(scene)}</p>
       </blockquote>
 
       <dl className={styles.fields}>
@@ -89,6 +89,12 @@ export default function SceneCard({ scene, onReroll }: SceneCardProps) {
             </ul>
           </dd>
         </div>
+        {scene.notes && (
+          <div>
+            <dt>Notes</dt>
+            <dd className={styles.notes}>{scene.notes}</dd>
+          </div>
+        )}
       </dl>
     </article>
   )

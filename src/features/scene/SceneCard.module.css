@@ -176,3 +176,7 @@
     grid-template-columns: 1fr;
   }
 }
+
+.notes {
+  white-space: pre-line;
+}

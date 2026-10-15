@@ -3,12 +3,13 @@ import { Link, useNavigate, useParams } from 'react-router'
 import PageHeader from '../components/PageHeader.tsx'
 import DetailDialog from '../features/detail/DetailDialog.tsx'
 import type { LookupRef } from '../features/detail/resolveDetail.ts'
+import PlayerEditor from '../features/player/PlayerEditor.tsx'
 import PlayerSheetCard from '../features/player/PlayerSheetCard.tsx'
 import { formatBytes } from '../features/player/format.ts'
 import { matchSpells } from '../features/player/matchSpells.ts'
 import { readSheet } from '../features/player/readSheet.ts'
 import { api } from '../lib/api/index.ts'
-import { playerSheetFiles, playerSheets } from '../lib/storage/index.ts'
+import { playerSheetFiles, playerSheets, SAVE_FAILED_MESSAGE } from '../lib/storage/index.ts'
 import { useAsync } from '../lib/useAsync.ts'
 import type { PlayerSheet } from '../types/models.ts'
 import styles from './PlayerSheetView.module.css'
@@ -30,6 +31,8 @@ export default function PlayerSheetView() {
   const [file, setFile] = useState<FileState>({ status: 'loading' })
   const [showPdf, setShowPdf] = useState(false)
   const [lookup, setLookup] = useState<LookupRef | null>(null)
+  const [editing, setEditing] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
   const spells = useAsync(player?.sheet?.spells ?? NO_SPELLS, loadSpells)
 
   useEffect(() => {
@@ -86,6 +89,32 @@ export default function PlayerSheetView() {
     void navigate(BACK)
   }
 
+  function saveEdit(edited: PlayerSheet) {
+    try {
+      playerSheets.save(edited)
+    } catch {
+      setSaveError(SAVE_FAILED_MESSAGE)
+      return
+    }
+    setSaveError(null)
+    setPlayer(edited)
+    setEditing(false)
+  }
+
+  if (editing) {
+    return (
+      <PlayerEditor
+        player={player}
+        error={saveError}
+        onSave={saveEdit}
+        onCancel={() => {
+          setSaveError(null)
+          setEditing(false)
+        }}
+      />
+    )
+  }
+
   const meta = [player.race, player.classLevel].filter(Boolean).join(' · ')
   const sheet = player.sheet
 
@@ -130,6 +159,9 @@ export default function PlayerSheetView() {
               </a>
             </>
           )}
+          <button type="button" className="btn btn-primary" onClick={() => setEditing(true)}>
+            ✎ Edit
+          </button>
           <button type="button" className="btn" onClick={remove}>
             Delete
           </button>

@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import Icon from '../components/Icon.tsx'
 import PageHeader from '../components/PageHeader.tsx'
 import NpcCard, { type RerollField } from '../features/npc/NpcCard.tsx'
+import NpcEditor from '../features/npc/NpcEditor.tsx'
 import NpcForm from '../features/npc/NpcForm.tsx'
 import {
   generateNpc,
@@ -35,6 +36,7 @@ export default function CharacterGenerator() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [savedId, setSavedId] = useState<string | null>(null)
+  const [editing, setEditing] = useState(false)
 
   async function summon(options: NpcOptions) {
     setBusy(true)
@@ -43,6 +45,7 @@ export default function CharacterGenerator() {
     try {
       setNpc(await generateNpc(options, { api }))
       setSavedId(null)
+      setEditing(false)
     } catch {
       setError('The summoning failed. The archives could not be reached, please try again.')
     } finally {
@@ -104,7 +107,20 @@ export default function CharacterGenerator() {
         </div>
       )}
 
-      {npc && (
+      {npc && editing && (
+        <NpcEditor
+          npc={npc}
+          saveLabel="Apply changes"
+          onSave={(edited) => {
+            setNpc(edited)
+            setSavedId(null)
+            setEditing(false)
+          }}
+          onCancel={() => setEditing(false)}
+        />
+      )}
+
+      {npc && !editing && (
         <div className={busy ? styles.fading : undefined}>
           <div className={styles.actions}>
             <button
@@ -114,6 +130,9 @@ export default function CharacterGenerator() {
               onClick={() => lastOptions && summon(lastOptions)}
             >
               ↻ Re-roll NPC
+            </button>
+            <button type="button" className="btn" disabled={busy} onClick={() => setEditing(true)}>
+              ✎ Customize
             </button>
             {savedId === npc.id ? (
               <Link to={`/characters/${npc.id}`} className="btn">

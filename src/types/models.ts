@@ -127,6 +127,10 @@ export interface Scene {
   mood: string
   /** Sensory details: something seen, heard and smelled. */
   details: string[]
+  /** Own read-aloud text; when empty it is built from the fields. */
+  readAloud?: string
+  /** The DM's own notes, added when editing. */
+  notes?: string
   createdAt: string
 }
 

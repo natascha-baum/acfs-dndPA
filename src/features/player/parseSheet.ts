@@ -39,6 +39,8 @@ const SKILLS: { name: string; fields: string[]; box: number }[] = [
   { name: 'Survival', fields: ['survival'], box: 40 },
 ]
 
+export const SKILL_NAMES = SKILLS.map((s) => s.name)
+
 /** Fewer filled fields than this means the PDF is not really a filled-in sheet. */
 const MIN_FIELDS = 5
 

@@ -5,8 +5,9 @@ import { loadFeatures } from '../features/character/loadFeatures.ts'
 import DetailDialog from '../features/detail/DetailDialog.tsx'
 import type { LookupRef } from '../features/detail/resolveDetail.ts'
 import NpcCard from '../features/npc/NpcCard.tsx'
+import NpcEditor from '../features/npc/NpcEditor.tsx'
 import { api } from '../lib/api/index.ts'
-import { characters } from '../lib/storage/index.ts'
+import { characters, SAVE_FAILED_MESSAGE } from '../lib/storage/index.ts'
 import { useAsync } from '../lib/useAsync.ts'
 import type { Character } from '../types/models.ts'
 import styles from './CharacterSheet.module.css'
@@ -17,8 +18,10 @@ const loadCharacterFeatures = (character: Character | undefined) =>
 export default function CharacterSheet() {
   const { id = '' } = useParams()
   const navigate = useNavigate()
-  const [character] = useState(() => characters.get(id))
+  const [character, setCharacter] = useState(() => characters.get(id))
   const [lookup, setLookup] = useState<LookupRef | null>(null)
+  const [editing, setEditing] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
   const features = useAsync(character, loadCharacterFeatures)
 
   if (!character) {
@@ -38,15 +41,46 @@ export default function CharacterSheet() {
     navigate('/characters')
   }
 
+  function saveEdit(edited: Character) {
+    try {
+      characters.save(edited)
+    } catch {
+      setSaveError(SAVE_FAILED_MESSAGE)
+      return
+    }
+    setSaveError(null)
+    setCharacter(edited)
+    setEditing(false)
+  }
+
+  if (editing) {
+    return (
+      <NpcEditor
+        npc={character}
+        error={saveError}
+        onSave={saveEdit}
+        onCancel={() => {
+          setSaveError(null)
+          setEditing(false)
+        }}
+      />
+    )
+  }
+
   return (
     <>
       <div className={styles.toolbar}>
         <Link to="/characters" className="btn">
           ← My Characters
         </Link>
-        <button type="button" className="btn" onClick={remove}>
-          Delete
-        </button>
+        <div className={styles.actions}>
+          <button type="button" className="btn btn-primary" onClick={() => setEditing(true)}>
+            ✎ Edit
+          </button>
+          <button type="button" className="btn" onClick={remove}>
+            Delete
+          </button>
+        </div>
       </div>
 
       <p className={styles.hint}>Tip: click a spell, item, skill or feature to read its full description.</p>
