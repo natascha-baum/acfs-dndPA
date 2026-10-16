@@ -68,6 +68,16 @@ export default function Icon({ name, className }: IconProps) {
           <path d="M30 20h14M30 27h10" />
         </svg>
       )
+    case 'sessions':
+      return (
+        <svg viewBox="0 0 64 64" {...common}>
+          {/* Unrolled map with a dotted route to an X */}
+          <path d="M6 14 22 8l20 6 16-6v42l-16 6-20-6-16 6Z" />
+          <path d="M22 8v42M42 14v42" />
+          <path d="M12 42c4-6 8-2 12-8s10-4 14-10" strokeDasharray="2 4" />
+          <path d="m44 18 6 6M50 18l-6 6" />
+        </svg>
+      )
     case 'flourish':
       return (
         <svg viewBox="0 0 240 24" {...common} strokeWidth={1.2}>

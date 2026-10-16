@@ -1,0 +1,82 @@
+.row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: border-color 0.2s ease;
+}
+
+.row:hover {
+  border-color: var(--gold);
+}
+
+.line {
+  display: flex;
+  align-items: stretch;
+}
+
+.open {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  min-width: 0;
+  padding: 0.7rem 1rem;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  color: var(--text);
+  background: none;
+  border: none;
+}
+
+a.open:hover,
+button.open:hover {
+  color: var(--text);
+  cursor: pointer;
+}
+
+.name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.gone {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.meta {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.stats {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+
+.stats strong {
+  color: var(--gold);
+}
+
+.remove {
+  flex: none;
+  width: 3rem;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-left: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.remove:hover {
+  color: var(--danger);
+}
+
+.scene {
+  padding: 0 0.75rem 0.75rem;
+}

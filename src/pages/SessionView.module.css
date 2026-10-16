@@ -1,0 +1,84 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.center {
+  text-align: center;
+}
+
+.empty {
+  max-width: 640px;
+  margin: 2rem auto;
+  text-align: center;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  font-style: normal;
+}
+
+.group {
+  margin-top: 2rem;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 0.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  color: var(--bg);
+  background: var(--gold);
+  border-radius: 999px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A scene unfolds into the full scene card, which needs the whole width. */
+.wide {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.notes {
+  max-width: 640px;
+  margin: -0.5rem auto 1.5rem;
+  text-align: center;
+  font-style: italic;
+  white-space: pre-line;
+  color: var(--text-accent);
+}

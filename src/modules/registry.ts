@@ -3,7 +3,7 @@ import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
 // Every feature of the app is a module. To add a new one, create its page
 // and add an entry here: it then gets its routes, shows up in the navigation
 // and on Home. Pages are loaded on demand, so each one is its own bundle chunk.
-export type ModuleIcon = 'npc' | 'scene' | 'characters' | 'd20' | 'book'
+export type ModuleIcon = 'npc' | 'scene' | 'characters' | 'd20' | 'book' | 'sessions'
 
 type Page = LazyExoticComponent<ComponentType>
 
@@ -30,6 +30,17 @@ export interface AppModule {
 }
 
 export const modules: AppModule[] = [
+  {
+    id: 'sessions',
+    title: 'My Sessions',
+    shortTitle: 'Sessions',
+    description: 'Gather the NPCs, enemies, heroes and scenes of a game session on one page.',
+    flavor: 'Everything for tonight’s table, in one place.',
+    icon: 'sessions',
+    path: '/sessions',
+    page: lazy(() => import('../pages/Sessions.tsx')),
+    routes: [{ path: '/sessions/:id', page: lazy(() => import('../pages/SessionView.tsx')) }],
+  },
   {
     id: 'character-generator',
     title: 'NPC Generator',
