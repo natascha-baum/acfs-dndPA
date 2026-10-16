@@ -46,6 +46,6 @@ Recommended in GitHub settings: protect `main` (Settings → Branches → requir
 - **Data from the D&D 5e API wherever possible**; own tables only for flavor (names, personality, scenes).
 - **New module** = a page in `src/pages` plus an entry in `src/modules/registry.ts`.
 - **Random content** uses `table()` / `rollTable` / `rollDistinct` from `src/lib/randomTable.ts`.
-- **Changed stored model**: raise its `version` in `src/lib/storage/index.ts` and add a `migrate` step.
+- **Changed stored model**: raise its version in `src/lib/storage/versions.ts` and add a `migrate` step.
 - **Colors only through the CSS variables** in `src/index.css`, so light and dark mode both work.
 - **Small files, clear names, comments that explain *why***, not what.

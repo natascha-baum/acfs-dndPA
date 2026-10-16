@@ -20,7 +20,7 @@ Pick a role (enemy or random encounter), gender, race, class and level, or leave
 
 ### Scene Generator
 
-Choose a location and time of day, or let the dice decide. The scene comes with a read-aloud text, weather, mood and sensory details (see, hear, smell). Every part can be re-rolled or edited by hand, and scenes can be saved for later.
+Choose a location and time of day, or let the dice decide. The scene comes with a read-aloud text, weather, mood and sensory details (see, hear, smell). Every part can be re-rolled or edited by hand, and scenes can be saved for later. A tavern scene also gets an innkeeper (name, race and a quirk), a menu of three dishes or drinks with prices, and a rumor the party can overhear.
 
 ### My Characters
 

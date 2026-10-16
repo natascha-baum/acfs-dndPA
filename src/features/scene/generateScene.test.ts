@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { seededRng } from '../../lib/random.ts'
-import { generateScene, readAloud, rollSceneField } from './generateScene.ts'
+import { generateScene, readAloud, rollSceneField, rollTavern } from './generateScene.ts'
+import { MENU, RUMORS } from './tavernTables.ts'
 import { INDOOR, LOCATION_TYPES, OUTDOOR_WEATHER, SCENE_TABLES, TIMES_OF_DAY } from './tables.ts'
 
 describe('generateScene', () => {
@@ -55,5 +56,39 @@ describe('generateScene', () => {
       'As dusk settles in, you arrive at a quiet glade. A thin, drifting fog. You notice a broken arrow. ' +
         'You hear distant howling. The air carries the smell of damp earth. The place feels eerie and too quiet.',
     )
+  })
+})
+
+describe('tavern details', () => {
+  const tavernScene = (seed: number) => generateScene({ locationType: 'tavern' }, { rng: seededRng(seed) })
+
+  it('gives a tavern scene an innkeeper, three different menu entries and a rumor', () => {
+    const { tavern } = tavernScene(3)
+    expect(tavern?.innkeeper).toMatch(/^\S+ \S+, an? [a-z-]+ innkeeper who .+/)
+    expect(tavern?.menu).toHaveLength(3)
+    expect(new Set(tavern?.menu).size).toBe(3)
+    expect(tavern?.menu.every((m) => MENU.entries.some((e) => e.text === m))).toBe(true)
+    expect(RUMORS.entries.map((e) => e.text)).toContain(tavern?.rumor)
+  })
+
+  it('leaves other places without tavern details', () => {
+    expect(generateScene({ locationType: 'forest' }, { rng: seededRng(3) }).tavern).toBeUndefined()
+  })
+
+  it('is reproducible with the same seed', () => {
+    expect(tavernScene(9).tavern).toEqual(tavernScene(9).tavern)
+  })
+
+  it('uses "an" before a vowel and "a" before a consonant', () => {
+    const innkeepers = Array.from({ length: 200 }, (_, i) => rollTavern(seededRng(i)).innkeeper)
+    expect(innkeepers.some((text) => text.includes(', an elf innkeeper'))).toBe(true)
+    expect(innkeepers.some((text) => text.includes(', a dwarf innkeeper'))).toBe(true)
+    expect(innkeepers.some((text) => /, a [aeiou]/.test(text))).toBe(false)
+    expect(innkeepers.some((text) => /, an [^aeiou]/.test(text))).toBe(false)
+  })
+
+  it('re-rolls the whole block as one field', () => {
+    const block = rollSceneField('tavern', 'tavern', seededRng(4))
+    expect(block).toEqual(rollTavern(seededRng(4)))
   })
 })

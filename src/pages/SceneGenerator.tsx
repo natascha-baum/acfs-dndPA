@@ -40,8 +40,10 @@ export default function SceneGenerator() {
     if (!scene) return
     const value = rollSceneField(field, scene.locationType)
     // A changed scene is a new, unsaved draft; the saved original stays as it was.
-    // An own read-aloud text would no longer match the new field, so it is dropped.
-    setScene({ ...scene, id: crypto.randomUUID(), [field]: value, readAloud: undefined })
+    // An own read-aloud text would no longer match the new field, so it is dropped
+    // (the tavern details are not part of the read-aloud text).
+    const readAloud = field === 'tavern' ? scene.readAloud : undefined
+    setScene({ ...scene, id: crypto.randomUUID(), [field]: value, readAloud })
   }
 
   function save() {

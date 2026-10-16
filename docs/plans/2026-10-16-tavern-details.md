@@ -1,6 +1,6 @@
 # Plan: tavern details in the scene generator
 
-Date: 2026-10-16 · Phase: Plan · Status: **waiting for approval** · Research: [tavern and wiki](../research/2026-10-16-tavern-and-wiki.md) · Request: Natascha, 2026-10-16: the tavern/shop idea (F4) inside the scene generator, "wenn eine taverne szene erstellt wird"
+Date: 2026-10-16 · Phase: Plan · Status: **approved by Natascha 2026-10-16, implemented in PR #21** · Research: [tavern and wiki](../research/2026-10-16-tavern-and-wiki.md) · Request: Natascha, 2026-10-16: the tavern/shop idea (F4) inside the scene generator, "wenn eine taverne szene erstellt wird"
 
 ## Goal
 A generated tavern scene also gets:
@@ -35,10 +35,10 @@ The tavern's name is the scene name that already exists ("The Gilded Tankard"). 
 - All tables are `RandomTable`s via `table()`, like the other scene tables.
 
 ## Steps
-1. **Model and storage.** Field, version 2 with `migrate`, test that a version-1 scene loads unchanged. `npm run check`.
-2. **Logic.** `tavernTables.ts`, `rollTavern`, `generateScene` and `rollSceneField`; tests first. `npm run check`.
-3. **Card and editor.** Tavern section, re-roll, "Roll tavern details", edit fields, `finishSceneEdit` rules with tests. `npm run check` and `npm run maintainability` (no new warnings in the scene files).
-4. **Docs.** README scene section, CHANGELOG, `plan.md` status. `npm run check`.
+1. **Model and storage.** ✅ Field, version 2 with `migrate`, test that a version-1 scene loads unchanged. `npm run check`.
+2. **Logic.** ✅ `tavernTables.ts`, `rollTavern`, `generateScene` and `rollSceneField`; tests first. `npm run check`.
+3. **Card and editor.** ✅ Tavern section, re-roll, "Roll tavern details", edit fields, `finishSceneEdit` rules with tests. `npm run check` and `npm run maintainability` (no new warnings in the scene files).
+4. **Docs.** ✅ README scene section, CHANGELOG, `plan.md` status. `npm run check`.
 
 ## Tests
 
@@ -68,3 +68,9 @@ The tavern's name is the scene name that already exists ("The Gilded Tankard"). 
 - `CHANGELOG.md` → "Unreleased" / "Added": "Tavern scenes get an innkeeper, a menu with prices and a rumor".
 - `README.md`: Scene generator section.
 - `docs/plans/plan.md`: status row.
+
+## Deviations during implementation
+- The schema versions moved from `src/lib/storage/index.ts` to a new `src/lib/storage/versions.ts`. `index.ts` opens `localStorage` when it is imported, so a test could not read the scenes version from it. `CLAUDE.md`, `docs/best-practices.md` and `docs/codebase-walkthrough.md` now point to the new file.
+- No own `migrate` function: version-1 scenes already fit the new shape, and the default `migrate` keeps them as they are. The storage test proves that.
+- Re-rolling the tavern details keeps an own read-aloud text, because the tavern block is not part of that text. Other re-rolls still drop it.
+- The editor shows the tavern fields only for a scene that already has tavern details. A scene changed to "Tavern" gets them with "Roll tavern details" on the card.

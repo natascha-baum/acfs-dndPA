@@ -139,6 +139,7 @@ Last checked: 2026-10-16 (after the docs review). Legend: ✅ done · 🟡 partl
 | Backup export and import (JSON) | ✅ | PR #16, [plan](2026-10-16-backup-export-import.md); on My Characters, includes PDFs, older backups are migrated |
 | Dice roller | ✅ | PR #18, [plan](2026-10-16-dice-roller.md); new module in the registry, history only for the current visit |
 | Dice roller: mixed dice and roll animation | ✅ | PR #20, [plan](2026-10-16-dice-roller-pools.md); quick buttons add dice, CSS tumble animation |
+| Tavern details in tavern scenes | ✅ | PR #21, [plan](2026-10-16-tavern-details.md); innkeeper, menu, rumor; scenes storage version 2 |
 
 ### Cross-cutting
 | Item | Status | Notes |

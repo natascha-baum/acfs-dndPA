@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { memoryStore } from '../testing.ts'
 import { CACHE_PREFIX, StorageFullError, createCollection } from './storage.ts'
+import { VERSIONS } from './versions.ts'
 
 interface Item {
   id: string
@@ -129,5 +130,15 @@ describe('createCollection', () => {
       expect(() => items.importItems([{ id: 'a', name: 'Goblin' }], 2)).toThrow(/newer version/)
       expect(items.list()).toEqual([])
     })
+  })
+})
+
+describe('scenes collection', () => {
+  it('is at version 2 and still loads version-1 scenes unchanged', () => {
+    expect(VERSIONS.scenes).toBe(2)
+    const store = memoryStore()
+    const old = { id: 's1', title: 'The Old Mill', locationType: 'forest', details: [] }
+    store.setItem('dndpa:scenes', JSON.stringify({ version: 1, items: [old] }))
+    expect(createCollection<Item>('scenes', { store, version: VERSIONS.scenes }).list()).toEqual([old])
   })
 })

@@ -28,6 +28,6 @@ Do not skip the plan, and do not write code the plan does not cover. If the code
 - Pass dependencies (`api`, `rng`, `store`) as parameters so code is testable.
 - New module: page in `src/pages` + entry in `src/modules/registry.ts`.
 - Random content: `table()` / `rollTable` / `rollDistinct` from `src/lib/randomTable.ts`.
-- Changed stored model: raise `version` in `src/lib/storage/index.ts` and add `migrate`.
+- Changed stored model: raise its version in `src/lib/storage/versions.ts` and add `migrate`.
 - Colors only via CSS variables in `src/index.css`.
 - Every pull request: entry in `CHANGELOG.md` under "Unreleased", status tables in `docs/plans/plan.md`, README if behavior changes.
