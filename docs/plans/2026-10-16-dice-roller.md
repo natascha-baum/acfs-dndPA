@@ -57,6 +57,7 @@ Nothing is stored (see open question 1), so no collection, no `version`, no `mig
 
 ## Verification
 - `npm run check` green after every step.
+- `npm run maintainability` shows no new warnings for the new files (file and function length, complexity), see the [code check of 2026-10-16](../research/code-checks/2026-10-16.md).
 - By hand (`npm run dev`), desktop and mobile width, light and dark theme, no console errors:
   1. "Dice Roller" shows up in the navigation and as a tile on Home.
   2. Each quick button rolls the right die; `2d6+3` shows two dice and the right total.

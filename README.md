@@ -54,6 +54,7 @@ npm test         # run unit tests (Vitest)
 npm run lint     # lint (oxlint)
 npm run build    # type check and production build into dist/
 npm run check    # everything a pull request must pass: typecheck, lint, tests, build
+npm run maintainability  # report long or complex functions (used by the /code-check skill)
 npm run preview  # serve the production build locally
 ```
 

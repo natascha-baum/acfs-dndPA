@@ -81,6 +81,7 @@ No stored model changes, so no `version` bump and no `migrate` step. `Collection
 
 ## Verification
 - `npm run check` green after every step.
+- `npm run maintainability` shows no new warnings for the new files (file and function length, complexity), see the [code check of 2026-10-16](../research/code-checks/2026-10-16.md).
 - By hand (`npm run dev`), desktop and mobile width, light and dark theme, no console errors:
   1. Save two NPCs, one scene, one player PDF. Download the backup; the file opens as readable JSON.
   2. Clear the site data (DevTools → Application → Clear storage). My Characters is empty.
