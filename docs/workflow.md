@@ -50,7 +50,11 @@ Every change to this app goes through three phases. Each phase is a skill in [`.
 
 | Phase | Result |
 |---|---|
-| Research | [research/2026-10-15-dnd5e-api.md](research/2026-10-15-dnd5e-api.md), [research/2026-10-15-architecture-review.md](research/2026-10-15-architecture-review.md), [research/2026-10-15-improvement-options.md](research/2026-10-15-improvement-options.md) |
+| Research | [research/2026-10-15-dnd5e-api.md](research/2026-10-15-dnd5e-api.md), [research/2026-10-15-architecture-review.md](research/2026-10-15-architecture-review.md), [research/2026-10-15-improvement-options.md](research/2026-10-15-improvement-options.md), [research/2026-10-16-feature-options.md](research/2026-10-16-feature-options.md) |
 | Code check | [research/code-checks/2026-10-15.md](research/code-checks/2026-10-15.md) (baseline) |
 | Plan | [plans/plan.md](plans/plan.md) (milestones, data model, decisions) |
-| Implement | Pull requests #1 to #11, each with a CHANGELOG entry; the review's findings became PR #8 |
+| Implement | Pull requests #1 to #11, each with a CHANGELOG entry; the architecture review's findings became PR #8 |
+
+**How the history fits the workflow.** The MVP (pull requests #1 to #11) was built from the app plan in [plans/plan.md](plans/plan.md), one milestone per pull request; the research behind it is the API note and the architecture review. The skills, `CLAUDE.md` and the backpressure docs were added afterwards in PR #12 and #13, so there are no separate implementation plans (`plans/YYYY-MM-DD-topic.md`) for the MVP. From then on every code change starts with `/research` and an approved `/plan`; the first ones are [improvement-options](research/2026-10-15-improvement-options.md) and [feature-options](research/2026-10-16-feature-options.md), which still wait for a decision before a plan is written.
+
+**When a plan is not needed.** Changes that only touch documentation (research notes, plans, README, CHANGELOG, this folder) need no implementation plan; the pull request says "docs only, no plan". Every change to code, tests, configuration or workflows needs a plan.

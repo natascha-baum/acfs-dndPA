@@ -16,5 +16,8 @@ The homework asks for at least one day (8 hours) of work. Fill in the time colum
 | 2026-10-15 | Implement | PDF contents in the app layout | #9 | |
 | 2026-10-15 | Implement | Edit mode | #10 | |
 | 2026-10-15 | Implement | Polish, README | #11 | |
-| 2026-10-15 | Plan | Docs, workflow, backpressure, skills | | |
+| 2026-10-15 | Plan | Docs, workflow, backpressure, skills | #12 | |
+| 2026-10-15 | Research | Improvement options, first code check, review/explain/code-check skills | #13 | |
+| 2026-10-16 | Research | Open and possible features, comparison with other D&D tools | #14 | |
+| 2026-10-16 | Plan | Docs review: plan brought up to date, credits and licenses, workflow history | #15 | |
 | | | **Total** | | |

@@ -10,7 +10,7 @@
 | 2 | Lint (oxlint) | `npm run lint` | broken React hook rules, unused code, common mistakes | locally, CI |
 | 3 | Unit tests (Vitest) | `npm test` | wrong game rules, broken generators, storage and parsing bugs | locally, CI |
 | 4 | Production build (Vite) | `npm run build` | import errors, anything that only breaks when bundled | locally, CI |
-| 5 | All of the above | `npm run check` | | before every commit |
+| 5 | All of the above | `npm run check` | | before every push |
 | 6 | CI on every pull request | [ci.yml](../.github/workflows/ci.yml) | everything above, on a clean machine | GitHub |
 | 7 | Same checks before deploy | [deploy.yml](../.github/workflows/deploy.yml) | a broken `main` never reaches GitHub Pages | GitHub |
 | 8 | Regular code check | `/code-check` skill | falling coverage, outdated or vulnerable dependencies, broken conventions | weekly, before submission |
@@ -23,11 +23,14 @@ Recommended in GitHub settings: protect `main` (Settings → Branches → requir
 - **Generators** against real SRD records from the 5e database (`__fixtures__/`), with a seeded random generator (`seededRng`) so results are reproducible.
 - **Storage**: versioning and migration, full storage, corrupt data.
 - **API client**: caching, expiry, shared requests, errors.
-- **PDF import**: reading and parsing the official 5e sheet fields.
+- **PDF import**: reading and parsing the official 5e sheet fields, linking spell names to the SRD.
+- **Editing**: the edit logic for NPCs, scenes and player sheets (`editNpc`, `editScene`, `editPlayer`).
+- **App shell**: module registry (unique ids and paths) and the theme choice.
+- **Not covered yet**: React components and pages (0 % coverage, see the [code check](research/code-checks/2026-10-15.md)); they are checked by hand in the browser.
 
 ## Rules for every change
 
-1. **Follow the workflow**: research, plan, then implement ([workflow.md](workflow.md)). Small fixes can skip research, never the plan.
+1. **Follow the workflow**: research, plan, then implement ([workflow.md](workflow.md)). Small code fixes can skip research, never the plan; docs-only changes need no plan.
 2. **One topic per branch and pull request.** Never commit directly to `main`.
 3. **`npm run check` passes before every push.** A red CI is fixed before anything else.
 4. **New logic gets a test.** Pure functions in `features/` and `lib/` are tested; when a bug is fixed, a test reproduces it first.
