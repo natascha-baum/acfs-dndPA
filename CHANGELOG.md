@@ -7,6 +7,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ## [Unreleased]
 
 ### Added
+- Research and implementation plans for tavern details in the scene generator and a Wiki module for SRD lookups (`docs/research/2026-10-16-tavern-and-wiki.md`, `docs/plans/2026-10-16-tavern-details.md`, `docs/plans/2026-10-16-wiki.md`), waiting for approval
 - Dice Roller module: roll any formula like 2d6+3, quick buttons for d4 to d100, advantage and disadvantage for a d20, natural 20 and 1 marked, and a history of the last 20 rolls
 - Backup on My Characters: "Download backup" saves all NPCs, scenes and player characters (with their PDFs) as one JSON file, "Load backup" reads it again in any browser without creating duplicates
 - Implementation plan for mixing several dice in one roll and a roll animation in the Dice Roller (`docs/plans/2026-10-16-dice-roller-pools.md`), approved
