@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": { "correctness": "off" },
+  "rules": {
+    "eslint/max-lines": ["warn", { "max": 300, "skipBlankLines": true, "skipComments": true }],
+    "eslint/max-lines-per-function": ["warn", { "max": 120, "skipBlankLines": true, "skipComments": true }],
+    "eslint/complexity": ["warn", 15],
+    "eslint/max-depth": ["warn", 4],
+    "eslint/max-params": ["warn", 4],
+    "eslint/max-nested-callbacks": ["warn", 3]
+  },
+  "ignorePatterns": ["**/*.test.ts", "**/__fixtures__/**"]
+}
