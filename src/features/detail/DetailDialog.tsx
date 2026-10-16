@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../../lib/api/index.ts'
-import { useAsync } from '../../lib/useAsync.ts'
+import { useAsync } from '../../hooks/useAsync.ts'
 import { resolveDetail, type LookupRef } from './resolveDetail.ts'
 import styles from './DetailDialog.module.css'
 

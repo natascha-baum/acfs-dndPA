@@ -10,7 +10,7 @@ import {
 } from '../../components/editor/fields.tsx'
 import ed from '../../components/editor/editor.module.css'
 import { api } from '../../lib/api/index.ts'
-import { useAsync } from '../../lib/useAsync.ts'
+import { useAsync } from '../../hooks/useAsync.ts'
 import type { Character, SpellRef } from '../../types/models.ts'
 import { customRef, finishEdit, SKILL_REFS } from './editNpc.ts'
 import { ABILITY_LABELS, skillName, spellLevelLabel } from './format.ts'
