@@ -1,6 +1,6 @@
 # Plan: Fixes from the afternoon code check
 
-Date: 2026-10-16 · Phase: Plan · Status: **waiting for approval** · Research: [code check 2026-10-16 (afternoon)](../research/code-checks/2026-10-16-afternoon.md), findings 1 and 2 · Scope chosen by Natascha: both fixes
+Date: 2026-10-16 · Phase: Plan · Status: **approved by Natascha 2026-10-16** · Research: [code check 2026-10-16 (afternoon)](../research/code-checks/2026-10-16-afternoon.md), findings 1 and 2 · Scope chosen by Natascha: both fixes
 
 ## Goal
 Nothing changes for the user. `npm run lint` has no warning again, and the player sheet page (`PlayerSheetView`) no longer mixes file loading with rendering: the loading logic is a tested function, the page only renders. `PlayerSheetView` drops out of `npm run maintainability`.

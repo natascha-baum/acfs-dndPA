@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { Character, PlayerSheet, Scene, Session, SessionEntry } from '../../types/models.ts'
 import {
   addEntry,
+  buttonLabel,
   countSessionsWith,
   createSession,
   editSession,
@@ -181,5 +182,13 @@ describe('groupEntries', () => {
     expect(groups.npcs).toEqual([{ kind: 'missing', entry: s.entries[0], name: 'Grimble' }])
     expect(groups.players[0]).toMatchObject({ kind: 'missing', name: 'Aria' })
     expect(groups.scenes[0]).toMatchObject({ kind: 'missing', name: 'The Old Mill' })
+  })
+})
+
+describe('buttonLabel', () => {
+  it('says how many sessions an item is in', () => {
+    expect(buttonLabel(0)).toBe('+ Add to session')
+    expect(buttonLabel(1)).toBe('✓ In 1 session')
+    expect(buttonLabel(2)).toBe('✓ In 2 sessions')
   })
 })
