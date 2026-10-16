@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import PageHeader from '../components/PageHeader.tsx'
+import RolledDice from '../features/dice/RolledDice.tsx'
 import {
+  addDie,
   canUseAdvantage,
   formatRoll,
   formulaText,
@@ -30,10 +32,12 @@ function tryParse(text: string): DiceFormula | undefined {
 }
 
 export default function DiceRoller() {
-  const [text, setText] = useState('d20')
+  const [text, setText] = useState('')
   const [mode, setMode] = useState<RollMode>('normal')
   const [error, setError] = useState<string | null>(null)
   const [history, setHistory] = useState<RollResult[]>([])
+  // Counts every roll, so the dice animation restarts even for the same result.
+  const [rollCount, setRollCount] = useState(0)
 
   const typed = tryParse(text)
   const advantageAllowed = typed ? canUseAdvantage(typed) : false
@@ -44,6 +48,7 @@ export default function DiceRoller() {
   function roll(formula: DiceFormula) {
     const result = rollFormula(formula, canUseAdvantage(formula) ? mode : 'normal')
     setHistory((h) => [result, ...h].slice(0, HISTORY_SIZE))
+    setRollCount((n) => n + 1)
     setError(null)
   }
 
@@ -56,10 +61,15 @@ export default function DiceRoller() {
     }
   }
 
+  /** Quick buttons add one die to the formula; "Roll" rolls them all. */
   function quick(sides: number) {
-    const formula = { count: 1, sides, modifier: 0 }
-    setText(formulaText(formula))
-    roll(formula)
+    setText(formulaText(addDie(typed, sides)))
+    setError(null)
+  }
+
+  function clearFormula() {
+    setText('')
+    setError(null)
   }
 
   return (
@@ -69,10 +79,10 @@ export default function DiceRoller() {
       </PageHeader>
 
       <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.quick} role="group" aria-label="Quick dice">
+        <div className={styles.quick} role="group" aria-label="Add a die">
           {QUICK_DICE.map((sides) => (
             <button key={sides} type="button" className="btn" onClick={() => quick(sides)}>
-              d{sides}
+              +d{sides}
             </button>
           ))}
         </div>
@@ -84,7 +94,7 @@ export default function DiceRoller() {
               id="dice-formula"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="2d6+3"
+              placeholder="3d10+d8+2"
               autoComplete="off"
               spellCheck={false}
               aria-describedby={error ? 'dice-error' : undefined}
@@ -94,6 +104,9 @@ export default function DiceRoller() {
             Roll
           </button>
         </div>
+        <button type="button" className={`btn ${styles.clearFormula}`} onClick={clearFormula} disabled={!text}>
+          Clear formula
+        </button>
 
         <div className={styles.modes} role="radiogroup" aria-label="Roll mode">
           {MODES.map((m) => (
@@ -121,7 +134,8 @@ export default function DiceRoller() {
 
       <div className={styles.result} aria-live="polite">
         {last && (
-          <>
+          <div key={rollCount}>
+            <RolledDice result={last} />
             <p
               className={`${styles.total} ${last.critical === 'success' ? styles.crit : ''} ${last.critical === 'failure' ? styles.fail : ''}`}
             >
@@ -131,25 +145,30 @@ export default function DiceRoller() {
             {last.critical && (
               <p className={styles.detail}>{last.critical === 'success' ? 'Natural 20!' : 'Natural 1…'}</p>
             )}
-          </>
+          </div>
         )}
       </div>
 
-      {history.length > 0 && (
-        <section className={styles.history} aria-labelledby="dice-history">
-          <div className={styles.historyHead}>
-            <h2 id="dice-history">Last rolls</h2>
-            <button type="button" className="btn" onClick={() => setHistory([])}>
-              Clear
-            </button>
-          </div>
-          <ol>
-            {history.map((r, i) => (
-              <li key={history.length - i}>{formatRoll(r)}</li>
-            ))}
-          </ol>
-        </section>
-      )}
+      <RollHistory history={history} onClear={() => setHistory([])} />
     </>
+  )
+}
+
+function RollHistory({ history, onClear }: { history: RollResult[]; onClear: () => void }) {
+  if (history.length === 0) return null
+  return (
+    <section className={styles.history} aria-labelledby="dice-history">
+      <div className={styles.historyHead}>
+        <h2 id="dice-history">Last rolls</h2>
+        <button type="button" className="btn" onClick={onClear}>
+          Clear
+        </button>
+      </div>
+      <ol>
+        {history.map((r, i) => (
+          <li key={history.length - i}>{formatRoll(r)}</li>
+        ))}
+      </ol>
+    </section>
   )
 }
