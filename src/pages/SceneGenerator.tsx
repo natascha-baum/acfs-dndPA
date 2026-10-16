@@ -3,9 +3,10 @@ import PageHeader from '../components/PageHeader.tsx'
 import SavedScenes from '../features/scene/SavedScenes.tsx'
 import SceneCard from '../features/scene/SceneCard.tsx'
 import SceneEditor from '../features/scene/SceneEditor.tsx'
+import AddToSession from '../features/sessions/AddToSession.tsx'
 import { generateScene, rollSceneField, type SceneField } from '../features/scene/generateScene.ts'
 import { LOCATION_LABELS, LOCATION_TYPES, TIME_LABELS, TIMES_OF_DAY } from '../features/scene/tables.ts'
-import { SAVE_FAILED_MESSAGE, scenes } from '../lib/storage/index.ts'
+import { SAVE_FAILED_MESSAGE, scenes, sessions } from '../lib/storage/index.ts'
 import type { Scene, SceneOptions } from '../types/models.ts'
 import styles from './SceneGenerator.module.css'
 
@@ -149,6 +150,13 @@ export default function SceneGenerator() {
             <button type="button" className="btn btn-primary" onClick={save} disabled={isSaved}>
               {isSaved ? '✓ Saved' : 'Save scene'}
             </button>
+            {isSaved && (
+              <AddToSession
+                key={scene.id}
+                entry={{ kind: 'scene', ref: scene.id, name: scene.title }}
+                collection={sessions}
+              />
+            )}
           </div>
           {saveError && (
             <p className="notice-error" role="alert">

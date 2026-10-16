@@ -119,3 +119,14 @@
   color: var(--gold-bright);
   border-color: var(--gold);
 }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.actions:empty {
+  display: none;
+}

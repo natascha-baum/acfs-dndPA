@@ -13,8 +13,9 @@ import {
   rollPersonality,
 } from '../features/npc/generateNpc.ts'
 import type { NpcRole } from '../features/npc/tables.ts'
+import AddToSession from '../features/sessions/AddToSession.tsx'
 import { api } from '../lib/api/index.ts'
-import { characters, SAVE_FAILED_MESSAGE } from '../lib/storage/index.ts'
+import { characters, SAVE_FAILED_MESSAGE, sessions } from '../lib/storage/index.ts'
 import { useAsync } from '../hooks/useAsync.ts'
 import type { ApiRef, Character, NpcOptions } from '../types/models.ts'
 import styles from './CharacterGenerator.module.css'
@@ -135,9 +136,12 @@ export default function CharacterGenerator() {
               ✎ Customize
             </button>
             {savedId === npc.id ? (
-              <Link to={`/characters/${npc.id}`} className="btn">
-                ✓ Saved · Open sheet
-              </Link>
+              <>
+                <Link to={`/characters/${npc.id}`} className="btn">
+                  ✓ Saved · Open sheet
+                </Link>
+                <AddToSession entry={{ kind: 'npc', ref: npc.id, name: npc.name }} collection={sessions} />
+              </>
             ) : (
               <button type="button" className="btn btn-primary" onClick={save} disabled={busy}>
                 Save to My Characters

@@ -3,13 +3,25 @@ import { Link, useParams } from 'react-router'
 import PageHeader from '../components/PageHeader.tsx'
 import DetailDialog from '../features/detail/DetailDialog.tsx'
 import type { LookupRef } from '../features/detail/resolveDetail.ts'
+import AddToSession from '../features/sessions/AddToSession.tsx'
 import { WIKI_CATEGORIES, filterEntries, findCategory } from '../features/wiki/categories.ts'
 import { useAsync } from '../hooks/useAsync.ts'
 import { api } from '../lib/api/index.ts'
+import { sessions } from '../lib/storage/index.ts'
 import type { ApiList } from '../lib/api/types.ts'
 import styles from './Wiki.module.css'
 
 const loadList = (path: string) => api.get<ApiList>(path)
+
+/** Monsters can be added to a session as enemies. */
+const monsterActions = (current: LookupRef) =>
+  current.kind === 'monster' && (
+    <AddToSession
+      key={current.index}
+      entry={{ kind: 'monster', ref: current.index, name: current.name }}
+      collection={sessions}
+    />
+  )
 
 export default function Wiki() {
   const { category: id } = useParams()
@@ -85,7 +97,14 @@ export default function Wiki() {
         </>
       )}
 
-      {lookup && <DetailDialog key={`${lookup.kind}/${lookup.index}`} lookup={lookup} onClose={() => setLookup(null)} />}
+      {lookup && (
+        <DetailDialog
+          key={`${lookup.kind}/${lookup.index}`}
+          lookup={lookup}
+          onClose={() => setLookup(null)}
+          actions={monsterActions}
+        />
+      )}
     </>
   )
 }
