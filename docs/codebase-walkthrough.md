@@ -87,7 +87,7 @@ The flow of an upload, from the "Player Characters" tab in My Characters:
 1. `SheetUpload.tsx` takes the file (drag and drop or picker), rejects anything that is not a PDF or is larger than 25 MB (`MAX_SHEET_BYTES`).
 2. `readSheet.ts` loads `pdf-lib` only now (its own bundle chunk), reads the form fields and suggests name, race and class & level, which the user can correct.
 3. On save, the `PlayerSheet` (details and parsed contents) goes into the `playerSheets` collection in `localStorage`, the PDF itself into IndexedDB (`playerSheetFiles`) under the same id.
-4. `PlayerSheetView.tsx` shows it with `PlayerSheetCard.tsx`, which puts together one small component per section from `PlayerSheetSections.tsx` (vitals, skills, spells, personality …); each section renders nothing when the sheet has no data for it. A sheet saved before the parser existed has no `sheet` yet; it is read again from the stored PDF the first time it is opened.
+4. `PlayerSheetView.tsx` shows it with `PlayerSheetCard.tsx`, which puts together one small component per section from `PlayerSheetSections.tsx` (vitals, skills, spells, personality …); each section renders nothing when the sheet has no data for it. The page gets the PDF from `useSheetFile` (`src/hooks/`), which calls `loadSheetFile` and `upgradeOldSheet` from `features/player/loadSheetFile.ts`: a sheet saved before the parser existed has no `sheet` yet, so it is read from the stored PDF and saved the first time it is opened.
 
 The parts:
 - `parseSheet.ts` maps the official 5e sheet field names (also used by D&D Beyond exports and most community sheets) to an `ImportedSheet` (stats, skills, spells, …). Field names are compared in a normalized form, so small differences in spelling still match.

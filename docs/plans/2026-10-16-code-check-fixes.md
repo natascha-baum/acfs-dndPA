@@ -66,6 +66,12 @@ No stored model changes. No `version`, no `migrate`.
 - `npm run check` green after every step; `npm run lint` 0 warnings; `npm run maintainability` 11 warnings.
 - By hand (`npm run dev`, desktop and mobile, light and dark): open a player character with a fillable PDF (card, "Show original PDF", Open PDF, Download); one with a non-fillable PDF (PDF shown as is); "Add to session" still shows the right count.
 
+## Deviations during implementation
+- `loadSheetFile` became two functions: `loadSheetFile(id, deps)` returns the PDF, `upgradeOldSheet(id, file, deps)` reads an old upload. With one function the page would wait for the slow PDF read before showing the PDF; today it shows the PDF first. 7 tests instead of 6.
+- `PdfView`, a `SheetlessView` and `FileLinks` stay inside `PlayerSheetView.tsx` instead of a new `features/player/PdfView.tsx`: they use the page's CSS module, and a feature importing page styles would break the layering.
+- `useSheetFile` takes its `deps` from a module constant and `setPlayer` as `onUpgrade`, so the effect still runs once per id.
+- Checked by hand in Chromium (desktop, light theme) instead of every combination: an old upload with a fillable PDF (the card appears and the sheet is saved), a PDF without form fields, and a missing PDF; no console errors.
+
 ## Docs
 - `CHANGELOG.md` → "Unreleased" / "Changed": "Code check fixes (no visible change): no lint warnings, the player sheet page loads its PDF through a tested `loadSheetFile` function".
 - `docs/plans/plan.md`: status row.
