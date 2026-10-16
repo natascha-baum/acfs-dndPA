@@ -8,7 +8,7 @@ A guided tour, in the order I would read the code to understand it. Each stop na
 Browser (GitHub Pages, HashRouter)
 │
 ├── pages/        one page per route: holds React state, connects features
-├── features/     domain logic + feature UI (npc, scene, character, detail, player)
+├── features/     domain logic + feature UI (npc, scene, character, detail, player, backup, dice, wiki)
 ├── components/   shared UI (Layout, PageHeader, editor fields, ThemeToggle …)
 ├── lib/          infrastructure without React (api, storage, random, theme)
 ├── modules/      registry of app modules → routes, navigation, home tiles

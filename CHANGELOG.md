@@ -7,8 +7,9 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ## [Unreleased]
 
 ### Added
+- Wiki module: look up spells, monsters, magic items, equipment, races, classes and conditions from the SRD, with a search per category; monsters show a full stat block, classes their features by level
 - Tavern scenes get an innkeeper, a menu with prices and a rumor; they can be re-rolled and edited. Stored scenes move to version 2 (older scenes load unchanged); schema versions now live in `src/lib/storage/versions.ts`
-- Research and implementation plans for tavern details in the scene generator and a Wiki module for SRD lookups (`docs/research/2026-10-16-tavern-and-wiki.md`, `docs/plans/2026-10-16-tavern-details.md`, `docs/plans/2026-10-16-wiki.md`), waiting for approval
+- Research and implementation plans for tavern details in the scene generator and a Wiki module for SRD lookups (`docs/research/2026-10-16-tavern-and-wiki.md`, `docs/plans/2026-10-16-tavern-details.md`, `docs/plans/2026-10-16-wiki.md`), approved
 - Dice Roller module: roll any formula like 2d6+3, quick buttons for d4 to d100, advantage and disadvantage for a d20, natural 20 and 1 marked, and a history of the last 20 rolls
 - Backup on My Characters: "Download backup" saves all NPCs, scenes and player characters (with their PDFs) as one JSON file, "Load backup" reads it again in any browser without creating duplicates
 - Implementation plan for mixing several dice in one roll and a roll animation in the Dice Roller (`docs/plans/2026-10-16-dice-roller-pools.md`), approved
@@ -45,6 +46,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - README: features, how data is stored, development commands, project structure, how to extend the app and known limits
 
 ### Changed
+- The navigation switches to short names with the icon above them below 900 px width (was 640 px), so five modules fit in one row on a phone
 - Dice Roller: mix several dice in one roll (e.g. 3d10+d8), the quick buttons add dice to the formula, and rolled dice tumble before they show their number
 - Code cleanup (no visible change): the player sheet card is split into one small component per section and has its first component test, `useAsync` moved to `src/hooks/` so `src/lib/` has no React, and the unused `ComingSoon` page was removed; research and plan in `docs/research/2026-10-16-cleanup.md` and `docs/plans/2026-10-16-cleanup.md`
 - Docs review: the app plan matches the code again (status, data model, screens, API endpoints, tech stack); the "final check and submission" milestone was removed; the README lists all credits and licenses (SRD 5.1 attribution, fonts, libraries, trademark notice); the workflow docs explain how the MVP history fits the RPI workflow and when no plan is needed

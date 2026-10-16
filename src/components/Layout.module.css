@@ -110,7 +110,8 @@
   display: none;
 }
 
-@media (max-width: 640px) {
+/* Below this width the five long module names no longer fit next to the brand. */
+@media (max-width: 900px) {
   .header {
     column-gap: 0.5rem;
     padding: 0.75rem 1rem;
@@ -133,10 +134,11 @@
     gap: 0.25rem 0.5rem;
   }
 
-  /* Four modules have to fit in one row on a phone. */
+  /* All five modules have to fit in one row on a phone: icon above the label. */
   .nav a {
-    gap: 0.3rem;
-    font-size: 0.8rem;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-size: 0.72rem;
     letter-spacing: 0;
   }
 

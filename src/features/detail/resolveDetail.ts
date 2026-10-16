@@ -2,7 +2,17 @@
 // class feature, proficiency) into one display-ready shape.
 import type { ApiRef } from '../../types/models.ts'
 
-export type LookupKind = 'spell' | 'equipment' | 'proficiency' | 'skill' | 'trait' | 'feature' | 'category'
+import { WIKI_PATHS, isWikiKind, wikiContent, type WikiKind } from './wikiContent.ts'
+
+export type LookupKind =
+  | 'spell'
+  | 'equipment'
+  | 'proficiency'
+  | 'skill'
+  | 'trait'
+  | 'feature'
+  | 'category'
+  | WikiKind
 
 export interface LookupRef {
   kind: LookupKind
@@ -17,6 +27,8 @@ export interface DetailContent {
   paragraphs: string[]
   /** Related entries the user can open next, e.g. the contents of a pack. */
   links: { label: string; items: LookupRef[] }[]
+  /** Longer parts with their own heading, e.g. a monster's actions. */
+  sections?: { label: string; paragraphs: string[] }[]
 }
 
 export interface DetailApi {
@@ -31,7 +43,10 @@ const PATHS: Record<LookupKind, string> = {
   trait: 'traits',
   feature: 'features',
   category: 'equipment-categories',
+  ...WIKI_PATHS,
 }
+
+export const LOOKUP_KINDS = Object.keys(PATHS) as LookupKind[]
 
 interface Doc {
   index: string
@@ -47,7 +62,7 @@ const ordinal = (n: number) => `${n}${n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 
 export function refFromUrl(ref: ApiRef): LookupRef | undefined {
   const match = /\/api\/2014\/([^/]+)\/([^/]+)$/.exec(ref.url)
   if (!match) return undefined
-  const kind = (Object.keys(PATHS) as LookupKind[]).find((k) => PATHS[k] === match[1])
+  const kind = LOOKUP_KINDS.find((k) => PATHS[k] === match[1])
   return kind ? { kind, index: match[2], name: ref.name } : undefined
 }
 
@@ -106,7 +121,16 @@ function equipmentContent(doc: Doc): DetailContent {
   }
 }
 
-export async function resolveDetail(ref: LookupRef, api: DetailApi): Promise<DetailContent> {
+export function resolveDetail(ref: LookupRef, api: DetailApi): Promise<DetailContent> {
+  const { kind } = ref
+  return isWikiKind(kind) ? wikiContent(kind, ref.index, api) : resolveSheetDetail({ ...ref, kind }, api)
+}
+
+/** The lookups a character sheet links to; the Wiki kinds live in wikiContent.ts. */
+async function resolveSheetDetail(
+  ref: LookupRef & { kind: Exclude<LookupKind, WikiKind> },
+  api: DetailApi,
+): Promise<DetailContent> {
   const doc = await api.get<Doc>(`${PATHS[ref.kind]}/${ref.index}`)
   switch (ref.kind) {
     case 'spell':
