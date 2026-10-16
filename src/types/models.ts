@@ -116,6 +116,27 @@ export interface ImportedSheet {
   treasure: string
 }
 
+/** What a session line points to. */
+export type SessionEntryKind = 'npc' | 'player' | 'scene' | 'monster'
+
+export interface SessionEntry {
+  kind: SessionEntryKind
+  /** Id of the saved item; for a monster its SRD index, e.g. "goblin". */
+  ref: string
+  /** Name when it was added, shown if the item is deleted later. */
+  name: string
+}
+
+/** A game session or campaign: points to the saved things needed at the table. */
+export interface Session {
+  id: string
+  name: string
+  notes: string
+  entries: SessionEntry[]
+  createdAt: string
+  updatedAt: string
+}
+
 export interface Scene {
   id: string
   /** Evocative place name, e.g. "The Whispering Hollow". */
