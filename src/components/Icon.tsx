@@ -1,6 +1,6 @@
 import type { ModuleIcon } from '../modules/registry.ts'
 
-type IconName = ModuleIcon | 'd20' | 'flourish'
+type IconName = ModuleIcon | 'flourish'
 
 interface IconProps {
   name: IconName

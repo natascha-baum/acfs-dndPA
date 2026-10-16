@@ -29,6 +29,10 @@ Two tabs:
 - **NPCs & Enemies:** every saved NPC as a full character sheet. Click a spell, item, skill, trait or feature to read its description. **✎ Edit** changes any field, including custom spells or items that are not in the SRD.
 - **Player Characters:** upload your own character sheet as a PDF (drag and drop or click). Fillable sheets that use the official 5e field names are read automatically: stats, skills, saves, attacks, spells, equipment, personality and backstory are shown in the app's own layout. The original PDF stays available ("Open PDF", "Download"). Sheets without form fields are kept as a file and can be filled in by hand.
 
+### Dice Roller
+
+Type any formula such as `d20`, `2d6+3` or `4d8-1`, or use the quick buttons for d4 to d100. A single d20 can be rolled with advantage or disadvantage: both dice are shown and the higher or lower one counts. Natural 20s and 1s are marked. The last 20 rolls are listed below; the history is not saved and starts empty on every visit.
+
 ### Light and dark mode
 
 The sun and moon button in the header switches between the dark tavern theme and a light parchment theme. The first visit follows the system setting; the choice is remembered.
@@ -76,6 +80,7 @@ src/
     detail/             lookup dialog for spells, items, skills and features
     player/             PDF upload, sheet parsing, player sheet card and editor
     backup/             backup panel on My Characters (download and load)
+    dice/               dice formulas, rolls with advantage and disadvantage
   components/           shared UI (layout, error boundary, theme toggle, editor fields, icons)
   lib/api/              D&D 5e API client with local caching
   lib/storage/          versioned collections in localStorage, files in IndexedDB
