@@ -141,6 +141,7 @@ Last checked: 2026-10-16 (after the docs review). Legend: ✅ done · 🟡 partl
 | Dice roller: mixed dice and roll animation | ✅ | PR #20, [plan](2026-10-16-dice-roller-pools.md); quick buttons add dice, CSS tumble animation |
 | Tavern details in tavern scenes | ✅ | PR #21, [plan](2026-10-16-tavern-details.md); innkeeper, menu, rumor; scenes storage version 2 |
 | Wiki module (spells, monsters, magic items, equipment, races, classes, conditions) | ✅ | PR #21, [plan](2026-10-16-wiki.md); name search per category, entries open in the detail dialog |
+| My Sessions (NPCs, enemies, player characters, scenes per session) | 📝 | [plan](2026-10-16-my-sessions.md) waiting for approval |
 
 ### Cross-cutting
 | Item | Status | Notes |
