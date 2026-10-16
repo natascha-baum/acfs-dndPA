@@ -7,6 +7,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ## [Unreleased]
 
 ### Added
+- The `/code-check` skill now also checks maintainability on every run (long and complex functions, duplication, layering, readability) with a rating; `npm run maintainability` and a first report in `docs/research/code-checks/2026-10-16.md`
 - Research on open and possible features, from the backlog and from comparable D&D tools (`docs/research/2026-10-16-feature-options.md`)
 - Research on improvement options and a first code health report (`docs/research/`)
 - Skills for regular code checks (`/code-check`), reviews (`/review`) and code explanations (`/explain`)

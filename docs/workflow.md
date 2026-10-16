@@ -51,7 +51,7 @@ Every change to this app goes through three phases. Each phase is a skill in [`.
 | Phase | Result |
 |---|---|
 | Research | [research/2026-10-15-dnd5e-api.md](research/2026-10-15-dnd5e-api.md), [research/2026-10-15-architecture-review.md](research/2026-10-15-architecture-review.md), [research/2026-10-15-improvement-options.md](research/2026-10-15-improvement-options.md), [research/2026-10-16-feature-options.md](research/2026-10-16-feature-options.md) |
-| Code check | [research/code-checks/2026-10-15.md](research/code-checks/2026-10-15.md) (baseline) |
+| Code check | [research/code-checks/2026-10-15.md](research/code-checks/2026-10-15.md) (baseline), [research/code-checks/2026-10-16.md](research/code-checks/2026-10-16.md) (first maintainability check) |
 | Plan | [plans/plan.md](plans/plan.md) (milestones, data model, decisions) |
 | Implement | Pull requests #1 to #11, each with a CHANGELOG entry; the architecture review's findings became PR #8 |
 
