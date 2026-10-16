@@ -1,6 +1,6 @@
 # Plan: My Sessions
 
-Date: 2026-10-16 · Phase: Plan · Status: **waiting for approval** · Research: [my sessions](../research/2026-10-16-my-sessions.md) · Request: Natascha, 2026-10-16: a "My Sessions" page, selectable on Home, that collects NPCs, enemies and characters for a campaign, with a button on the other pages to add a creation to a session.
+Date: 2026-10-16 · Phase: Plan · Status: **approved by Natascha 2026-10-16, implemented in PR #22** · Research: [my sessions](../research/2026-10-16-my-sessions.md) · Request: Natascha, 2026-10-16: a "My Sessions" page, selectable on Home, that collects NPCs, enemies and characters for a campaign, with a button on the other pages to add a creation to a session.
 
 ## Goal
 A new module **My Sessions**. You create sessions (e.g. "Curse of the Mill, session 4"), and on the pages of NPCs, player characters, scenes and Wiki monsters an **Add to session** button puts that item into one or more sessions. A session page shows everything for the table at a glance, grouped as:
@@ -73,11 +73,11 @@ Enemy or NPC is not stored in the entry: it follows the NPC's current `role`, so
 | `README.md`, `CHANGELOG.md`, `docs/plans/plan.md` | describe it; status row; backlog "Session notes and campaign log" partly done | conventions |
 
 ## Steps
-1. **Model and storage.** Types, `versions.ts`, collection. Backup with the fourth collection and the older-file case, tests first. `npm run check`.
-2. **Session logic.** `sessions.ts` with tests first. `npm run check`.
-3. **Pages and module.** `Sessions.tsx`, `SessionView.tsx`, `SessionEntryRow.tsx`, registry entry, icon, nav check at 360 px. `npm run check`, `npm run maintainability` (no new warnings).
-4. **Add to session.** `AddToSession` and the buttons on NPC sheet, NPC generator, player sheet, scene generator, and monsters in the Wiki (`DetailDialog` `actions`). Component test for `AddToSession` with `renderToStaticMarkup` (same approach as `PlayerSheetCard.test.tsx`). `npm run check`.
-5. **Docs.** README, CHANGELOG, `plan.md`. `npm run check`.
+1. **Model and storage.** ✅ Types, `versions.ts`, collection. Backup with the fourth collection and the older-file case, tests first. `npm run check`.
+2. **Session logic.** ✅ `sessions.ts` with tests first. `npm run check`.
+3. **Pages and module.** ✅ `Sessions.tsx`, `SessionView.tsx`, `SessionEntryRow.tsx`, registry entry, icon, nav check at 360 px. `npm run check`, `npm run maintainability` (no new warnings).
+4. **Add to session.** ✅ `AddToSession` and the buttons on NPC sheet, NPC generator, player sheet, scene generator, and monsters in the Wiki (`DetailDialog` `actions`). Component test for `AddToSession` with `renderToStaticMarkup` (same approach as `PlayerSheetCard.test.tsx`). `npm run check`.
+5. **Docs.** ✅ README, CHANGELOG, `plan.md`. `npm run check`.
 
 ## Tests
 
@@ -110,6 +110,11 @@ Enemy or NPC is not stored in the entry: it follows the NPC's current `role`, so
 - `docs/plans/plan.md`: status row; backlog item "Session notes and campaign log" marked partly done.
 
 ## Open questions
-1. Scenes in a session: planned **yes**. Leave them out?
-2. Monsters only once per session (no "3 × Goblin"): okay for now?
-3. My Sessions **first** in the navigation and on Home: okay, or after My Characters?
+All three defaults approved by Natascha ("passt", 2026-10-16): scenes are part of a session, each monster once per session, My Sessions first in the navigation.
+
+## Deviations during implementation
+- `SessionDetailsForm.tsx` (name and notes form) is its own small component, so `SessionView` stays below the maintainability limits.
+- `SAVE_FAILED_MESSAGE` moved from `lib/storage/index.ts` to `lib/storage/storage.ts` (still exported from `index.ts`), so `AddToSession` can be rendered in a test without a browser. `AddToSession` gets the `sessions` collection as a prop for the same reason.
+- `DetailDialog`'s `actions` are shown below the subtitle once the entry has loaded.
+- The backup panel text on My Characters now names sessions too.
+- Session notes are shown below the title with their line breaks, not inside the page header.
