@@ -75,7 +75,7 @@ export default function BackupPanel({ onImported }: BackupPanelProps) {
         Backup
       </h2>
       <p className={styles.hint}>
-        Everything you saved lives only in this browser. Download a backup of all NPCs, scenes and player characters
+        Everything you saved lives only in this browser. Download a backup of all NPCs, scenes, player characters and sessions
         (with their PDFs) to keep it safe or move it to another device.
       </p>
       <div className={styles.actions}>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { api } from '../../lib/api/index.ts'
 import { useAsync } from '../../hooks/useAsync.ts'
 import { resolveDetail, type LookupRef } from './resolveDetail.ts'
@@ -7,12 +7,14 @@ import styles from './DetailDialog.module.css'
 interface DetailDialogProps {
   lookup: LookupRef
   onClose: () => void
+  /** Buttons for the entry shown on top, e.g. "Add to session" for a monster. */
+  actions?: (current: LookupRef) => ReactNode
 }
 
 const loadDetail = (ref: LookupRef) => resolveDetail(ref, api)
 
 /** Modal that shows an API entry; related entries open inside it with a back button. */
-export default function DetailDialog({ lookup, onClose }: DetailDialogProps) {
+export default function DetailDialog({ lookup, onClose, actions }: DetailDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [stack, setStack] = useState<LookupRef[]>([lookup])
   const current = stack[stack.length - 1]
@@ -80,6 +82,7 @@ export default function DetailDialog({ lookup, onClose }: DetailDialogProps) {
               {state.data.title}
             </h2>
             {state.data.subtitle && <p className={styles.subtitle}>{state.data.subtitle}</p>}
+            {actions && <div className={styles.actions}>{actions(current)}</div>}
             {state.data.facts.length > 0 && (
               <dl className={styles.facts}>
                 {state.data.facts.map((fact) => (

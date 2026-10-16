@@ -141,6 +141,7 @@ Last checked: 2026-10-16 (after the docs review). Legend: ✅ done · 🟡 partl
 | Dice roller: mixed dice and roll animation | ✅ | PR #20, [plan](2026-10-16-dice-roller-pools.md); quick buttons add dice, CSS tumble animation |
 | Tavern details in tavern scenes | ✅ | PR #21, [plan](2026-10-16-tavern-details.md); innkeeper, menu, rumor; scenes storage version 2 |
 | Wiki module (spells, monsters, magic items, equipment, races, classes, conditions) | ✅ | PR #21, [plan](2026-10-16-wiki.md); name search per category, entries open in the detail dialog |
+| My Sessions (NPCs, enemies, player characters, scenes per session) | ✅ | PR #22, [plan](2026-10-16-my-sessions.md); sessions store references, new `sessions` collection (v1), part of the backup |
 
 ### Cross-cutting
 | Item | Status | Notes |
@@ -168,7 +169,7 @@ A running list so there are always ideas for extensions. Nothing here is committ
 - Town / settlement generator (size, ruler, notable places, problems)
 - Dungeon room generator (traps, features, contents)
 - Name generator per race as a standalone tool
-- Session notes and campaign log
+- Session notes and campaign log (partly done: My Sessions with notes per session)
 - Party overview for the DM (passive perception, AC, HP of all players at a glance)
 - "Quick NPC" mode: name + one line of personality, no stats
 

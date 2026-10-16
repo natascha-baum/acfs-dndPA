@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto'
 import { describe, expect, it } from 'vitest'
-import type { Character, PlayerSheet, Scene } from '../types/models.ts'
+import type { Character, PlayerSheet, Scene, Session } from '../types/models.ts'
 import {
   BackupError,
   backupFileName,
@@ -24,6 +24,7 @@ function sources(): BackupSources {
     characters: createCollection<Character>('characters', { store }),
     scenes: createCollection<Scene>('scenes', { store }),
     playerSheets: createCollection<PlayerSheet>('player-sheets', { store }),
+    sessions: createCollection<Session>('sessions', { store }),
     files: createFileStore(`backup-test-${dbCount++}`, () => indexedDB),
   }
 }
@@ -77,11 +78,21 @@ const player = (id: string): PlayerSheet => ({
   updatedAt: '2026-10-16T00:00:00.000Z',
 })
 
+const session: Session = {
+  id: 'session-1',
+  name: 'Session 4',
+  notes: 'The heist',
+  entries: [{ kind: 'npc', ref: 'npc-1', name: 'Grimble' }],
+  createdAt: '2026-10-16T00:00:00.000Z',
+  updatedAt: '2026-10-16T00:00:00.000Z',
+}
+
 async function filled(): Promise<BackupSources> {
   const s = sources()
   s.characters.save(npc)
   s.scenes.save(scene)
   s.playerSheets.save(player('pc-1'))
+  s.sessions.save(session)
   await s.files.put('pc-1', new Blob([new Uint8Array([37, 80, 68, 70, 0, 255])], { type: 'application/pdf' }))
   return s
 }
@@ -103,7 +114,8 @@ describe('createBackup / parseBackup / restoreBackup', () => {
     const to = sources()
     const summary = await restoreBackup(parsed, to)
 
-    expect(summary).toEqual({ characters: 1, scenes: 1, playerSheets: 1, files: 1 })
+    expect(summary).toEqual({ characters: 1, scenes: 1, playerSheets: 1, sessions: 1, files: 1 })
+    expect(to.sessions.list()).toEqual([session])
     expect(to.characters.list()).toEqual([npc])
     expect(to.scenes.list()).toEqual([scene])
     expect(to.playerSheets.list()).toEqual([player('pc-1')])
@@ -127,7 +139,7 @@ describe('createBackup / parseBackup / restoreBackup', () => {
     from.playerSheets.save(player('pc-2'))
     const backup = await createBackup(from)
     expect(Object.keys(backup.files)).toEqual(['pc-1'])
-    expect(summarizeBackup(backup)).toEqual({ characters: 1, scenes: 1, playerSheets: 2, files: 1 })
+    expect(summarizeBackup(backup)).toEqual({ characters: 1, scenes: 1, playerSheets: 2, sessions: 1, files: 1 })
   })
 })
 
@@ -140,6 +152,7 @@ describe('parseBackup', () => {
       characters: { version: 1, items: [] },
       scenes: { version: 1, items: [] },
       playerSheets: { version: 1, items: [] },
+      sessions: { version: 1, items: [] },
     },
     files: {},
   })
@@ -148,11 +161,21 @@ describe('parseBackup', () => {
     expect(parseBackup(JSON.stringify(valid())).format).toBe(1)
   })
 
+  it('loads a backup made before sessions existed, with no sessions', async () => {
+    const { sessions: _, ...older } = valid().collections
+    const parsed = parseBackup(JSON.stringify({ ...valid(), collections: older }))
+    expect(parsed.collections.sessions).toEqual({ version: 1, items: [] })
+    const to = sources()
+    expect((await restoreBackup(parsed, to)).sessions).toBe(0)
+    expect(to.sessions.list()).toEqual([])
+  })
+
   it.each([
     ['invalid JSON', '{nope'],
     ['another app', JSON.stringify({ ...valid(), app: 'other' })],
     ['an unknown format', JSON.stringify({ ...valid(), format: 2 })],
     ['a missing collection', JSON.stringify({ ...valid(), collections: { characters: { version: 1, items: [] } } })],
+    ['a broken sessions list', JSON.stringify({ ...valid(), collections: { ...valid().collections, sessions: { items: [] } } })],
     ['items without an id', JSON.stringify({ ...valid(), collections: { ...valid().collections, scenes: { version: 1, items: [{}] } } })],
     ['a broken file entry', JSON.stringify({ ...valid(), files: { a: { type: 'application/pdf' } } })],
   ])('rejects %s with a BackupError', (_, text) => {

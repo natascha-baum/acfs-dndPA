@@ -6,8 +6,9 @@ import DetailDialog from '../features/detail/DetailDialog.tsx'
 import type { LookupRef } from '../features/detail/resolveDetail.ts'
 import NpcCard from '../features/npc/NpcCard.tsx'
 import NpcEditor from '../features/npc/NpcEditor.tsx'
+import AddToSession from '../features/sessions/AddToSession.tsx'
 import { api } from '../lib/api/index.ts'
-import { characters, SAVE_FAILED_MESSAGE } from '../lib/storage/index.ts'
+import { characters, SAVE_FAILED_MESSAGE, sessions } from '../lib/storage/index.ts'
 import { useAsync } from '../hooks/useAsync.ts'
 import type { Character } from '../types/models.ts'
 import styles from './CharacterSheet.module.css'
@@ -74,6 +75,7 @@ export default function CharacterSheet() {
           ← My Characters
         </Link>
         <div className={styles.actions}>
+          <AddToSession entry={{ kind: 'npc', ref: character.id, name: character.name }} collection={sessions} />
           <button type="button" className="btn btn-primary" onClick={() => setEditing(true)}>
             ✎ Edit
           </button>

@@ -8,8 +8,9 @@ import PlayerSheetCard from '../features/player/PlayerSheetCard.tsx'
 import { formatBytes } from '../features/player/format.ts'
 import { matchSpells } from '../features/player/matchSpells.ts'
 import { readSheet } from '../features/player/readSheet.ts'
+import AddToSession from '../features/sessions/AddToSession.tsx'
 import { api } from '../lib/api/index.ts'
-import { playerSheetFiles, playerSheets, SAVE_FAILED_MESSAGE } from '../lib/storage/index.ts'
+import { playerSheetFiles, playerSheets, SAVE_FAILED_MESSAGE, sessions } from '../lib/storage/index.ts'
 import { useAsync } from '../hooks/useAsync.ts'
 import type { PlayerSheet } from '../types/models.ts'
 import styles from './PlayerSheetView.module.css'
@@ -159,6 +160,7 @@ export default function PlayerSheetView() {
               </a>
             </>
           )}
+          <AddToSession entry={{ kind: 'player', ref: player.id, name: player.name }} collection={sessions} />
           <button type="button" className="btn btn-primary" onClick={() => setEditing(true)}>
             ✎ Edit
           </button>

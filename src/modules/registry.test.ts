@@ -13,4 +13,9 @@ describe('module registry', () => {
     expect(paths.every((p) => p.startsWith('/'))).toBe(true)
     expect(paths).toEqual(expect.arrayContaining(['/generate/character', '/characters/:id', '/characters/player/:id']))
   })
+
+  it('lists My Sessions first, with a page per session', () => {
+    expect(modules[0]).toMatchObject({ id: 'sessions', path: '/sessions' })
+    expect(moduleRoutes.map((r) => r.path)).toContain('/sessions/:id')
+  })
 })

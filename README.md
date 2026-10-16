@@ -9,6 +9,12 @@ DnD Personal Assistant: a web app for Dungeons & Dragons 5th Edition that helps 
 
 ## Features
 
+### My Sessions
+
+Collect everything you need for a game night or campaign on one page. Create a session (with a name and notes), then use **+ Add to session** on a saved NPC, a player character, a saved scene or a monster in the Wiki. One item can be in several sessions; the button shows how many (e.g. "✓ In 2 sessions").
+
+The session page groups its entries into player characters, enemies (enemy NPCs and monsters), other NPCs and scenes, with AC and HP where the app knows them. NPCs and player characters open their sheet, monsters their stat block, and scenes unfold on the page. A session only points to the saved items: edit an NPC and the session shows the change; delete it and the session shows "No longer saved". **✕** removes an entry from the session only.
+
 ### NPC Generator
 
 Pick a role (enemy or random encounter), gender, race, class and level, or leave them on "Random", and summon a playable 5e character:
@@ -45,13 +51,13 @@ The sun and moon button in the header switches between the dark tavern theme and
 
 Everything stays in your browser. There are no accounts and nothing is sent to a server except requests to the D&D 5e API.
 
-- Characters, scenes and player sheet details are stored in `localStorage`.
+- Characters, scenes, sessions and player sheet details are stored in `localStorage`.
 - Uploaded PDFs are stored in IndexedDB (up to 25 MB each).
 - API responses are cached locally, so pages you have visited load faster the next time.
 
 Clearing the site data in your browser deletes your saved characters and scenes, so keep a backup:
 
-- **Download backup** on My Characters saves all NPCs, scenes and player characters, including the uploaded PDFs, as one JSON file (`dndpa-backup-YYYY-MM-DD.json`).
+- **Download backup** on My Characters saves all NPCs, scenes, player characters and sessions, including the uploaded PDFs, as one JSON file (`dndpa-backup-YYYY-MM-DD.json`).
 - **Load backup** reads such a file in any browser. Items that already exist are replaced, the rest is added, so loading the same file twice creates no duplicates.
 
 ## Development
@@ -85,6 +91,7 @@ src/
     player/             PDF upload, sheet parsing, player sheet card and editor
     backup/             backup panel on My Characters (download and load)
     dice/               dice formulas, rolls with advantage and disadvantage
+    sessions/           sessions: add and group entries, Add to session button, session lines
   components/           shared UI (layout, error boundary, theme toggle, editor fields, icons)
   lib/api/              D&D 5e API client with local caching
   lib/storage/          versioned collections in localStorage, files in IndexedDB
@@ -92,7 +99,7 @@ src/
   lib/randomTable.ts    weighted random tables shared by all generators
   lib/theme.ts          light and dark theme
   hooks/useAsync.ts     React hook for loading data with loading, error and retry states
-  types/models.ts       domain models (Character, Scene, PlayerSheet, RandomTable)
+  types/models.ts       domain models (Character, Scene, PlayerSheet, Session, RandomTable)
 ```
 
 ### Extending the app

@@ -28,6 +28,10 @@ const PREFIX = 'dndpa:'
 /** Keys below this prefix only hold cached data that can be fetched again. */
 export const CACHE_PREFIX = `${PREFIX}api:`
 
+/** User-facing message for a failed save. */
+export const SAVE_FAILED_MESSAGE =
+  'This could not be saved: your browser storage is full or blocked. Delete a few saved characters or scenes and try again.'
+
 /** Thrown when an item cannot be saved because browser storage is full. */
 export class StorageFullError extends Error {
   constructor() {

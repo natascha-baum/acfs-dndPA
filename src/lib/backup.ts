@@ -1,9 +1,9 @@
-import type { Character, PlayerSheet, Scene } from '../types/models.ts'
+import type { Character, PlayerSheet, Scene, Session } from '../types/models.ts'
 import type { FileStore } from './storage/files.ts'
 import { StorageFullError, type Collection } from './storage/storage.ts'
 
 // A backup is one JSON file with everything the user saved: NPCs, scenes,
-// player sheets and their PDFs. It can be loaded again in any browser.
+// player sheets with their PDFs, and sessions. It can be loaded again in any browser.
 
 /** Version of the backup file itself; the collections carry their own schema versions. */
 export const BACKUP_FORMAT = 1
@@ -12,12 +12,15 @@ export interface BackupSources {
   characters: Collection<Character>
   scenes: Collection<Scene>
   playerSheets: Collection<PlayerSheet>
+  sessions: Collection<Session>
   /** The PDFs of `playerSheets`, stored under the same id. */
   files: FileStore
 }
 
-type CollectionKey = 'characters' | 'scenes' | 'playerSheets'
-const COLLECTION_KEYS: CollectionKey[] = ['characters', 'scenes', 'playerSheets']
+type CollectionKey = 'characters' | 'scenes' | 'playerSheets' | 'sessions'
+const COLLECTION_KEYS: CollectionKey[] = ['characters', 'scenes', 'playerSheets', 'sessions']
+/** Collections added after the first backups; a backup without them loads with none. */
+const OPTIONAL_KEYS: CollectionKey[] = ['sessions']
 
 interface StoredFile {
   type: string
@@ -76,6 +79,7 @@ export async function createBackup(sources: BackupSources, now: () => Date = () 
       characters: collection('characters'),
       scenes: collection('scenes'),
       playerSheets: collection('playerSheets'),
+      sessions: collection('sessions'),
     },
     files,
   }
@@ -99,6 +103,7 @@ export function parseBackup(text: string): Backup {
   const collections = isObject(data.collections) ? data.collections : {}
   function readCollection(key: CollectionKey): Backup['collections'][CollectionKey] {
     const entry = collections[key]
+    if (entry === undefined && OPTIONAL_KEYS.includes(key)) return { version: 1, items: [] }
     if (
       isObject(entry) &&
       typeof entry.version === 'number' &&
@@ -126,6 +131,7 @@ export function parseBackup(text: string): Backup {
       characters: readCollection('characters'),
       scenes: readCollection('scenes'),
       playerSheets: readCollection('playerSheets'),
+      sessions: readCollection('sessions'),
     },
     files,
   }
@@ -136,6 +142,7 @@ export function summarizeBackup(backup: Backup): BackupSummary {
     characters: backup.collections.characters.items.length,
     scenes: backup.collections.scenes.items.length,
     playerSheets: backup.collections.playerSheets.items.length,
+    sessions: backup.collections.sessions.items.length,
     files: Object.keys(backup.files).length,
   }
 }

@@ -8,4 +8,5 @@ export const VERSIONS = {
   // so the default migrate (keep the item) is enough.
   scenes: 2,
   playerSheets: 1,
+  sessions: 1,
 } as const

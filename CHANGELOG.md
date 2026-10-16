@@ -7,6 +7,8 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ## [Unreleased]
 
 ### Added
+- My Sessions: collect NPCs, enemies, player characters, scenes and Wiki monsters per session, with an "Add to session" button on their pages; the session page groups them with AC and HP and opens each one. Sessions are part of the backup; older backup files still load
+- Research and implementation plan for My Sessions: collect NPCs, enemies, player characters, scenes and Wiki monsters per game session (`docs/research/2026-10-16-my-sessions.md`, `docs/plans/2026-10-16-my-sessions.md`), approved
 - Wiki module: look up spells, monsters, magic items, equipment, races, classes and conditions from the SRD, with a search per category; monsters show a full stat block, classes their features by level
 - Tavern scenes get an innkeeper, a menu with prices and a rumor; they can be re-rolled and edited. Stored scenes move to version 2 (older scenes load unchanged); schema versions now live in `src/lib/storage/versions.ts`
 - Research and implementation plans for tavern details in the scene generator and a Wiki module for SRD lookups (`docs/research/2026-10-16-tavern-and-wiki.md`, `docs/plans/2026-10-16-tavern-details.md`, `docs/plans/2026-10-16-wiki.md`), approved
