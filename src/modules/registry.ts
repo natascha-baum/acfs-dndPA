@@ -3,7 +3,7 @@ import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
 // Every feature of the app is a module. To add a new one, create its page
 // and add an entry here: it then gets its routes, shows up in the navigation
 // and on Home. Pages are loaded on demand, so each one is its own bundle chunk.
-export type ModuleIcon = 'npc' | 'scene' | 'characters'
+export type ModuleIcon = 'npc' | 'scene' | 'characters' | 'd20'
 
 type Page = LazyExoticComponent<ComponentType>
 
@@ -63,6 +63,16 @@ export const modules: AppModule[] = [
       { path: '/characters/:id', page: lazy(() => import('../pages/CharacterSheet.tsx')) },
       { path: '/characters/player/:id', page: lazy(() => import('../pages/PlayerSheetView.tsx')) },
     ],
+  },
+  {
+    id: 'dice-roller',
+    title: 'Dice Roller',
+    shortTitle: 'Dice',
+    description: 'Roll any dice, with advantage and disadvantage.',
+    flavor: 'Let fate decide.',
+    icon: 'd20',
+    path: '/dice',
+    page: lazy(() => import('../pages/DiceRoller.tsx')),
   },
 ]
 

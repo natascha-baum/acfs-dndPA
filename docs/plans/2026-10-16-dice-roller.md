@@ -32,10 +32,10 @@ No new dependency.
 - History: newest first, the last 20 rolls, with a "Clear" button.
 
 ## Steps
-1. **Logic.** Write `dice.ts` with `parseFormula(text)` (returns a `DiceFormula` or throws an `Error` with the user message), `rollFormula(formula, mode, rng)` (returns `RollResult`: all dice, kept dice, modifier, total, `critical: 'success' | 'failure' | undefined`) and `formatRoll(result)` (e.g. `2d6+3 → [4, 2] + 3 = 9`). `npm run check`.
-2. **Page.** `DiceRoller.tsx`: quick buttons d4, d6, d8, d10, d12, d20, d100; a formula field with a "Roll" button (Enter also rolls); a three-way switch Normal / Advantage / Disadvantage; a big result with the dice shown below it; the history list. The result area uses `aria-live="polite"`, so screen readers announce new rolls. Colors only from CSS variables, both themes. `npm run check`.
-3. **Registry.** Add the module (title "Dice Roller", short title "Dice", icon `d20`, path `/dice`, description and flavor line). `npm run check`.
-4. **Docs.** README feature section, CHANGELOG, `plan.md` (new feature row ✅, backlog item "Dice roller" crossed out). `npm run check`.
+1. ✅ **Logic.** Write `dice.ts` with `parseFormula(text)` (returns a `DiceFormula` or throws an `Error` with the user message), `rollFormula(formula, mode, rng)` (returns `RollResult`: all dice, kept dice, modifier, total, `critical: 'success' | 'failure' | undefined`) and `formatRoll(result)` (e.g. `2d6+3 → [4, 2] + 3 = 9`). `npm run check`.
+2. ✅ **Page.** `DiceRoller.tsx`: quick buttons d4, d6, d8, d10, d12, d20, d100; a formula field with a "Roll" button (Enter also rolls); a three-way switch Normal / Advantage / Disadvantage; a big result with the dice shown below it; the history list. The result area uses `aria-live="polite"`, so screen readers announce new rolls. Colors only from CSS variables, both themes. `npm run check`.
+3. ✅ **Registry.** Add the module (title "Dice Roller", short title "Dice", icon `d20`, path `/dice`, description and flavor line). `npm run check`.
+4. ✅ **Docs.** README feature section, CHANGELOG, `plan.md` (new feature row ✅, backlog item "Dice roller" crossed out). `npm run check`.
 
 ## Tests
 
@@ -64,6 +64,13 @@ Nothing is stored (see open question 1), so no collection, no `version`, no `mig
   3. Advantage on `d20+5` shows two dice, keeps the higher, adds 5. The switch is disabled for `2d6`.
   4. `abc` shows the error message; nothing is added to the history.
   5. After 25 rolls the history shows 20; "Clear" empties it.
+
+## Deviations during implementation
+- Added `canUseAdvantage(formula)` and `formulaText(formula)` to `dice.ts`; the page needs them to disable the advantage switch and to fill the formula field from a quick button.
+- `'d20'` became a `ModuleIcon`, so the module can use the existing d20 icon; `Icon.tsx` no longer lists it separately.
+- The chosen mode is kept when the formula changes, but shown as "Normal" while it does not apply.
+- `src/components/Layout.module.css`: a fourth module did not fit in the phone navigation (it wrapped to a second row), so the nav links get a smaller gap and font size below 640 px.
+- The big result uses the body font (Crimson Pro): in the Cinzel display fonts a 1 looks like an I.
 
 ## Docs
 - `CHANGELOG.md` → "Unreleased" / "Added": "Dice Roller: roll any formula like 2d6+3, quick buttons for d4 to d100, advantage and disadvantage, and a history of the last 20 rolls".

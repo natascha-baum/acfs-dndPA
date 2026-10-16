@@ -137,7 +137,7 @@ Last checked: 2026-10-16 (after the docs review). Legend: ✅ done · 🟡 partl
 | Feature | Status | Notes |
 |---|---|---|
 | Backup export and import (JSON) | ✅ | PR #16, [plan](2026-10-16-backup-export-import.md); on My Characters, includes PDFs, older backups are migrated |
-| Dice roller | ⬜ | [plan](2026-10-16-dice-roller.md) approved, built next |
+| Dice roller | ✅ | PR #18, [plan](2026-10-16-dice-roller.md); new module in the registry, history only for the current visit |
 
 ### Cross-cutting
 | Item | Status | Notes |
@@ -169,7 +169,7 @@ A running list so there are always ideas for extensions. Nothing here is committ
 - "Quick NPC" mode: name + one line of personality, no stats
 
 ### For players
-- Dice roller with roll history and advantage/disadvantage
+- ~~Dice roller with roll history and advantage/disadvantage~~ (done)
 - Spell slot and hit dice tracker, short/long rest buttons
 - Level-up assistant (new HP, features, spells)
 - Point buy and 4d6-drop-lowest as alternatives to the standard array
