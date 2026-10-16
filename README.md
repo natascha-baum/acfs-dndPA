@@ -31,7 +31,7 @@ Two tabs:
 
 ### Dice Roller
 
-Type any formula such as `d20`, `2d6+3` or `4d8-1`, or use the quick buttons for d4 to d100. A single d20 can be rolled with advantage or disadvantage: both dice are shown and the higher or lower one counts. Natural 20s and 1s are marked. The last 20 rolls are listed below; the history is not saved and starts empty on every visit.
+Type any formula such as `d20`, `2d6+3` or `3d10+d8+2`, or build one with the quick buttons: each click adds a die (click +d10 three times and +d8 once for `3d10+d8`), and **Roll** rolls them all at once. The result shows every die grouped by type and adds them up, plus the modifier. The dice tumble for a moment before they show their number; with "reduce motion" switched on in the system, the numbers appear at once. A single d20 can be rolled with advantage or disadvantage: both dice are shown and the higher or lower one counts. Natural 20s and 1s are marked. The last 20 rolls are listed below; the history is not saved and starts empty on every visit.
 
 ### Light and dark mode
 

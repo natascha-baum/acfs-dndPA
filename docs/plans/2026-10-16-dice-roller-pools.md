@@ -1,6 +1,6 @@
 # Plan: Dice roller with mixed dice and a roll animation
 
-Date: 2026-10-16 · Phase: Plan · Status: **waiting for approval** · Builds on: [dice roller plan](2026-10-16-dice-roller.md) (PR #18, merged) · Request: Natascha, 2026-10-16: "mehrere Würfel für einen Wurf auswählen, z. B. 3d10 und 1d8 gleichzeitig, außerdem eine Würfel-Animation"
+Date: 2026-10-16 · Phase: Plan · Status: **approved by Natascha 2026-10-16, implemented in PR #20** · Builds on: [dice roller plan](2026-10-16-dice-roller.md) (PR #18, merged) · Request: Natascha, 2026-10-16: "mehrere Würfel für einen Wurf auswählen, z. B. 3d10 und 1d8 gleichzeitig, außerdem eine Würfel-Animation"
 
 No new research note: the change only touches the dice module built today, and its research is [2026-10-16-feature-options.md](../research/2026-10-16-feature-options.md) (F1).
 
@@ -36,10 +36,10 @@ No new dependency: the animation is a CSS `@keyframes`, the same technique as th
 - `addDie(formula, sides)` adds one die of that type (to the existing group or as a new one) and keeps the modifier; the field shows the result, e.g. `3d10+d8`. If the field holds no valid formula, the quick button starts a new one.
 
 ## Steps
-1. **Logic.** Change `dice.ts` and its tests (test first for the new cases). `npm run check`.
-2. **Dice display.** `RolledDice.tsx`: one small die per rolled die, grouped with a label (`3 × d10`); during the animation (about 0.6 s, triggered by a new roll id) the dice tumble and show no number yet; afterwards the numbers appear. With advantage, the dropped d20 is shown faded. Colors only from CSS variables. `prefers-reduced-motion: reduce` skips the animation. `npm run check`.
-3. **Page.** Quick buttons call `addDie`; a "Clear formula" button empties the field; the result area uses `RolledDice` and shows the total after the animation. `npm run check` and `npm run maintainability` (no new warnings).
-4. **Docs.** README Dice Roller section, CHANGELOG, `plan.md` status row. `npm run check`.
+1. **Logic.** ✅ Change `dice.ts` and its tests (test first for the new cases). `npm run check`.
+2. **Dice display.** ✅ `RolledDice.tsx`: one small die per rolled die, grouped with a label (`3 × d10`); during the animation (about 0.6 s, triggered by a new roll id) the dice tumble and show no number yet; afterwards the numbers appear. With advantage, the dropped d20 is shown faded. Colors only from CSS variables. `prefers-reduced-motion: reduce` skips the animation. `npm run check`.
+3. **Page.** ✅ Quick buttons call `addDie`; a "Clear formula" button empties the field; the result area uses `RolledDice` and shows the total after the animation. `npm run check` and `npm run maintainability` (no new warnings).
+4. **Docs.** ✅ README Dice Roller section, CHANGELOG, `plan.md` status row. `npm run check`.
 
 ## Tests
 
@@ -72,6 +72,12 @@ Nothing is stored, so no `version` bump and no `migrate`.
 - `README.md`: Dice Roller section.
 - `docs/plans/plan.md`: status row of the dice roller.
 
-## Open questions
-1. **Quick buttons:** planned is "add a die, then press Roll". The old behavior (one click rolls that die at once) goes away. Fine, or keep both (for example a long press or a second button)?
-2. **Animation length:** about 0.6 s. Shorter or longer?
+## Open questions (answered)
+1. **Quick buttons:** Natascha: a click adds a die.
+2. **Animation length:** Natascha: 0.6 s is fine. She also asked for the values to be added up at the end: the big total is the sum of all dice plus the modifier, and the detail line shows each group and the sum.
+
+## Deviations during implementation
+- The logic and its tests were written in the same step, not test first.
+- The animation needs no JavaScript timer: every roll remounts the result (React `key`), the dice run a CSS `tumble`, and the numbers and the total use a `step-end` keyframe that keeps them hidden for 0.6 s.
+- The formula field starts empty (it started with `d20`), so the quick buttons build a formula from scratch. They are labelled `+d4` to `+d100`.
+- The history list moved into a small `RollHistory` function in the same page file, so `DiceRoller` stays under the 120-line limit of `npm run maintainability`.

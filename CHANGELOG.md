@@ -9,7 +9,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ### Added
 - Dice Roller module: roll any formula like 2d6+3, quick buttons for d4 to d100, advantage and disadvantage for a d20, natural 20 and 1 marked, and a history of the last 20 rolls
 - Backup on My Characters: "Download backup" saves all NPCs, scenes and player characters (with their PDFs) as one JSON file, "Load backup" reads it again in any browser without creating duplicates
-- Implementation plan for mixing several dice in one roll and a roll animation in the Dice Roller (`docs/plans/2026-10-16-dice-roller-pools.md`), waiting for approval
+- Implementation plan for mixing several dice in one roll and a roll animation in the Dice Roller (`docs/plans/2026-10-16-dice-roller-pools.md`), approved
 - Implementation plans for a backup export and import and for a dice roller (`docs/plans/2026-10-16-*.md`), approved
 - The `/code-check` skill now also checks maintainability on every run (long and complex functions, duplication, layering, readability) with a rating; `npm run maintainability` and a first report in `docs/research/code-checks/2026-10-16.md`
 - Research on open and possible features, from the backlog and from comparable D&D tools (`docs/research/2026-10-16-feature-options.md`)
@@ -43,6 +43,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - README: features, how data is stored, development commands, project structure, how to extend the app and known limits
 
 ### Changed
+- Dice Roller: mix several dice in one roll (e.g. 3d10+d8), the quick buttons add dice to the formula, and rolled dice tumble before they show their number
 - Code cleanup (no visible change): the player sheet card is split into one small component per section and has its first component test, `useAsync` moved to `src/hooks/` so `src/lib/` has no React, and the unused `ComingSoon` page was removed; research and plan in `docs/research/2026-10-16-cleanup.md` and `docs/plans/2026-10-16-cleanup.md`
 - Docs review: the app plan matches the code again (status, data model, screens, API endpoints, tech stack); the "final check and submission" milestone was removed; the README lists all credits and licenses (SRD 5.1 attribution, fonts, libraries, trademark notice); the workflow docs explain how the MVP history fits the RPI workflow and when no plan is needed
 - NPC personality, appearance and story hook lists use the shared `RandomTable` format, like the scene tables

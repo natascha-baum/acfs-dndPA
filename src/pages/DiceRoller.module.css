@@ -31,6 +31,11 @@
   min-width: 120px;
 }
 
+.clearFormula {
+  align-self: flex-start;
+  margin-top: -0.5rem;
+}
+
 .modes {
   display: flex;
   flex-wrap: wrap;
@@ -70,6 +75,12 @@
   font-variant-numeric: lining-nums;
   line-height: 1.1;
   color: var(--gold);
+}
+
+/* The total and its line appear once the dice have landed (see RolledDice). */
+.total,
+.detail {
+  animation: land 0.6s step-end both;
 }
 
 .crit {
@@ -112,4 +123,20 @@
 
 .history li + li {
   margin-top: 0.25rem;
+}
+
+@keyframes land {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .total,
+  .detail {
+    animation: none;
+  }
 }

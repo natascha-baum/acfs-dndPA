@@ -1,0 +1,93 @@
+.groups {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.label {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.dice {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 320px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.die {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--surface);
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  animation: tumble 0.6s cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+.value {
+  /* The body font: in the Cinzel display fonts a 1 looks like an I. */
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-variant-numeric: lining-nums;
+  color: var(--gold-bright);
+  /* Hidden while the die tumbles, shown when it lands. */
+  animation: land 0.6s step-end both;
+}
+
+.dropped {
+  border-color: var(--border);
+  box-shadow: none;
+  opacity: 0.45;
+}
+
+.dropped .value {
+  color: var(--text-muted);
+}
+
+@keyframes tumble {
+  0% {
+    transform: rotate(0) scale(0.6) translateY(-18px);
+  }
+  50% {
+    transform: rotate(300deg) scale(0.9) translateY(-6px);
+  }
+  100% {
+    transform: rotate(720deg) scale(1);
+  }
+}
+
+@keyframes land {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .die,
+  .value {
+    animation: none;
+  }
+}
