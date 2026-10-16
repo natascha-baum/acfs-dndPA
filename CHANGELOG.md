@@ -7,6 +7,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ## [Unreleased]
 
 ### Added
+- Second code check of 2026-10-16 after the cleanup and four new features: maintainability up from 🔴 to 🟡 (`docs/research/code-checks/2026-10-16-afternoon.md`)
 - My Sessions: collect NPCs, enemies, player characters, scenes and Wiki monsters per session, with an "Add to session" button on their pages; the session page groups them with AC and HP and opens each one. Sessions are part of the backup; older backup files still load
 - Research and implementation plan for My Sessions: collect NPCs, enemies, player characters, scenes and Wiki monsters per game session (`docs/research/2026-10-16-my-sessions.md`, `docs/plans/2026-10-16-my-sessions.md`), approved
 - Wiki module: look up spells, monsters, magic items, equipment, races, classes and conditions from the SRD, with a search per category; monsters show a full stat block, classes their features by level
@@ -48,6 +49,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - README: features, how data is stored, development commands, project structure, how to extend the app and known limits
 
 ### Changed
+- Code check fixes (no visible change): no lint warnings, and the player sheet page loads its PDF through the tested `loadSheetFile` / `upgradeOldSheet` functions and the `useSheetFile` hook; `npm run maintainability` shows 11 warnings instead of 13 (plan: `docs/plans/2026-10-16-code-check-fixes.md`)
 - The navigation switches to short names with the icon above them below 900 px width (was 640 px), so five modules fit in one row on a phone
 - Dice Roller: mix several dice in one roll (e.g. 3d10+d8), the quick buttons add dice to the formula, and rolled dice tumble before they show their number
 - Code cleanup (no visible change): the player sheet card is split into one small component per section and has its first component test, `useAsync` moved to `src/hooks/` so `src/lib/` has no React, and the unused `ComingSoon` page was removed; research and plan in `docs/research/2026-10-16-cleanup.md` and `docs/plans/2026-10-16-cleanup.md`

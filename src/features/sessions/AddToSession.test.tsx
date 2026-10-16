@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { createCollection } from '../../lib/storage/storage.ts'
 import { memoryStore } from '../../lib/testing.ts'
 import type { Session, SessionEntry } from '../../types/models.ts'
-import AddToSession, { buttonLabel } from './AddToSession.tsx'
+import AddToSession from './AddToSession.tsx'
 import { addEntry, createSession } from './sessions.ts'
 
 const goblin: SessionEntry = { kind: 'monster', ref: 'goblin', name: 'Goblin' }
@@ -17,14 +17,6 @@ function collectionWith(sessionsWithGoblin: number) {
   }
   return collection
 }
-
-describe('buttonLabel', () => {
-  it('says how many sessions an item is in', () => {
-    expect(buttonLabel(0)).toBe('+ Add to session')
-    expect(buttonLabel(1)).toBe('✓ In 1 session')
-    expect(buttonLabel(2)).toBe('✓ In 2 sessions')
-  })
-})
 
 describe('AddToSession', () => {
   it('shows "Add to session" for an item in no session', () => {

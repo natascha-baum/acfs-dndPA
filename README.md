@@ -98,7 +98,7 @@ src/
   lib/backup.ts         backup file: create, check and load all saved data
   lib/randomTable.ts    weighted random tables shared by all generators
   lib/theme.ts          light and dark theme
-  hooks/useAsync.ts     React hook for loading data with loading, error and retry states
+  hooks/                React hooks: useAsync (loading, error and retry states), useSheetFile (a player's PDF)
   types/models.ts       domain models (Character, Scene, PlayerSheet, Session, RandomTable)
 ```
 

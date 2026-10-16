@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import PageHeader from '../components/PageHeader.tsx'
 import DetailDialog from '../features/detail/DetailDialog.tsx'
@@ -7,15 +7,15 @@ import PlayerEditor from '../features/player/PlayerEditor.tsx'
 import PlayerSheetCard from '../features/player/PlayerSheetCard.tsx'
 import { formatBytes } from '../features/player/format.ts'
 import { matchSpells } from '../features/player/matchSpells.ts'
+import type { SheetFileDeps } from '../features/player/loadSheetFile.ts'
 import { readSheet } from '../features/player/readSheet.ts'
 import AddToSession from '../features/sessions/AddToSession.tsx'
 import { api } from '../lib/api/index.ts'
 import { playerSheetFiles, playerSheets, SAVE_FAILED_MESSAGE, sessions } from '../lib/storage/index.ts'
 import { useAsync } from '../hooks/useAsync.ts'
+import { useSheetFile, type SheetFileState } from '../hooks/useSheetFile.ts'
 import type { PlayerSheet } from '../types/models.ts'
 import styles from './PlayerSheetView.module.css'
-
-type FileState = { status: 'loading' } | { status: 'missing' } | { status: 'ready'; url: string }
 
 const BACK = '/characters?tab=players'
 
@@ -24,49 +24,19 @@ const canShowPdf = typeof navigator === 'undefined' || navigator.pdfViewerEnable
 
 const loadSpells = (spells: string[]) => matchSpells(spells, api)
 const NO_SPELLS: string[] = []
+const SHEET_FILE_DEPS: SheetFileDeps = { files: playerSheetFiles, sheets: playerSheets, read: readSheet, now: () => new Date() }
 
 export default function PlayerSheetView() {
   const { id = '' } = useParams()
   const navigate = useNavigate()
   const [player, setPlayer] = useState(() => playerSheets.get(id))
-  const [file, setFile] = useState<FileState>({ status: 'loading' })
   const [showPdf, setShowPdf] = useState(false)
   const [lookup, setLookup] = useState<LookupRef | null>(null)
   const [editing, setEditing] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const spells = useAsync(player?.sheet?.spells ?? NO_SPELLS, loadSpells)
 
-  useEffect(() => {
-    let url: string | undefined
-    let cancelled = false
-    playerSheetFiles
-      .get(id)
-      .then(async (blob) => {
-        if (cancelled) return
-        if (!blob) return setFile({ status: 'missing' })
-        url = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }))
-        setFile({ status: 'ready', url })
-        // Sheets uploaded before the app could read them get read now, once.
-        const stored = playerSheets.get(id)
-        if (stored && !stored.sheet) {
-          const { sheet } = await readSheet(await blob.arrayBuffer(), stored.fileName)
-          if (sheet && !cancelled) {
-            const updated: PlayerSheet = { ...stored, sheet, updatedAt: new Date().toISOString() }
-            try {
-              playerSheets.save(updated)
-            } catch {
-              // Still shown for this visit; it is read again next time.
-            }
-            setPlayer(updated)
-          }
-        }
-      })
-      .catch(() => !cancelled && setFile({ status: 'missing' }))
-    return () => {
-      cancelled = true
-      if (url) URL.revokeObjectURL(url)
-    }
-  }, [id])
+  const file = useSheetFile(id, SHEET_FILE_DEPS, setPlayer)
 
   if (!player) {
     return (
@@ -116,32 +86,9 @@ export default function PlayerSheetView() {
     )
   }
 
-  const meta = [player.race, player.classLevel].filter(Boolean).join(' · ')
   const sheet = player.sheet
 
-  const pdf =
-    file.status === 'ready' &&
-    (canShowPdf ? (
-      <object
-        data={file.url}
-        type="application/pdf"
-        className={styles.pdf}
-        aria-label={`Character sheet of ${player.name}`}
-      >
-        <p className={styles.fallback}>
-          Your browser cannot show the PDF here.{' '}
-          <a href={file.url} target="_blank" rel="noreferrer">
-            Open the sheet in a new tab
-          </a>{' '}
-          instead.
-        </p>
-      </object>
-    ) : (
-      <p className={styles.center}>
-        Your browser cannot show PDFs inside the page. Use <strong>Open in new tab</strong> or{' '}
-        <strong>Download</strong> to read the sheet.
-      </p>
-    ))
+  const pdf = file.status === 'ready' && <PdfView url={file.url} name={player.name} />
 
   return (
     <>
@@ -150,16 +97,7 @@ export default function PlayerSheetView() {
           ← My Characters
         </Link>
         <div className={styles.actions}>
-          {file.status === 'ready' && (
-            <>
-              <a href={file.url} target="_blank" rel="noreferrer" className="btn">
-                Open PDF
-              </a>
-              <a href={file.url} download={player.fileName} className="btn">
-                Download
-              </a>
-            </>
-          )}
+          <FileLinks file={file} fileName={player.fileName} />
           <AddToSession entry={{ kind: 'player', ref: player.id, name: player.name }} collection={sessions} />
           <button type="button" className="btn btn-primary" onClick={() => setEditing(true)}>
             ✎ Edit
@@ -191,33 +129,78 @@ export default function PlayerSheetView() {
           </section>
         </>
       ) : (
-        <>
-          <header className={styles.heading}>
-            <span className={styles.badge}>Player character</span>
-            <h1 className={styles.name}>{player.name}</h1>
-            {meta && <p className={styles.meta}>{meta}</p>}
-            <p className={styles.file}>
-              {player.fileName} · {formatBytes(player.fileSize)}
-            </p>
-          </header>
-          {file.status === 'loading' && <p className={styles.center}>Unrolling the parchment…</p>}
-          {file.status === 'missing' && (
-            <p className={styles.center}>
-              The PDF for this character is no longer stored in this browser. Delete the entry and upload the sheet
-              again.
-            </p>
-          )}
-          {file.status === 'ready' && (
-            <p className={styles.note}>
-              This PDF has no filled-in form fields, so it is shown as it is. Fillable sheets (like the official 5e
-              sheet or a D&amp;D Beyond export) are shown in the app’s own layout.
-            </p>
-          )}
-          {pdf}
-        </>
+        <SheetlessView player={player} file={file} pdf={pdf} />
       )}
 
       {lookup && <DetailDialog key={`${lookup.kind}-${lookup.index}`} lookup={lookup} onClose={() => setLookup(null)} />}
+    </>
+  )
+}
+
+/** "Open PDF" and "Download", once the PDF is loaded. */
+function FileLinks({ file, fileName }: { file: SheetFileState; fileName: string }) {
+  if (file.status !== 'ready') return null
+  return (
+    <>
+      <a href={file.url} target="_blank" rel="noreferrer" className="btn">
+        Open PDF
+      </a>
+      <a href={file.url} download={fileName} className="btn">
+        Download
+      </a>
+    </>
+  )
+}
+
+/** The PDF inside the page, or a hint where the browser cannot show it. */
+function PdfView({ url, name }: { url: string; name: string }) {
+  if (!canShowPdf) {
+    return (
+      <p className={styles.center}>
+        Your browser cannot show PDFs inside the page. Use <strong>Open in new tab</strong> or{' '}
+        <strong>Download</strong> to read the sheet.
+      </p>
+    )
+  }
+  return (
+    <object data={url} type="application/pdf" className={styles.pdf} aria-label={`Character sheet of ${name}`}>
+      <p className={styles.fallback}>
+        Your browser cannot show the PDF here.{' '}
+        <a href={url} target="_blank" rel="noreferrer">
+          Open the sheet in a new tab
+        </a>{' '}
+        instead.
+      </p>
+    </object>
+  )
+}
+
+/** A player whose PDF has no form fields (or is missing): name, file and the PDF as it is. */
+function SheetlessView({ player, file, pdf }: { player: PlayerSheet; file: SheetFileState; pdf: ReactNode }) {
+  const meta = [player.race, player.classLevel].filter(Boolean).join(' · ')
+  return (
+    <>
+      <header className={styles.heading}>
+        <span className={styles.badge}>Player character</span>
+        <h1 className={styles.name}>{player.name}</h1>
+        {meta && <p className={styles.meta}>{meta}</p>}
+        <p className={styles.file}>
+          {player.fileName} · {formatBytes(player.fileSize)}
+        </p>
+      </header>
+      {file.status === 'loading' && <p className={styles.center}>Unrolling the parchment…</p>}
+      {file.status === 'missing' && (
+        <p className={styles.center}>
+          The PDF for this character is no longer stored in this browser. Delete the entry and upload the sheet again.
+        </p>
+      )}
+      {file.status === 'ready' && (
+        <p className={styles.note}>
+          This PDF has no filled-in form fields, so it is shown as it is. Fillable sheets (like the official 5e sheet or
+          a D&amp;D Beyond export) are shown in the app’s own layout.
+        </p>
+      )}
+      {pdf}
     </>
   )
 }

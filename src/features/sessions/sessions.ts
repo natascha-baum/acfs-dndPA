@@ -41,6 +41,12 @@ export function countSessionsWith(sessions: Session[], kind: SessionEntryKind, r
   return sessions.filter((s) => hasEntry(s, kind, ref)).length
 }
 
+/** Text of the "Add to session" button for an item that is in `count` sessions. */
+export function buttonLabel(count: number): string {
+  if (count === 0) return '+ Add to session'
+  return count === 1 ? '✓ In 1 session' : `✓ In ${count} sessions`
+}
+
 /** Where the saved items come from; the storage collections in the app, plain lists in tests. */
 export interface SessionLookup {
   npc(id: string): Character | undefined

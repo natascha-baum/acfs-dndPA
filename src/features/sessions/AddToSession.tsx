@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { newId, SAVE_FAILED_MESSAGE, type Collection } from '../../lib/storage/storage.ts'
 import type { Session, SessionEntry } from '../../types/models.ts'
-import { addEntry, countSessionsWith, createSession, hasEntry, toggleEntry } from './sessions.ts'
+import { addEntry, buttonLabel, countSessionsWith, createSession, hasEntry, toggleEntry } from './sessions.ts'
 import styles from './AddToSession.module.css'
 
 interface AddToSessionProps {
@@ -12,11 +12,6 @@ interface AddToSessionProps {
 }
 
 const newestFirst = (list: Session[]) => [...list].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-
-export function buttonLabel(count: number): string {
-  if (count === 0) return '+ Add to session'
-  return count === 1 ? '✓ In 1 session' : `✓ In ${count} sessions`
-}
 
 /** Button that opens a small dialog to put one item into one or more sessions. */
 export default function AddToSession({ entry, collection }: AddToSessionProps) {
