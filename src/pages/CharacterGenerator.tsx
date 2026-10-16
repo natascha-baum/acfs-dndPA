@@ -15,7 +15,7 @@ import {
 import type { NpcRole } from '../features/npc/tables.ts'
 import { api } from '../lib/api/index.ts'
 import { characters, SAVE_FAILED_MESSAGE } from '../lib/storage/index.ts'
-import { useAsync } from '../lib/useAsync.ts'
+import { useAsync } from '../hooks/useAsync.ts'
 import type { ApiRef, Character, NpcOptions } from '../types/models.ts'
 import styles from './CharacterGenerator.module.css'
 
