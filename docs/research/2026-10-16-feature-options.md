@@ -8,7 +8,7 @@ Which features are still open in this project, and which features of comparable 
 ## Findings: inside the project
 
 ### Status
-- Milestones 1–5 are done; only **Milestone 6 (final check and submission, due 2026-10-20)** is open (`docs/plans/plan.md`, section 9).
+- Milestones 1–5 are done (`docs/plans/plan.md`, section 9). *(Update 2026-10-16: the former Milestone 6 "final check and submission" was removed from the plan.)*
 - All MVP features in the status table are ✅. There are no open branches with unmerged work (`git log origin/main..origin/claude/project-thread-*` is empty).
 - None of the improvements from [2026-10-15-improvement-options.md](2026-10-15-improvement-options.md) is built yet: no coverage thresholds (`package.json` has no `@vitest/coverage-v8`), no Dependabot (`.github/` has only workflows and the PR template), no export/import, no PWA.
 - The [code check of 2026-10-15](code-checks/2026-10-15.md) lists open quality items: 0 % UI test coverage, 42 hard-coded colors in CSS Modules, untested `useAsync.ts` / `theme.ts` / `player/format.ts`.
@@ -98,6 +98,6 @@ Not recommended now: accounts and sync (needs a backend), maps / VTT, German tra
 - **Quick wins any time:** F3 loot and F4 tavern/shop generator (only tables plus a page).
 
 ## Open questions
-1. Does Natascha want another feature before 2026-10-20, or only the final check (Milestone 6)? If yes: F1 dice roller or F2 export/import?
+1. Does Natascha want another feature before 2026-10-20? If yes: F1 dice roller or F2 export/import?
 2. After submission: should the DM combat track (F5–F8) become the next milestone?
 3. Encounter builder: use the 2014 DMG XP thresholds (not in the SRD, license unclear) or a simpler own difficulty rule? To be checked against the SRD 5.2 before planning.

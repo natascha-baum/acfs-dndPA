@@ -1,8 +1,10 @@
 # App Plan: D&D Companion Web App
 
-> Status: in implementation (Milestones 1 to 4 done). See [Implementation Status](#9-implementation-status).
-> Last updated: 2026-10-15
+> Status: MVP complete (Milestones 1 to 5 done). See [Implementation Status](#9-implementation-status).
+> Last updated: 2026-10-16
 > History of released changes: [CHANGELOG.md](../../CHANGELOG.md)
+
+This is the **app plan**: the overall goal, features, data model and milestones, written before any code. Milestones 1 to 5 were built directly from it. From PR #12 on, every new change follows the [Research → Plan → Implement workflow](../workflow.md) and gets its own research note in [`docs/research/`](../research/) and, before any code, its own implementation plan in this folder (`YYYY-MM-DD-topic.md`).
 
 ## 1. Goal
 A web app for Dungeons & Dragons 5th Edition that supports both Dungeon Masters and players during and between sessions. It bundles several tools and is built as a set of modules so new features can be added later without reworking existing ones.
@@ -50,7 +52,7 @@ A web app for Dungeons & Dragons 5th Edition that supports both Dungeon Masters 
 - **D&D 5e API** (https://www.dnd5eapi.co), free, no API key, JSON (REST and GraphQL).
 - Content: SRD 5.1 (CC-BY-4.0): spells, classes, races, equipment, features, monsters.
 - Limitation: only SRD content, English only.
-- Base URL: `https://www.dnd5eapi.co/api/2014/` (endpoints used: `races`, `subraces`, `classes`, `classes/{id}/levels`, `spells`, `equipment`, `proficiencies`, `traits`, `features`, `backgrounds`).
+- Base URL: `https://www.dnd5eapi.co/api/2014/` (endpoints used: `races`, `subraces`, `traits`, `classes`, `classes/{id}/levels/{n}`, `classes/{id}/spells`, `spells`, `equipment`, `equipment-categories`, `proficiencies`, `skills`, `features`). Details per endpoint: [research/2026-10-15-dnd5e-api.md](../research/2026-10-15-dnd5e-api.md).
 - Principle: **take as much as possible from the API** (races, classes, hit dice, ability bonuses, proficiencies, starting equipment, spell lists, spell/item details).
 - Our own data only where the API has nothing: NPC names, personality traits, role flavor, and all scene tables.
 - Fetched data is cached locally so lookups are fast and repeated requests are avoided.
@@ -61,58 +63,62 @@ A web app for Dungeons & Dragons 5th Edition that supports both Dungeon Masters 
 - **Language:** English only (UI, code, docs).
 - **Storage:** local in the browser for now; accounts may come later.
 - Tech stack (confirmed):
-  - React + TypeScript, built with Vite
-  - React Router for navigation between modules
-  - Browser storage: localStorage (or IndexedDB if data grows)
+  - React 19 + TypeScript, built with Vite
+  - React Router for navigation between modules (`HashRouter`, because GitHub Pages has no fallback to `index.html`)
+  - Browser storage: localStorage for characters, scenes, player sheet details and the API cache; IndexedDB for uploaded PDF files
   - Styling: plain CSS (CSS Modules), no UI library, to keep setup small
-  - Testing: Vitest
+  - PDF reading: pdf-lib, loaded only when a PDF is uploaded
+  - Testing: Vitest; linting: oxlint
 - **Repository:** https://github.com/natascha-baum/acfs-dndPA (also the homework submission).
 - **Live URL (after deployment):** https://natascha-baum.github.io/acfs-dndPA/
 - **Deployment:** GitHub Pages, built and published automatically by a GitHub Actions workflow on every push to `main` (Vite `base` set to `/acfs-dndPA/`).
 
-## 6. Data Model (draft)
-- **Character**: id, name, role (enemy | encounter | player), gender, race, class, level, ability scores (STR, DEX, CON, INT, WIS, CHA), hit points, armor class, proficiencies, spells (API references), equipment (API references), personality, notes, createdAt, updatedAt
-- **Scene**: id, location, description, atmosphere, weather, features, encounter, createdAt
-- **RandomTable**: id, name, category, entries (text + weight)
-- **Generator**: id, name, list of tables to roll on
-- **NpcOptions** (generator input): role (enemy | encounter | random), gender, race, class, level
-- **Reference data** (from the API, cached): spell, class, race, equipment item
+## 6. Data Model
+As built; the source of truth is [`src/types/models.ts`](../../src/types/models.ts). Stored collections and their schema versions are in [`src/lib/storage/index.ts`](../../src/lib/storage/index.ts).
+- **Character** (generated NPCs): id, name, role (enemy | encounter), gender, race, subrace, class, level, ability scores (STR, DEX, CON, INT, WIS, CHA), hit points, armor class, speed, proficiency bonus, saving throws, skills, proficiencies, spells (API references with spell level), equipment (API references with quantity), appearance, personality, hook, notes, createdAt, updatedAt. The type also allows the role `player`, which is not used yet: player characters are `PlayerSheet`s.
+- **PlayerSheet** (uploaded player characters): id, name, race, class and level as written on the sheet, file name and size, the parsed sheet contents (`ImportedSheet`: stats, saves, skills, attacks, spells, equipment, coins, personality, appearance, backstory …), createdAt, updatedAt. The PDF itself is stored in IndexedDB under the same id.
+- **Scene**: id, title (place name), location type, location, time of day, weather, mood, details (see, hear, smell), own read-aloud text, notes, createdAt
+- **RandomTable**: id, name, category, entries (text + optional weight)
+- **NpcOptions** / **SceneOptions** (generator input): every field optional, empty means "Random"
+- **Reference data** (from the API, cached for 7 days): races, classes, spells, equipment, traits, features and more, referenced as `ApiRef` (index, name, url)
 
-## 7. Screens / Navigation (draft)
+Changed from the first draft: the planned `Generator` model was not needed, because each generator is a function that rolls on its own tables; scenes got a title, time of day, mood and three sensory details instead of "atmosphere, features, encounter".
+
+## 7. Screens / Navigation
 1. **Home**: tiles for each module
-2. **Character Generator**: input form (role, gender, race, class, level or "Random") → generate → result card, re-roll fields, save
-3. **Scene Generator**: roll, re-roll fields, save, list of saved scenes
-4. **My Characters**: list of saved characters
-5. **Character Sheet**: view and edit mode
-6. **Detail view** (modal or page): spell / item / feature details from the API
+2. **NPC Generator**: input form (role, gender, race, class, level or "Random") → generate → result card, re-roll fields, customize, save
+3. **Scene Generator**: roll, re-roll fields, edit, save, list of saved scenes
+4. **My Characters**: two tabs, "NPCs & Enemies" (saved NPCs) and "Player Characters" (uploaded PDF sheets, with the upload area)
+5. **Character Sheet** (NPC): view and edit mode
+6. **Player Sheet**: the uploaded PDF in the app's sheet layout, view and edit mode, open or download the original PDF
+7. **Detail view** (dialog): spell / item / skill / proficiency / trait / feature details from the API
 
 ## 8. Milestones
-Deadline: **Tuesday, 2026-10-20**. Features are ordered by priority; if time runs short, later items are cut first.
+Features are ordered by priority; if time runs short, later items are cut first. The table is the original schedule, one milestone per day. In practice all five milestones were finished on 2026-10-15 (see section 9).
 
-| Day | Milestone |
+| Planned day | Milestone |
 |---|---|
-| Thu 15.10. | Plan finished. Create GitHub repository. Project setup: Vite + React + TS, routing, layout/navigation, storage layer, API client with caching, GitHub Pages deployment |
-| Fri 16.10. | NPC generator: input form, rule-based generation from API data, save |
-| Sat 17.10. | Scene generator: random tables, form, save, list |
-| Sun 18.10. | My Characters list, character sheet (view), detail view for spells/items |
-| Mon 19.10. | Edit mode for the character sheet, polish, tests for generators, README |
-| Tue 20.10. | Buffer, final check, submission (repository link + live GitHub Pages link) |
+| Thu 15.10. | 1. Plan finished. Create GitHub repository. Project setup: Vite + React + TS, routing, layout/navigation, storage layer, API client with caching, GitHub Pages deployment |
+| Fri 16.10. | 2. NPC generator: input form, rule-based generation from API data, save |
+| Sat 17.10. | 3. Scene generator: random tables, form, save, list |
+| Sun 18.10. | 4. My Characters list, character sheet (view), detail view for spells/items |
+| Mon 19.10. | 5. Edit mode for the character sheet, polish, tests for generators, README |
 
 Definition of done per milestone: works in the browser, data survives a page reload, no console errors.
 
 ## 9. Implementation Status
-Last checked: 2026-10-15 (after the polish and README PR). Legend: ✅ done · 🟡 partly done · ⬜ open.
+Last checked: 2026-10-16 (after the docs review). Legend: ✅ done · 🟡 partly done · ⬜ open.
 
 ### Milestones
 | Milestone | Status | Notes |
 |---|---|---|
-| 1. Project setup (Vite + React + TS, routing, layout, storage layer, API client with caching, GitHub Pages) | ✅ | PR #1; CI and deploy workflows run on every push to `main` |
+| 1. Project setup (Vite + React + TS, routing, layout, storage layer, API client with caching, GitHub Pages) | ✅ | PR #1; CI runs on every pull request, the deploy workflow on every push to `main` |
 | Design: dark "tavern at night" theme | ✅ | PR #2 (not in the original plan); fonts, icons, home page hero |
 | 2. NPC generator | ✅ | PR #3 |
-| 3. Scene generator | ✅ | Scene generator PR; 8 location types, read-aloud text |
-| 4. My Characters list, character sheet (view), detail view | ✅ | PR #6 |
-| 5. Edit mode, polish, generator tests, README | ✅ | Edit mode for NPCs, scenes and player characters; review of all pages (desktop, mobile, light, dark); README with features, storage, structure and known limits |
-| 6. Final check and submission | ⬜ | Due Tue 2026-10-20 |
+| 3. Scene generator | ✅ | PR #5; 8 location types, read-aloud text |
+| 4. My Characters list, character sheet (view), detail view | ✅ | PR #6; player PDF tab and light theme followed in PR #7 and #9 |
+| Architecture refactor | ✅ | PR #8 (not in the original plan), from the [architecture review](../research/2026-10-15-architecture-review.md) |
+| 5. Edit mode, polish, generator tests, README | ✅ | PR #10 (edit mode for NPCs, scenes and player characters) and PR #11 (review of all pages on desktop, mobile, light, dark; README) |
 
 ### Features (MVP)
 | Feature | Status | Notes |
@@ -136,11 +142,11 @@ Last checked: 2026-10-15 (after the polish and README PR). Legend: ✅ done · �
 | SRD / CC-BY-4.0 attribution in the app | ✅ | Footer |
 | Shared random table schema for all generators | ✅ | Scene and NPC flavor tables (personality, appearance, hooks) use `RandomTable` with weights (`src/lib/randomTable.ts`); name lists stay grouped by race |
 | Data survives page reload | ✅ | Saved NPCs, scenes, player sheets and the theme choice |
-| Docs, RPI workflow and backpressure (`docs/`, `CLAUDE.md`, `.claude/skills/`) | ✅ | Homework requirements; see `docs/README.md` |
-| Light and dark mode | ✅ | Not in the original plan (was in the backlog); switch in the header |
+| Docs, RPI workflow and backpressure (`docs/`, `CLAUDE.md`, `.claude/skills/`) | ✅ | PR #12 to #15; homework requirements, see `docs/README.md` |
+| Light and dark mode | ✅ | PR #7; not in the original plan (was in the backlog); switch in the header |
 
 ## 10. Feature Ideas (backlog)
-A running list so there are always ideas for extensions. Nothing here is committed; pick from it after the MVP. Add new ideas at the end of the matching group.
+A running list so there are always ideas for extensions. Nothing here is committed; pick from it after the MVP. Add new ideas at the end of the matching group. Which ideas fit the existing code and the SRD data, compared with other D&D tools: [research/2026-10-16-feature-options.md](../research/2026-10-16-feature-options.md).
 
 ### For Dungeon Masters
 - Initiative tracker with HP, conditions and turn order
@@ -184,7 +190,7 @@ A running list so there are always ideas for extensions. Nothing here is committ
 
 ## 11. Decisions Log
 - English only (UI, code, docs)
-- Web app, React + TypeScript + Vite, plain CSS
+- Web app, React + TypeScript + Vite, plain CSS with CSS Modules
 - Data source: D&D 5e API (SRD 5.1)
 - For DMs and players, no roles/logins
 - Local browser storage first; accounts possibly later

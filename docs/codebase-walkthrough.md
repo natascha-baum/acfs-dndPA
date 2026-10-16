@@ -21,6 +21,8 @@ Data flow: **page → feature function → `lib/api` (cached) → result in Reac
 
 `main.tsx` mounts React inside a `HashRouter`. GitHub Pages cannot send every URL to `index.html`, so routes live after a `#` (`/acfs-dndPA/#/characters`). `App.tsx` renders the `Layout` (header, navigation, footer) and builds one route per entry from the module registry.
 
+`Layout.tsx` wraps every page in an `ErrorBoundary` (`src/components/ErrorBoundary.tsx`): if a page crashes while rendering, the user sees "A Spell Gone Wrong" with a way back instead of a blank screen. It is keyed by the current path, so navigating away resets it.
+
 **Take away:** only Home and NotFound are hard-coded; every other page comes from the registry.
 
 ## 2. Modules: `src/modules/registry.ts`
@@ -78,13 +80,21 @@ Simpler than NPCs and fully offline: `generateScene(options)` rolls on the table
 
 ## 10. Player character PDFs: `src/features/player/`
 
-- `readSheet.ts` checks the file is a PDF and loads `pdf-lib` only when needed, then reads the form fields.
-- `parseSheet.ts` maps the official 5e sheet field names to an `ImportedSheet` (stats, skills, spells, …).
-- `matchSpells.ts` links spell names to the SRD so they become clickable.
+The flow of an upload, from the "Player Characters" tab in My Characters:
+
+1. `SheetUpload.tsx` takes the file (drag and drop or picker), rejects anything that is not a PDF or is larger than 25 MB (`MAX_SHEET_BYTES`).
+2. `readSheet.ts` loads `pdf-lib` only now (its own bundle chunk), reads the form fields and suggests name, race and class & level, which the user can correct.
+3. On save, the `PlayerSheet` (details and parsed contents) goes into the `playerSheets` collection in `localStorage`, the PDF itself into IndexedDB (`playerSheetFiles`) under the same id.
+4. `PlayerSheetView.tsx` shows it with `PlayerSheetCard.tsx`. A sheet saved before the parser existed has no `sheet` yet; it is read again from the stored PDF the first time it is opened.
+
+The parts:
+- `parseSheet.ts` maps the official 5e sheet field names (also used by D&D Beyond exports and most community sheets) to an `ImportedSheet` (stats, skills, spells, …). Field names are compared in a normalized form, so small differences in spelling still match.
+- `matchSpells.ts` links spell names to the SRD so they become clickable; unknown spells stay plain text.
+- `PlayerEditor.tsx` and `editPlayer.ts` edit every field; a sheet kept only as a PDF starts from `emptySheet()` and can be filled in by hand.
 
 ## 11. Pages: `src/pages/`
 
-Pages hold React state and connect everything. Example `CharacterGenerator.tsx`: `useAsync` loads the race and class lists, `summon()` calls `generateNpc`, `reroll()` replaces one field, saving calls `characters.save()` and shows `SAVE_FAILED_MESSAGE` if storage is full. `src/lib/useAsync.ts` is the shared loading / error / retry hook.
+Pages hold React state and connect everything. `Characters.tsx` shows the two tabs ("NPCs & Enemies" and "Player Characters"), most recently changed first. Example `CharacterGenerator.tsx`: `useAsync` loads the race and class lists, `summon()` calls `generateNpc`, `reroll()` replaces one field, saving calls `characters.save()` and shows `SAVE_FAILED_MESSAGE` if storage is full. `src/lib/useAsync.ts` is the shared loading / error / retry hook.
 
 ## 12. Styling: `src/index.css` and `*.module.css`
 

@@ -2,7 +2,7 @@
 
 <!-- What does the user see after this change? Why was it needed? -->
 
-Plan: <!-- link to docs/plans/... (or "trivial fix, no plan") -->
+Plan: <!-- link to docs/plans/... (or "docs only, no plan") -->
 
 ## How
 

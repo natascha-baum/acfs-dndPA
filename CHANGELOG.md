@@ -38,6 +38,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - README: features, how data is stored, development commands, project structure, how to extend the app and known limits
 
 ### Changed
+- Docs review: the app plan matches the code again (status, data model, screens, API endpoints, tech stack); the "final check and submission" milestone was removed; the README lists all credits and licenses (SRD 5.1 attribution, fonts, libraries, trademark notice); the workflow docs explain how the MVP history fits the RPI workflow and when no plan is needed
 - NPC personality, appearance and story hook lists use the shared `RandomTable` format, like the scene tables
 - The page background no longer shows a seam on long pages
 - Character sheets show "None." when a race has no traits or a class has no features yet
