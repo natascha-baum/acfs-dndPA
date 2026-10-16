@@ -132,3 +132,82 @@ export interface EquipmentCategory {
   name: string
   equipment: ApiRef[]
 }
+
+// Wiki entries (src/features/detail/wikiContent.ts).
+
+/** One named block of a monster: a trait, an action or a legendary action. */
+export interface MonsterAbility {
+  name: string
+  desc: string
+}
+
+export interface Monster {
+  index: string
+  name: string
+  size: string
+  type: string
+  subtype?: string
+  alignment: string
+  armor_class: { type: string; value: number }[]
+  hit_points: number
+  hit_dice: string
+  speed: Record<string, string | boolean>
+  strength: number
+  dexterity: number
+  constitution: number
+  intelligence: number
+  wisdom: number
+  charisma: number
+  /** Saving throws and skills, e.g. "Saving Throw: CON" with value 6. */
+  proficiencies: { value: number; proficiency: ApiRef }[]
+  damage_vulnerabilities: string[]
+  damage_resistances: string[]
+  damage_immunities: string[]
+  condition_immunities: ApiRef[]
+  senses: Record<string, string | number>
+  languages: string
+  challenge_rating: number
+  xp: number
+  special_abilities?: MonsterAbility[]
+  actions?: MonsterAbility[]
+  legendary_actions?: MonsterAbility[]
+}
+
+export interface MagicItem {
+  index: string
+  name: string
+  equipment_category: ApiRef
+  rarity: { name: string }
+  desc: string[]
+  variants: ApiRef[]
+}
+
+export interface Condition {
+  index: string
+  name: string
+  desc: string[]
+}
+
+/** The full race entry; `Race` above holds what the NPC generator needs. */
+export interface RaceDetail extends Race {
+  alignment: string
+  age: string
+  size_description: string
+  language_desc: string
+}
+
+export interface SubraceDetail extends Subrace {
+  desc: string
+  race: ApiRef
+}
+
+/** One entry of /classes/{index}/levels; subclass levels name their subclass. */
+export interface LevelFeatures {
+  level: number
+  features: ApiRef[]
+  subclass?: ApiRef
+}
+
+export interface ClassDetail extends Class {
+  subclasses: ApiRef[]
+}

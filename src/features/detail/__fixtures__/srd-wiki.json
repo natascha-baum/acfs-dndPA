@@ -1,0 +1,1035 @@
+{
+ "monsters/aboleth": {
+  "index": "aboleth",
+  "name": "Aboleth",
+  "size": "Large",
+  "type": "aberration",
+  "alignment": "lawful evil",
+  "armor_class": [
+   {
+    "type": "natural",
+    "value": 17
+   }
+  ],
+  "hit_points": 135,
+  "hit_dice": "18d10",
+  "hit_points_roll": "18d10+36",
+  "speed": {
+   "walk": "10 ft.",
+   "swim": "40 ft."
+  },
+  "strength": 21,
+  "dexterity": 9,
+  "constitution": 15,
+  "intelligence": 18,
+  "wisdom": 15,
+  "charisma": 18,
+  "proficiencies": [
+   {
+    "value": 6,
+    "proficiency": {
+     "index": "saving-throw-con",
+     "name": "Saving Throw: CON",
+     "url": "/api/2014/proficiencies/saving-throw-con"
+    }
+   },
+   {
+    "value": 8,
+    "proficiency": {
+     "index": "saving-throw-int",
+     "name": "Saving Throw: INT",
+     "url": "/api/2014/proficiencies/saving-throw-int"
+    }
+   },
+   {
+    "value": 6,
+    "proficiency": {
+     "index": "saving-throw-wis",
+     "name": "Saving Throw: WIS",
+     "url": "/api/2014/proficiencies/saving-throw-wis"
+    }
+   },
+   {
+    "value": 12,
+    "proficiency": {
+     "index": "skill-history",
+     "name": "Skill: History",
+     "url": "/api/2014/proficiencies/skill-history"
+    }
+   },
+   {
+    "value": 10,
+    "proficiency": {
+     "index": "skill-perception",
+     "name": "Skill: Perception",
+     "url": "/api/2014/proficiencies/skill-perception"
+    }
+   }
+  ],
+  "damage_vulnerabilities": [],
+  "damage_resistances": [],
+  "damage_immunities": [],
+  "condition_immunities": [],
+  "senses": {
+   "darkvision": "120 ft.",
+   "passive_perception": 20
+  },
+  "languages": "Deep Speech, telepathy 120 ft.",
+  "challenge_rating": 10,
+  "proficiency_bonus": 4,
+  "xp": 5900,
+  "special_abilities": [
+   {
+    "name": "Amphibious",
+    "desc": "The aboleth can breathe air and water."
+   },
+   {
+    "name": "Mucous Cloud",
+    "desc": "While underwater, the aboleth is surrounded by transformative mucus. A creature that touches the aboleth or that hits it with a melee attack while within 5 ft. of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater.",
+    "dc": {
+     "dc_type": {
+      "index": "con",
+      "name": "CON",
+      "url": "/api/2014/ability-scores/con"
+     },
+     "dc_value": 14,
+     "success_type": "none"
+    }
+   },
+   {
+    "name": "Probing Telepathy",
+    "desc": "If a creature communicates telepathically with the aboleth, the aboleth learns the creature's greatest desires if the aboleth can see the creature."
+   }
+  ],
+  "actions": [
+   {
+    "name": "Multiattack",
+    "multiattack_type": "actions",
+    "desc": "The aboleth makes three tentacle attacks.",
+    "actions": [
+     {
+      "action_name": "Tentacle",
+      "count": 3,
+      "type": "melee"
+     }
+    ]
+   },
+   {
+    "name": "Tentacle",
+    "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 12 (2d6 + 5) bludgeoning damage. If the target is a creature, it must succeed on a DC 14 Constitution saving throw or become diseased. The disease has no effect for 1 minute and can be removed by any magic that cures disease. After 1 minute, the diseased creature's skin becomes translucent and slimy, the creature can't regain hit points unless it is underwater, and the disease can be removed only by heal or another disease-curing spell of 6th level or higher. When the creature is outside a body of water, it takes 6 (1d12) acid damage every 10 minutes unless moisture is applied to the skin before 10 minutes have passed.",
+    "attack_bonus": 9,
+    "dc": {
+     "dc_type": {
+      "index": "con",
+      "name": "CON",
+      "url": "/api/2014/ability-scores/con"
+     },
+     "dc_value": 14,
+     "success_type": "none"
+    },
+    "damage": [
+     {
+      "damage_type": {
+       "index": "bludgeoning",
+       "name": "Bludgeoning",
+       "url": "/api/2014/damage-types/bludgeoning"
+      },
+      "damage_dice": "2d6+5"
+     },
+     {
+      "damage_type": {
+       "index": "acid",
+       "name": "Acid",
+       "url": "/api/2014/damage-types/acid"
+      },
+      "damage_dice": "1d12"
+     }
+    ]
+   },
+   {
+    "name": "Tail",
+    "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 15 (3d6 + 5) bludgeoning damage.",
+    "attack_bonus": 9,
+    "damage": [
+     {
+      "damage_type": {
+       "index": "bludgeoning",
+       "name": "Bludgeoning",
+       "url": "/api/2014/damage-types/bludgeoning"
+      },
+      "damage_dice": "3d6+5"
+     }
+    ]
+   },
+   {
+    "name": "Enslave",
+    "desc": "The aboleth targets one creature it can see within 30 ft. of it. The target must succeed on a DC 14 Wisdom saving throw or be magically charmed by the aboleth until the aboleth dies or until it is on a different plane of existence from the target. The charmed target is under the aboleth's control and can't take reactions, and the aboleth and the target can communicate telepathically with each other over any distance.\nWhenever the charmed target takes damage, the target can repeat the saving throw. On a success, the effect ends. No more than once every 24 hours, the target can also repeat the saving throw when it is at least 1 mile away from the aboleth.",
+    "usage": {
+     "type": "per day",
+     "times": 3
+    },
+    "dc": {
+     "dc_type": {
+      "index": "wis",
+      "name": "WIS",
+      "url": "/api/2014/ability-scores/wis"
+     },
+     "dc_value": 14,
+     "success_type": "none"
+    }
+   }
+  ],
+  "legendary_actions": [
+   {
+    "name": "Detect",
+    "desc": "The aboleth makes a Wisdom (Perception) check."
+   },
+   {
+    "name": "Tail Swipe",
+    "desc": "The aboleth makes one tail attack."
+   },
+   {
+    "name": "Psychic Drain (Costs 2 Actions)",
+    "desc": "One creature charmed by the aboleth takes 10 (3d6) psychic damage, and the aboleth regains hit points equal to the damage the creature takes.",
+    "damage": [
+     {
+      "damage_type": {
+       "index": "psychic",
+       "name": "Psychic",
+       "url": "/api/2014/damage-types/psychic"
+      },
+      "damage_dice": "3d6"
+     }
+    ]
+   }
+  ],
+  "url": "/api/2014/monsters/aboleth"
+ },
+ "magic-items/ammunition": {
+  "index": "ammunition",
+  "name": "Ammunition, +1, +2, or +3",
+  "equipment_category": {
+   "index": "ammunition",
+   "name": "Ammunition",
+   "url": "/api/2014/equipment-categories/ammunition"
+  },
+  "rarity": {
+   "name": "Varies"
+  },
+  "variants": [
+   {
+    "index": "ammunition-1",
+    "name": "Ammunition, +1",
+    "url": "/api/2014/magic-items/ammunition-1"
+   },
+   {
+    "index": "ammunition-2",
+    "name": "Ammunition, +2",
+    "url": "/api/2014/magic-items/ammunition-2"
+   },
+   {
+    "index": "ammunition-3",
+    "name": "Ammunition, +3",
+    "url": "/api/2014/magic-items/ammunition-3"
+   }
+  ],
+  "variant": false,
+  "desc": [
+   "Weapon (any ammunition), uncommon (+1), rare (+2), or very rare (+3)",
+   "You have a bonus to attack and damage rolls made with this piece of magic ammunition. The bonus is determined by the rarity of the ammunition. Once it hits a target, the ammunition is no longer magical."
+  ],
+  "url": "/api/2014/magic-items/ammunition"
+ },
+ "races/elf": {
+  "index": "elf",
+  "name": "Elf",
+  "speed": 30,
+  "ability_bonuses": [
+   {
+    "ability_score": {
+     "index": "dex",
+     "name": "DEX",
+     "url": "/api/2014/ability-scores/dex"
+    },
+    "bonus": 2
+   }
+  ],
+  "age": "Although elves reach physical maturity at about the same age as humans, the elven understanding of adulthood goes beyond physical growth to encompass worldly experience. An elf typically claims adulthood and an adult name around the age of 100 and can live to be 750 years old.",
+  "alignment": "Elves love freedom, variety, and self-expression, so they lean strongly toward the gentler aspects of chaos. They value and protect others' freedom as well as their own, and they are more often good than not.",
+  "size": "Medium",
+  "size_description": "Elves range from under 5 to over 6 feet tall and have slender builds. Your size is Medium.",
+  "languages": [
+   {
+    "index": "common",
+    "name": "Common",
+    "url": "/api/2014/languages/common"
+   },
+   {
+    "index": "elvish",
+    "name": "Elvish",
+    "url": "/api/2014/languages/elvish"
+   }
+  ],
+  "language_desc": "You can speak, read, and write Common and Elvish. Elvish is fluid, with subtle intonations and intricate grammar. Elven literature is rich and varied, and their songs and poems are famous among other races. Many bards learn their language so they can add Elvish ballads to their repertoires.",
+  "traits": [
+   {
+    "index": "darkvision",
+    "name": "Darkvision",
+    "url": "/api/2014/traits/darkvision"
+   },
+   {
+    "index": "fey-ancestry",
+    "name": "Fey Ancestry",
+    "url": "/api/2014/traits/fey-ancestry"
+   },
+   {
+    "index": "trance",
+    "name": "Trance",
+    "url": "/api/2014/traits/trance"
+   },
+   {
+    "index": "keen-senses",
+    "name": "Keen Senses",
+    "url": "/api/2014/traits/keen-senses"
+   }
+  ],
+  "subraces": [
+   {
+    "index": "high-elf",
+    "name": "High Elf",
+    "url": "/api/2014/subraces/high-elf"
+   }
+  ],
+  "url": "/api/2014/races/elf"
+ },
+ "subraces/high-elf": {
+  "index": "high-elf",
+  "name": "High Elf",
+  "race": {
+   "index": "elf",
+   "name": "Elf",
+   "url": "/api/2014/races/elf"
+  },
+  "desc": "As a high elf, you have a keen mind and a mastery of at least the basics of magic. In many fantasy gaming worlds, there are two kinds of high elves. One type is haughty and reclusive, believing themselves to be superior to non-elves and even other elves. The other type is more common and more friendly, and often encountered among humans and other races.",
+  "ability_bonuses": [
+   {
+    "ability_score": {
+     "index": "int",
+     "name": "INT",
+     "url": "/api/2014/ability-scores/int"
+    },
+    "bonus": 1
+   }
+  ],
+  "racial_traits": [
+   {
+    "index": "elf-weapon-training",
+    "name": "Elf Weapon Training",
+    "url": "/api/2014/traits/elf-weapon-training"
+   },
+   {
+    "index": "high-elf-cantrip",
+    "name": "High Elf Cantrip",
+    "url": "/api/2014/traits/high-elf-cantrip"
+   },
+   {
+    "index": "extra-language",
+    "name": "Extra Language",
+    "url": "/api/2014/traits/extra-language"
+   }
+  ],
+  "url": "/api/2014/subraces/high-elf"
+ },
+ "classes/wizard": {
+  "index": "wizard",
+  "name": "Wizard",
+  "hit_die": 6,
+  "proficiency_choices": [
+   {
+    "desc": "Choose two from Arcana, History, Insight, Investigation, Medicine, and Religion",
+    "choose": 2,
+    "type": "proficiencies",
+    "from": {
+     "option_set_type": "options_array",
+     "options": [
+      {
+       "option_type": "reference",
+       "item": {
+        "index": "skill-arcana",
+        "name": "Skill: Arcana",
+        "url": "/api/2014/proficiencies/skill-arcana"
+       }
+      },
+      {
+       "option_type": "reference",
+       "item": {
+        "index": "skill-history",
+        "name": "Skill: History",
+        "url": "/api/2014/proficiencies/skill-history"
+       }
+      },
+      {
+       "option_type": "reference",
+       "item": {
+        "index": "skill-insight",
+        "name": "Skill: Insight",
+        "url": "/api/2014/proficiencies/skill-insight"
+       }
+      },
+      {
+       "option_type": "reference",
+       "item": {
+        "index": "skill-investigation",
+        "name": "Skill: Investigation",
+        "url": "/api/2014/proficiencies/skill-investigation"
+       }
+      },
+      {
+       "option_type": "reference",
+       "item": {
+        "index": "skill-medicine",
+        "name": "Skill: Medicine",
+        "url": "/api/2014/proficiencies/skill-medicine"
+       }
+      },
+      {
+       "option_type": "reference",
+       "item": {
+        "index": "skill-religion",
+        "name": "Skill: Religion",
+        "url": "/api/2014/proficiencies/skill-religion"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "proficiencies": [
+   {
+    "index": "daggers",
+    "name": "Daggers",
+    "url": "/api/2014/proficiencies/daggers"
+   },
+   {
+    "index": "darts",
+    "name": "Darts",
+    "url": "/api/2014/proficiencies/darts"
+   },
+   {
+    "index": "slings",
+    "name": "Slings",
+    "url": "/api/2014/proficiencies/slings"
+   },
+   {
+    "index": "quarterstaffs",
+    "name": "Quarterstaffs",
+    "url": "/api/2014/proficiencies/quarterstaffs"
+   },
+   {
+    "index": "crossbows-light",
+    "name": "Crossbows, light",
+    "url": "/api/2014/proficiencies/crossbows-light"
+   },
+   {
+    "index": "saving-throw-int",
+    "name": "Saving Throw: INT",
+    "url": "/api/2014/proficiencies/saving-throw-int"
+   },
+   {
+    "index": "saving-throw-wis",
+    "name": "Saving Throw: WIS",
+    "url": "/api/2014/proficiencies/saving-throw-wis"
+   }
+  ],
+  "saving_throws": [
+   {
+    "index": "int",
+    "name": "INT",
+    "url": "/api/2014/ability-scores/int"
+   },
+   {
+    "index": "wis",
+    "name": "WIS",
+    "url": "/api/2014/ability-scores/wis"
+   }
+  ],
+  "starting_equipment": [
+   {
+    "equipment": {
+     "index": "spellbook",
+     "name": "Spellbook",
+     "url": "/api/2014/equipment/spellbook"
+    },
+    "quantity": 1
+   }
+  ],
+  "starting_equipment_options": [
+   {
+    "desc": "(a) a quarterstaff or (b) a dagger",
+    "choose": 1,
+    "type": "equipment",
+    "from": {
+     "option_set_type": "options_array",
+     "options": [
+      {
+       "option_type": "counted_reference",
+       "count": 1,
+       "of": {
+        "index": "quarterstaff",
+        "name": "Quarterstaff",
+        "url": "/api/2014/equipment/quarterstaff"
+       }
+      },
+      {
+       "option_type": "counted_reference",
+       "count": 1,
+       "of": {
+        "index": "dagger",
+        "name": "Dagger",
+        "url": "/api/2014/equipment/dagger"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "desc": "(a) a component pouch or (b) an arcane focus",
+    "choose": 1,
+    "type": "equipment",
+    "from": {
+     "option_set_type": "options_array",
+     "options": [
+      {
+       "option_type": "counted_reference",
+       "count": 1,
+       "of": {
+        "index": "component-pouch",
+        "name": "Component pouch",
+        "url": "/api/2014/equipment/component-pouch"
+       }
+      },
+      {
+       "option_type": "choice",
+       "choice": {
+        "desc": "arcane focus",
+        "choose": 1,
+        "type": "equipment",
+        "from": {
+         "option_set_type": "equipment_category",
+         "equipment_category": {
+          "index": "arcane-foci",
+          "name": "Arcane Foci",
+          "url": "/api/2014/equipment-categories/arcane-foci"
+         }
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "desc": "(a) a scholar’s pack or (b) an explorer’s pack",
+    "choose": 1,
+    "type": "equipment",
+    "from": {
+     "option_set_type": "options_array",
+     "options": [
+      {
+       "option_type": "counted_reference",
+       "count": 1,
+       "of": {
+        "index": "scholars-pack",
+        "name": "Scholar's Pack",
+        "url": "/api/2014/equipment/scholars-pack"
+       }
+      },
+      {
+       "option_type": "counted_reference",
+       "count": 1,
+       "of": {
+        "index": "explorers-pack",
+        "name": "Explorer's Pack",
+        "url": "/api/2014/equipment/explorers-pack"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "class_levels": "/api/2014/classes/wizard/levels",
+  "multi_classing": {
+   "prerequisites": [
+    {
+     "ability_score": {
+      "index": "int",
+      "name": "INT",
+      "url": "/api/2014/ability-scores/int"
+     },
+     "minimum_score": 13
+    }
+   ],
+   "proficiencies": []
+  },
+  "subclasses": [
+   {
+    "index": "evocation",
+    "name": "Evocation",
+    "url": "/api/2014/subclasses/evocation"
+   }
+  ],
+  "spellcasting": {
+   "level": 1,
+   "spellcasting_ability": {
+    "index": "int",
+    "name": "INT",
+    "url": "/api/2014/ability-scores/int"
+   },
+   "info": [
+    {
+     "name": "Cantrips",
+     "desc": [
+      "At 1st level, you know three cantrips of your choice from the wizard spell list. You learn additional wizard cantrips of your choice at higher levels, as shown in the Cantrips Known column of the Wizard table."
+     ]
+    },
+    {
+     "name": "Spellbook",
+     "desc": [
+      "At 1st level, you have a spellbook containing six 1st- level wizard spells of your choice. Your spellbook is the repository of the wizard spells you know, except your cantrips, which are fixed in your mind."
+     ]
+    },
+    {
+     "name": "Preparing and Casting Spells",
+     "desc": [
+      "The Wizard table shows how many spell slots you have to cast your spells of 1st level and higher. To cast one of these spells, you must expend a slot of the spell's level or higher. You regain all expended spell slots when you finish a long rest.",
+      "You prepare the list of wizard spells that are available for you to cast. To do so, choose a number of wizard spells from your spellbook equal to your Intelligence modifier + your wizard level (minimum of one spell). The spells must be of a level for which you have spell slots.",
+      "For example, if you're a 3rd-level wizard, you have four 1st-level and two 2nd-level spell slots. With an Intelligence of 16, your list of prepared spells can include six spells of 1st or 2nd level, in any combination, chosen from your spellbook. If you prepare the 1st-level spell magic missile, you can cast it using a 1st-level or a 2nd-level slot. Casting the spell doesn't remove it from your list of prepared spells.",
+      "You can change your list of prepared spells when you finish a long rest. Preparing a new list of wizard spells requires time spent studying your spellbook and memorizing the incantations and gestures you must make to cast the spell: at least 1 minute per spell level for each spell on your list."
+     ]
+    },
+    {
+     "name": "Spellcasting Ability",
+     "desc": [
+      "Intelligence is your spellcasting ability for your wizard spells, since you learn your spells through dedicated study and memorization. You use your Intelligence whenever a spell refers to your spellcasting ability. In addition, you use your Intelligence modifier when setting the saving throw DC for a wizard spell you cast and when making an attack roll with one.",
+      "Spell save DC = 8 + your proficiency bonus + your Intelligence modifier.",
+      "Spell attack modifier = your proficiency bonus + your Intelligence modifier."
+     ]
+    },
+    {
+     "name": "Ritual Casting",
+     "desc": [
+      "You can cast a wizard spell as a ritual if that spell has the ritual tag and you have the spell in your spellbook. You don't need to have the spell prepared."
+     ]
+    },
+    {
+     "name": "Spellcasting Focus",
+     "desc": [
+      "You can use an arcane focus as a spellcasting focus for your wizard spells."
+     ]
+    }
+   ]
+  },
+  "spells": "/api/2014/classes/wizard/spells",
+  "url": "/api/2014/classes/wizard"
+ },
+ "classes/wizard/levels": [
+  {
+   "level": 1,
+   "features": [
+    {
+     "index": "spellcasting-wizard",
+     "name": "Spellcasting: Wizard",
+     "url": "/api/2014/features/spellcasting-wizard"
+    },
+    {
+     "index": "arcane-recovery",
+     "name": "Arcane Recovery",
+     "url": "/api/2014/features/arcane-recovery"
+    }
+   ],
+   "index": "wizard-1",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/1"
+  },
+  {
+   "level": 2,
+   "features": [
+    {
+     "index": "arcane-tradition",
+     "name": "Arcane Tradition",
+     "url": "/api/2014/features/arcane-tradition"
+    }
+   ],
+   "index": "wizard-2",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/2"
+  },
+  {
+   "level": 3,
+   "features": [],
+   "index": "wizard-3",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/3"
+  },
+  {
+   "level": 4,
+   "features": [
+    {
+     "index": "wizard-ability-score-improvement-1",
+     "name": "Ability Score Improvement",
+     "url": "/api/2014/features/wizard-ability-score-improvement-1"
+    }
+   ],
+   "index": "wizard-4",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/4"
+  },
+  {
+   "level": 5,
+   "features": [],
+   "index": "wizard-5",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/5"
+  },
+  {
+   "level": 6,
+   "features": [
+    {
+     "index": "arcane-tradition-improvement-1",
+     "name": "Arcane Tradition feature",
+     "url": "/api/2014/features/arcane-tradition-improvement-1"
+    }
+   ],
+   "index": "wizard-6",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/6"
+  },
+  {
+   "level": 7,
+   "features": [],
+   "index": "wizard-7",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/7"
+  },
+  {
+   "level": 8,
+   "features": [
+    {
+     "index": "wizard-ability-score-improvement-2",
+     "name": "Ability Score Improvement",
+     "url": "/api/2014/features/wizard-ability-score-improvement-2"
+    }
+   ],
+   "index": "wizard-8",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/8"
+  },
+  {
+   "level": 9,
+   "features": [],
+   "index": "wizard-9",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/9"
+  },
+  {
+   "level": 10,
+   "features": [
+    {
+     "index": "arcane-tradition-improvement-2",
+     "name": "Arcane Tradition feature",
+     "url": "/api/2014/features/arcane-tradition-improvement-2"
+    }
+   ],
+   "index": "wizard-10",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/10"
+  },
+  {
+   "level": 11,
+   "features": [],
+   "index": "wizard-11",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/11"
+  },
+  {
+   "level": 12,
+   "features": [
+    {
+     "index": "wizard-ability-score-improvement-3",
+     "name": "Ability Score Improvement",
+     "url": "/api/2014/features/wizard-ability-score-improvement-3"
+    }
+   ],
+   "index": "wizard-12",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/12"
+  },
+  {
+   "level": 13,
+   "features": [],
+   "index": "wizard-13",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/13"
+  },
+  {
+   "level": 14,
+   "features": [
+    {
+     "index": "arcane-tradition-improvement-3",
+     "name": "Arcane Tradition feature",
+     "url": "/api/2014/features/arcane-tradition-improvement-3"
+    }
+   ],
+   "index": "wizard-14",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/14"
+  },
+  {
+   "level": 15,
+   "features": [],
+   "index": "wizard-15",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/15"
+  },
+  {
+   "level": 16,
+   "features": [
+    {
+     "index": "wizard-ability-score-improvement-4",
+     "name": "Ability Score Improvement",
+     "url": "/api/2014/features/wizard-ability-score-improvement-4"
+    }
+   ],
+   "index": "wizard-16",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/16"
+  },
+  {
+   "level": 17,
+   "features": [],
+   "index": "wizard-17",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/17"
+  },
+  {
+   "level": 18,
+   "features": [
+    {
+     "index": "spell-mastery",
+     "name": "Spell Mastery",
+     "url": "/api/2014/features/spell-mastery"
+    }
+   ],
+   "index": "wizard-18",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/18"
+  },
+  {
+   "level": 19,
+   "features": [
+    {
+     "index": "wizard-ability-score-improvement-5",
+     "name": "Ability Score Improvement",
+     "url": "/api/2014/features/wizard-ability-score-improvement-5"
+    }
+   ],
+   "index": "wizard-19",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/19"
+  },
+  {
+   "level": 20,
+   "features": [
+    {
+     "index": "signature-spell",
+     "name": "Signature Spell",
+     "url": "/api/2014/features/signature-spell"
+    }
+   ],
+   "index": "wizard-20",
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "url": "/api/2014/classes/wizard/levels/20"
+  },
+  {
+   "level": 2,
+   "features": [
+    {
+     "index": "evocation-savant",
+     "name": "Evocation Savant",
+     "url": "/api/2014/features/evocation-savant"
+    },
+    {
+     "index": "sculpt-spells",
+     "name": "Sculpt Spells",
+     "url": "/api/2014/features/sculpt-spells"
+    }
+   ],
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "subclass": {
+    "index": "evocation",
+    "name": "Evocation",
+    "url": "/api/2014/subclasses/evocation"
+   },
+   "url": "/api/2014/subclasses/evocation/levels/2",
+   "index": "evocation-2"
+  },
+  {
+   "level": 6,
+   "features": [
+    {
+     "index": "potent-cantrip",
+     "name": "Potent Cantrip",
+     "url": "/api/2014/features/potent-cantrip"
+    }
+   ],
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "subclass": {
+    "index": "evocation",
+    "name": "Evocation",
+    "url": "/api/2014/subclasses/evocation"
+   },
+   "url": "/api/2014/subclasses/evocation/levels/6",
+   "index": "evocation-6"
+  },
+  {
+   "level": 10,
+   "features": [
+    {
+     "index": "empowered-evocation",
+     "name": "Empowered Evocation",
+     "url": "/api/2014/features/empowered-evocation"
+    }
+   ],
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "subclass": {
+    "index": "evocation",
+    "name": "Evocation",
+    "url": "/api/2014/subclasses/evocation"
+   },
+   "url": "/api/2014/subclasses/evocation/levels/10",
+   "index": "evocation-10"
+  },
+  {
+   "level": 14,
+   "features": [
+    {
+     "index": "overchannel",
+     "name": "Overchannel",
+     "url": "/api/2014/features/overchannel"
+    }
+   ],
+   "class": {
+    "index": "wizard",
+    "name": "Wizard",
+    "url": "/api/2014/classes/wizard"
+   },
+   "subclass": {
+    "index": "evocation",
+    "name": "Evocation",
+    "url": "/api/2014/subclasses/evocation"
+   },
+   "url": "/api/2014/subclasses/evocation/levels/14",
+   "index": "evocation-14"
+  }
+ ],
+ "conditions/blinded": {
+  "index": "blinded",
+  "name": "Blinded",
+  "desc": [
+   "- A blinded creature can't see and automatically fails any ability check that requires sight.",
+   "- Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage."
+  ],
+  "url": "/api/2014/conditions/blinded"
+ }
+}

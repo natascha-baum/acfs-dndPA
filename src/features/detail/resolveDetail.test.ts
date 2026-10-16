@@ -68,6 +68,8 @@ describe('resolveDetail', () => {
       index: 'simple-weapons',
       name: 'X',
     })
-    expect(refFromUrl({ index: 'x', name: 'X', url: '/api/2014/monsters/goblin' })).toBeUndefined()
+    // Monsters are known since the Wiki; paths without a detail view still give nothing.
+    expect(refFromUrl({ index: 'x', name: 'X', url: '/api/2014/monsters/goblin' })?.kind).toBe('monster')
+    expect(refFromUrl({ index: 'x', name: 'X', url: '/api/2014/rule-sections/actions' })).toBeUndefined()
   })
 })

@@ -58,6 +58,16 @@ export default function Icon({ name, className }: IconProps) {
           <path d="M52 4 40 22l-1 4 3-2L54 6" />
         </svg>
       )
+    case 'book':
+      return (
+        <svg viewBox="0 0 64 64" {...common}>
+          {/* Closed tome with clasps and a bookmark ribbon */}
+          <path d="M14 8h34a4 4 0 0 1 4 4v44H18a4 4 0 0 1-4-4Z" />
+          <path d="M14 52a4 4 0 0 1 4-4h34" />
+          <path d="M22 8v40M42 48v12l-4-3-4 3V48" />
+          <path d="M30 20h14M30 27h10" />
+        </svg>
+      )
     case 'flourish':
       return (
         <svg viewBox="0 0 240 24" {...common} strokeWidth={1.2}>

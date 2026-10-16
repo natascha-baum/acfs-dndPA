@@ -8,7 +8,7 @@ A guided tour, in the order I would read the code to understand it. Each stop na
 Browser (GitHub Pages, HashRouter)
 │
 ├── pages/        one page per route: holds React state, connects features
-├── features/     domain logic + feature UI (npc, scene, character, detail, player)
+├── features/     domain logic + feature UI (npc, scene, character, detail, player, backup, dice, wiki)
 ├── components/   shared UI (Layout, PageHeader, editor fields, ThemeToggle …)
 ├── lib/          infrastructure without React (api, storage, random, theme)
 ├── modules/      registry of app modules → routes, navigation, home tiles
@@ -109,6 +109,6 @@ Test files sit next to the code (`*.test.ts`). Fixtures in `__fixtures__/` are r
 ## Exercises to check my understanding
 
 - Where would I add a "Tavern generator"? *(a page + registry entry, tables with `table()`)*
-- What happens if I add a field to `Scene`? *(raise its version in `lib/storage/index.ts`, add `migrate`)*
+- What happens if I add a field to `Scene`? *(raise its version in `lib/storage/versions.ts`, add `migrate` in `lib/storage/index.ts`)*
 - Why does `generateNpc` get `api` as a parameter instead of importing it? *(tests pass a fake API)*
 - Why HashRouter? *(GitHub Pages has no fallback to `index.html`)*

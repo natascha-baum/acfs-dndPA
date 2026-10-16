@@ -23,6 +23,47 @@ function RerollButton({ label, onClick }: { label: string; onClick?: () => void 
   )
 }
 
+function TavernSection({ scene, onReroll }: { scene: Scene; onReroll?: () => void }) {
+  if (scene.locationType !== 'tavern') return null
+  const { tavern } = scene
+  return (
+    <section className={styles.tavern} aria-labelledby={`tavern-${scene.id}`}>
+      <div className={styles.tavernHead}>
+        <h3 id={`tavern-${scene.id}`}>Tavern</h3>
+        {tavern && <RerollButton label="tavern details" onClick={onReroll} />}
+      </div>
+      {tavern ? (
+        <dl className={styles.fields}>
+          <div>
+            <dt>Innkeeper</dt>
+            <dd>{tavern.innkeeper}</dd>
+          </div>
+          <div>
+            <dt>Rumor</dt>
+            <dd>{tavern.rumor}</dd>
+          </div>
+          <div className={styles.wide}>
+            <dt>Menu</dt>
+            <dd>
+              <ul className={styles.menu}>
+                {tavern.menu.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        </dl>
+      ) : (
+        onReroll && (
+          <button type="button" className="btn" onClick={onReroll}>
+            Roll tavern details
+          </button>
+        )
+      )}
+    </section>
+  )
+}
+
 export default function SceneCard({ scene, onReroll }: SceneCardProps) {
   const reroll = (field: SceneField) => (onReroll ? () => onReroll(field) : undefined)
   const [sight, sound, smell] = scene.details
@@ -96,6 +137,8 @@ export default function SceneCard({ scene, onReroll }: SceneCardProps) {
           </div>
         )}
       </dl>
+
+      <TavernSection scene={scene} onReroll={reroll('tavern')} />
     </article>
   )
 }

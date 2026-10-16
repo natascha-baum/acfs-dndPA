@@ -27,4 +27,19 @@ describe('finishSceneEdit', () => {
     expect(finishSceneEdit({ ...scene, readAloud: ' My own words. ' }, scene).readAloud).toBe('My own words.')
     expect(finishSceneEdit({ ...scene, readAloud: readAloud(scene) }, scene)).not.toHaveProperty('readAloud')
   })
+
+  const tavern: Scene = {
+    ...scene,
+    locationType: 'tavern',
+    tavern: { innkeeper: 'Mira Thornbrook, a halfling innkeeper', menu: ['Mug of ale (4 cp)', 'Stew (4 cp)'], rumor: 'A rumor.' },
+  }
+
+  it('trims the tavern details and drops empty menu lines', () => {
+    const edited = { ...tavern, tavern: { innkeeper: ' Mira ', menu: [' Ale (4 cp) ', '  ', ''], rumor: ' Psst. ' } }
+    expect(finishSceneEdit(edited, tavern).tavern).toEqual({ innkeeper: 'Mira', menu: ['Ale (4 cp)'], rumor: 'Psst.' })
+  })
+
+  it('removes the tavern details when the place is no longer a tavern', () => {
+    expect(finishSceneEdit({ ...tavern, locationType: 'city' }, tavern)).not.toHaveProperty('tavern')
+  })
 })

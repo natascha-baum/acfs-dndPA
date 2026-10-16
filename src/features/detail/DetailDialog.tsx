@@ -95,6 +95,16 @@ export default function DetailDialog({ lookup, onClose }: DetailDialogProps) {
                 {text}
               </p>
             ))}
+            {state.data.sections?.map((section) => (
+              <section key={section.label}>
+                <h3 className={styles.linksTitle}>{section.label}</h3>
+                {section.paragraphs.map((text, i) => (
+                  <p key={i} className={styles.paragraph}>
+                    {text}
+                  </p>
+                ))}
+              </section>
+            ))}
             {state.data.links.map((group) => (
               <section key={group.label}>
                 <h3 className={styles.linksTitle}>{group.label}</h3>

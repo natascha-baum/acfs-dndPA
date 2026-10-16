@@ -20,7 +20,7 @@ Pick a role (enemy or random encounter), gender, race, class and level, or leave
 
 ### Scene Generator
 
-Choose a location and time of day, or let the dice decide. The scene comes with a read-aloud text, weather, mood and sensory details (see, hear, smell). Every part can be re-rolled or edited by hand, and scenes can be saved for later.
+Choose a location and time of day, or let the dice decide. The scene comes with a read-aloud text, weather, mood and sensory details (see, hear, smell). Every part can be re-rolled or edited by hand, and scenes can be saved for later. A tavern scene also gets an innkeeper (name, race and a quirk), a menu of three dishes or drinks with prices, and a rumor the party can overhear.
 
 ### My Characters
 
@@ -32,6 +32,10 @@ Two tabs:
 ### Dice Roller
 
 Type any formula such as `d20`, `2d6+3` or `3d10+d8+2`, or build one with the quick buttons: each click adds a die (click +d10 three times and +d8 once for `3d10+d8`), and **Roll** rolls them all at once. The result shows every die grouped by type and adds them up, plus the modifier. The dice tumble for a moment before they show their number; with "reduce motion" switched on in the system, the numbers appear at once. A single d20 can be rolled with advantage or disadvantage: both dice are shown and the higher or lower one counts. Natural 20s and 1s are marked. The last 20 rolls are listed below; the history is not saved and starts empty on every visit.
+
+### Wiki
+
+Look things up in the SRD: one tab each for spells, monsters, magic items, equipment, races, classes and conditions, with a search by name. An entry opens in the same detail view as on the character sheet: monsters with their full stat block (scores, saves, senses, traits, actions, legendary actions), races with their traits and subraces, classes with their features by level, conditions with their rules. Links inside an entry open the next one, and **← Back** returns. Every tab has its own address, e.g. `#/wiki/monsters`.
 
 ### Light and dark mode
 

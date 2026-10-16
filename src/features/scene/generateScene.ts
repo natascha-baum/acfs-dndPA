@@ -1,6 +1,9 @@
 import { defaultRng, pick, type Rng } from '../../lib/random.ts'
-import { rollTable } from '../../lib/randomTable.ts'
-import type { RandomTable, Scene, SceneOptions } from '../../types/models.ts'
+import { rollDistinct, rollTable } from '../../lib/randomTable.ts'
+import type { RandomTable, Scene, SceneOptions, TavernDetails } from '../../types/models.ts'
+import { rollName } from '../npc/generateNpc.ts'
+import { NAMES } from '../npc/tables.ts'
+import { INNKEEPER_QUIRKS, MENU, RUMORS } from './tavernTables.ts'
 import {
   INDOOR,
   LOCATION_TYPES,
@@ -12,7 +15,7 @@ import {
   type TimeOfDay,
 } from './tables.ts'
 
-export type SceneField = 'title' | 'location' | 'weather' | 'mood' | 'details'
+export type SceneField = 'title' | 'location' | 'weather' | 'mood' | 'details' | 'tavern'
 
 interface Deps {
   rng?: Rng
@@ -32,12 +35,28 @@ function weatherTable(type: LocationType): RandomTable {
     : OUTDOOR_WEATHER
 }
 
+const MENU_SIZE = 3
+/** Races that have name lists, e.g. "elf", "half-orc". */
+const INNKEEPER_RACES = Object.keys(NAMES)
+
+/** Innkeeper, menu and rumor of a tavern scene. */
+export function rollTavern(rng: Rng = defaultRng): TavernDetails {
+  const race = pick(INNKEEPER_RACES, rng)
+  const name = rollName(race, 'any', rng)
+  const article = /^[aeiou]/.test(race) ? 'an' : 'a'
+  return {
+    innkeeper: `${name}, ${article} ${race} innkeeper who ${rollTable(INNKEEPER_QUIRKS, rng)}`,
+    menu: rollDistinct(MENU, MENU_SIZE, rng),
+    rumor: rollTable(RUMORS, rng),
+  }
+}
+
 /** Rolls one part of a scene; used for generation and per-field re-rolls. */
 export function rollSceneField(
   field: SceneField,
   locationType: string,
   rng: Rng = defaultRng,
-): string | string[] {
+): string | string[] | TavernDetails {
   const type = isLocationType(locationType) ? locationType : 'forest'
   const tables = SCENE_TABLES[type]
   switch (field) {
@@ -51,6 +70,8 @@ export function rollSceneField(
       return rollTable(tables.mood, rng)
     case 'details':
       return [rollTable(tables.sight, rng), rollTable(tables.sound, rng), rollTable(tables.smell, rng)]
+    case 'tavern':
+      return rollTavern(rng)
   }
 }
 
@@ -72,6 +93,7 @@ export function generateScene(options: SceneOptions, deps: Deps = {}): Scene {
     weather: roll('weather') as string,
     mood: roll('mood') as string,
     details: roll('details') as string[],
+    ...(locationType === 'tavern' && { tavern: rollTavern(rng) }),
     createdAt: (deps.now ?? new Date()).toISOString(),
   }
 }

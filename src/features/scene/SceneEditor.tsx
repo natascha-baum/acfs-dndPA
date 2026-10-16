@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { EditSection, EditorActions, TextField } from '../../components/editor/fields.tsx'
 import ed from '../../components/editor/editor.module.css'
-import type { Scene } from '../../types/models.ts'
+import type { Scene, TavernDetails } from '../../types/models.ts'
 import { finishSceneEdit } from './editScene.ts'
 import { readAloud } from './generateScene.ts'
 import { LOCATION_LABELS, LOCATION_TYPES, TIME_LABELS, TIMES_OF_DAY } from './tables.ts'
@@ -14,9 +14,17 @@ interface SceneEditorProps {
 }
 
 export default function SceneEditor({ scene, onSave, onCancel, error }: SceneEditorProps) {
-  const [draft, setDraft] = useState<Scene>({ ...scene, details: [0, 1, 2].map((i) => scene.details[i] ?? '') })
+  const [draft, setDraft] = useState<Scene>({
+    ...scene,
+    details: [0, 1, 2].map((i) => scene.details[i] ?? ''),
+    // Three menu lines to fill in; empty ones are dropped on save.
+    ...(scene.tavern && { tavern: { ...scene.tavern, menu: [0, 1, 2].map((i) => scene.tavern?.menu[i] ?? '') } }),
+  })
   const set = <K extends keyof Scene>(key: K, value: Scene[K]) => setDraft((d) => ({ ...d, [key]: value }))
   const setDetail = (i: number, value: string) => set('details', draft.details.map((d, j) => (j === i ? value : d)))
+  const tavern = draft.tavern
+  const setTavern = (patch: Partial<TavernDetails>) => tavern && set('tavern', { ...tavern, ...patch })
+  const setMenu = (i: number, value: string) => tavern && setTavern({ menu: tavern.menu.map((m, j) => (j === i ? value : m)) })
 
   function submit(event: FormEvent) {
     event.preventDefault()
@@ -60,6 +68,16 @@ export default function SceneEditor({ scene, onSave, onCancel, error }: SceneEdi
         <TextField label="Hear" value={draft.details[1]} onChange={(v) => setDetail(1, v)} full />
         <TextField label="Smell" value={draft.details[2]} onChange={(v) => setDetail(2, v)} full />
       </EditSection>
+
+      {tavern && draft.locationType === 'tavern' && (
+        <EditSection title="Tavern">
+          <TextField label="Innkeeper" value={tavern.innkeeper} onChange={(v) => setTavern({ innkeeper: v })} full />
+          {tavern.menu.map((item, i) => (
+            <TextField key={i} label={`Menu ${i + 1}`} value={item} onChange={(v) => setMenu(i, v)} full />
+          ))}
+          <TextField label="Rumor" value={tavern.rumor} onChange={(v) => setTavern({ rumor: v })} multiline={2} />
+        </EditSection>
+      )}
 
       <EditSection title="Read aloud">
         <TextField

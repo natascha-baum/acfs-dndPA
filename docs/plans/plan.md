@@ -37,11 +37,11 @@ A web app for Dungeons & Dragons 5th Edition that supports both Dungeon Masters 
 
 ### Nice to have (later)
 - User accounts and cloud sync
-- Dice roller
+- ~~Dice roller~~ (done)
 - Initiative tracker
 - Campaign / session notes
-- Monster lookup
-- More generators (tavern, loot, quest hooks)
+- ~~Monster lookup~~ (done, in the Wiki)
+- More generators (~~tavern~~ done as tavern details in scenes, loot, quest hooks)
 
 ### Extensibility
 - Each feature is its own module: own route, own components, own data.
@@ -52,7 +52,7 @@ A web app for Dungeons & Dragons 5th Edition that supports both Dungeon Masters 
 - **D&D 5e API** (https://www.dnd5eapi.co), free, no API key, JSON (REST and GraphQL).
 - Content: SRD 5.1 (CC-BY-4.0): spells, classes, races, equipment, features, monsters.
 - Limitation: only SRD content, English only.
-- Base URL: `https://www.dnd5eapi.co/api/2014/` (endpoints used: `races`, `subraces`, `traits`, `classes`, `classes/{id}/levels/{n}`, `classes/{id}/spells`, `spells`, `equipment`, `equipment-categories`, `proficiencies`, `skills`, `features`). Details per endpoint: [research/2026-10-15-dnd5e-api.md](../research/2026-10-15-dnd5e-api.md).
+- Base URL: `https://www.dnd5eapi.co/api/2014/` (endpoints used: `races`, `subraces`, `traits`, `classes`, `classes/{id}/levels/{n}`, `classes/{id}/spells`, `spells`, `equipment`, `equipment-categories`, `proficiencies`, `skills`, `features`; for the Wiki also `monsters`, `magic-items`, `conditions` and `classes/{id}/levels`). Details per endpoint: [research/2026-10-15-dnd5e-api.md](../research/2026-10-15-dnd5e-api.md).
 - Principle: **take as much as possible from the API** (races, classes, hit dice, ability bonuses, proficiencies, starting equipment, spell lists, spell/item details).
 - Our own data only where the API has nothing: NPC names, personality traits, role flavor, and all scene tables.
 - Fetched data is cached locally so lookups are fast and repeated requests are avoided.
@@ -139,6 +139,8 @@ Last checked: 2026-10-16 (after the docs review). Legend: ✅ done · 🟡 partl
 | Backup export and import (JSON) | ✅ | PR #16, [plan](2026-10-16-backup-export-import.md); on My Characters, includes PDFs, older backups are migrated |
 | Dice roller | ✅ | PR #18, [plan](2026-10-16-dice-roller.md); new module in the registry, history only for the current visit |
 | Dice roller: mixed dice and roll animation | ✅ | PR #20, [plan](2026-10-16-dice-roller-pools.md); quick buttons add dice, CSS tumble animation |
+| Tavern details in tavern scenes | ✅ | PR #21, [plan](2026-10-16-tavern-details.md); innkeeper, menu, rumor; scenes storage version 2 |
+| Wiki module (spells, monsters, magic items, equipment, races, classes, conditions) | ✅ | PR #21, [plan](2026-10-16-wiki.md); name search per category, entries open in the detail dialog |
 
 ### Cross-cutting
 | Item | Status | Notes |
@@ -158,7 +160,7 @@ A running list so there are always ideas for extensions. Nothing here is committ
 
 ### For Dungeon Masters
 - Initiative tracker with HP, conditions and turn order
-- Monster lookup and quick stat blocks from the API (`monsters`)
+- ~~Monster lookup and quick stat blocks from the API (`monsters`)~~ (done, Wiki)
 - Encounter builder: pick monsters, calculate difficulty for the party (XP thresholds)
 - Loot generator (coins, items, magic items from the API by rarity)
 - Tavern / shop generator (name, owner NPC, menu or inventory with prices)
@@ -176,7 +178,7 @@ A running list so there are always ideas for extensions. Nothing here is committ
 - Level-up assistant (new HP, features, spells)
 - Point buy and 4d6-drop-lowest as alternatives to the standard array
 - Inventory with weight and currency
-- Condition reference (poisoned, prone, ...) and rules quick reference
+- ~~Condition reference (poisoned, prone, ...)~~ (done, Wiki) and rules quick reference
 - Spell book: filter spells by class, level, school; mark prepared spells
 
 ### Characters and data

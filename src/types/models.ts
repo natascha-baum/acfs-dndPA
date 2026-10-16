@@ -131,7 +131,17 @@ export interface Scene {
   readAloud?: string
   /** The DM's own notes, added when editing. */
   notes?: string
+  /** Only for tavern scenes: who runs the place, what it serves, what people whisper. */
+  tavern?: TavernDetails
   createdAt: string
+}
+
+export interface TavernDetails {
+  /** E.g. "Mira Thornbrook, a halfling innkeeper who hums old ballads". */
+  innkeeper: string
+  /** Dishes and drinks with their price, e.g. "Mug of ale (4 cp)". */
+  menu: string[]
+  rumor: string
 }
 
 /** Input for the scene generator. `undefined` means "Random". */

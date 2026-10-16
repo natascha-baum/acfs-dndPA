@@ -16,6 +16,13 @@ export function finishSceneEdit(edited: Scene, original: Scene): Scene {
   // Text equal to the generated paragraph is not really custom: keep it in sync with the fields.
   if (custom && custom !== readAloud({ ...result, readAloud: undefined })) result.readAloud = custom
   else delete result.readAloud
+  if (edited.tavern && result.locationType === 'tavern') {
+    result.tavern = {
+      innkeeper: edited.tavern.innkeeper.trim(),
+      menu: edited.tavern.menu.map((m) => m.trim()).filter(Boolean),
+      rumor: edited.tavern.rumor.trim(),
+    }
+  } else delete result.tavern
   const notes = edited.notes?.trim()
   if (notes) result.notes = notes
   else delete result.notes
