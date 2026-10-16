@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import PageHeader from '../components/PageHeader.tsx'
 import { ROLE_LABELS, type NpcRole } from '../features/npc/tables.ts'
+import BackupPanel from '../features/backup/BackupPanel.tsx'
 import SheetUpload from '../features/player/SheetUpload.tsx'
 import { formatBytes } from '../features/player/format.ts'
 import { characters, playerSheetFiles, playerSheets } from '../lib/storage/index.ts'
@@ -157,6 +158,13 @@ export default function Characters() {
           </>
         )}
       </div>
+
+      <BackupPanel
+        onImported={() => {
+          setNpcs(loadNpcs())
+          setPlayers(loadPlayers())
+        }}
+      />
     </>
   )
 }

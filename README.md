@@ -41,7 +41,10 @@ Everything stays in your browser. There are no accounts and nothing is sent to a
 - Uploaded PDFs are stored in IndexedDB (up to 25 MB each).
 - API responses are cached locally, so pages you have visited load faster the next time.
 
-Clearing the site data in your browser deletes your saved characters and scenes.
+Clearing the site data in your browser deletes your saved characters and scenes, so keep a backup:
+
+- **Download backup** on My Characters saves all NPCs, scenes and player characters, including the uploaded PDFs, as one JSON file (`dndpa-backup-YYYY-MM-DD.json`).
+- **Load backup** reads such a file in any browser. Items that already exist are replaced, the rest is added, so loading the same file twice creates no duplicates.
 
 ## Development
 
@@ -72,9 +75,11 @@ src/
     character/          traits and class features for a saved character
     detail/             lookup dialog for spells, items, skills and features
     player/             PDF upload, sheet parsing, player sheet card and editor
+    backup/             backup panel on My Characters (download and load)
   components/           shared UI (layout, error boundary, theme toggle, editor fields, icons)
   lib/api/              D&D 5e API client with local caching
   lib/storage/          versioned collections in localStorage, files in IndexedDB
+  lib/backup.ts         backup file: create, check and load all saved data
   lib/randomTable.ts    weighted random tables shared by all generators
   lib/theme.ts          light and dark theme
   lib/useAsync.ts       hook for loading data with loading, error and retry states
@@ -92,7 +97,7 @@ src/
 
 - The PDF import reads fillable sheets with the official 5e field names. Other layouts or scanned sheets are stored as files only and can be filled in by hand.
 - Game data covers the SRD 5.1 only (for example one subclass per class and a limited set of races).
-- Data is stored per browser and device; there is no sync between devices yet.
+- Data is stored per browser and device; there is no automatic sync between devices. A backup file moves it by hand.
 
 ## Deployment
 

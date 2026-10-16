@@ -86,4 +86,48 @@ describe('createCollection', () => {
       StorageFullError,
     )
   })
+  describe('importItems', () => {
+    it('adds new items and replaces items with the same id', () => {
+      const items = createCollection<Item>('items', { store: memoryStore() })
+      items.save({ id: 'a', name: 'Goblin' })
+      items.save({ id: 'b', name: 'Orc' })
+
+      const count = items.importItems(
+        [
+          { id: 'a', name: 'Hobgoblin' },
+          { id: 'c', name: 'Kobold' },
+        ],
+        1,
+      )
+
+      expect(count).toBe(2)
+      expect(items.list()).toEqual([
+        { id: 'a', name: 'Hobgoblin' },
+        { id: 'b', name: 'Orc' },
+        { id: 'c', name: 'Kobold' },
+      ])
+    })
+
+    it('runs migrate for items from an older version', () => {
+      const items = createCollection<Item>('items', {
+        store: memoryStore(),
+        version: 2,
+        migrate: (item, fromVersion) => {
+          const old = item as { id: string; title: string }
+          return { id: old.id, name: `${old.title} (v${fromVersion})` }
+        },
+      })
+
+      items.importItems([{ id: 'a', title: 'Goblin' }], 1)
+
+      expect(items.version).toBe(2)
+      expect(items.list()).toEqual([{ id: 'a', name: 'Goblin (v1)' }])
+    })
+
+    it('refuses items from a newer version', () => {
+      const items = createCollection<Item>('items', { store: memoryStore() })
+      expect(() => items.importItems([{ id: 'a', name: 'Goblin' }], 2)).toThrow(/newer version/)
+      expect(items.list()).toEqual([])
+    })
+  })
 })

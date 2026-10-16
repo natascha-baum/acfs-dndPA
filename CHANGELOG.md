@@ -7,6 +7,8 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ## [Unreleased]
 
 ### Added
+- Backup on My Characters: "Download backup" saves all NPCs, scenes and player characters (with their PDFs) as one JSON file, "Load backup" reads it again in any browser without creating duplicates
+- Implementation plans for a backup export and import and for a dice roller (`docs/plans/2026-10-16-*.md`), approved
 - The `/code-check` skill now also checks maintainability on every run (long and complex functions, duplication, layering, readability) with a rating; `npm run maintainability` and a first report in `docs/research/code-checks/2026-10-16.md`
 - Research on open and possible features, from the backlog and from comparable D&D tools (`docs/research/2026-10-16-feature-options.md`)
 - Research on improvement options and a first code health report (`docs/research/`)

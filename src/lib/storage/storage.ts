@@ -11,6 +11,14 @@ export interface Collection<T extends Entity> {
   /** Throws `StorageFullError` when the browser has no space left. */
   save(item: T): void
   remove(id: string): void
+  /** Schema version of the items this collection stores. */
+  readonly version: number
+  /**
+   * Adds items from a backup in one write: items stored with an older
+   * `fromVersion` are migrated first, items with an existing id replace it.
+   * Throws for a newer version. Returns how many items were imported.
+   */
+  importItems(items: unknown[], fromVersion: number): number
 }
 
 /** The subset of the Web Storage API we rely on (makes testing easy). */
@@ -127,6 +135,17 @@ export function createCollection<T extends Entity>(name: string, options: Collec
     },
     remove(id) {
       write(read().filter((item) => item.id !== id))
+    },
+    version,
+    importItems(incoming, fromVersion) {
+      if (fromVersion > version) {
+        throw new Error(`"${name}" comes from a newer version of the app (${fromVersion}, this app knows ${version}).`)
+      }
+      const upgraded = fromVersion < version ? incoming.map((item) => migrate(item, fromVersion)) : (incoming as T[])
+      const byId = new Map(read().map((item) => [item.id, item]))
+      upgraded.forEach((item) => byId.set(item.id, item))
+      write([...byId.values()])
+      return upgraded.length
     },
   }
 }
