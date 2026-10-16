@@ -42,6 +42,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - README: features, how data is stored, development commands, project structure, how to extend the app and known limits
 
 ### Changed
+- Code cleanup (no visible change): the player sheet card is split into one small component per section and has its first component test, `useAsync` moved to `src/hooks/` so `src/lib/` has no React, and the unused `ComingSoon` page was removed; research and plan in `docs/research/2026-10-16-cleanup.md` and `docs/plans/2026-10-16-cleanup.md`
 - Docs review: the app plan matches the code again (status, data model, screens, API endpoints, tech stack); the "final check and submission" milestone was removed; the README lists all credits and licenses (SRD 5.1 attribution, fonts, libraries, trademark notice); the workflow docs explain how the MVP history fits the RPI workflow and when no plan is needed
 - NPC personality, appearance and story hook lists use the shared `RandomTable` format, like the scene tables
 - The page background no longer shows a seam on long pages

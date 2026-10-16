@@ -150,6 +150,7 @@ Last checked: 2026-10-16 (after the docs review). Legend: ✅ done · 🟡 partl
 | Data survives page reload | ✅ | Saved NPCs, scenes, player sheets and the theme choice |
 | Docs, RPI workflow and backpressure (`docs/`, `CLAUDE.md`, `.claude/skills/`) | ✅ | PR #12 to #15; homework requirements, see `docs/README.md` |
 | Light and dark mode | ✅ | PR #7; not in the original plan (was in the backlog); switch in the header |
+| Code cleanup from the code check | ✅ | PR #19, [plan](2026-10-16-cleanup.md); `PlayerSheetCard` split and tested, `useAsync` in `src/hooks/`, unused `ComingSoon` removed |
 
 ## 10. Feature Ideas (backlog)
 A running list so there are always ideas for extensions. Nothing here is committed; pick from it after the MVP. Add new ideas at the end of the matching group. Which ideas fit the existing code and the SRD data, compared with other D&D tools: [research/2026-10-16-feature-options.md](../research/2026-10-16-feature-options.md).
