@@ -133,6 +133,12 @@ Last checked: 2026-10-16 (after the docs review). Legend: ✅ done · 🟡 partl
 | Player characters: upload and keep a PDF character sheet (own tab in My Characters) | ✅ | Not in the original plan; fillable PDFs are shown in the app's own sheet layout (stats, skills, spells with lookups, notes), other PDFs as the file; stored in IndexedDB |
 | Editable character sheet | ✅ | NPCs, scenes and player characters can be edited and saved; NPCs also right after generating ("Customize") |
 
+### Features after the MVP
+| Feature | Status | Notes |
+|---|---|---|
+| Backup export and import (JSON) | ✅ | PR #16, [plan](2026-10-16-backup-export-import.md); on My Characters, includes PDFs, older backups are migrated |
+| Dice roller | ⬜ | [plan](2026-10-16-dice-roller.md) approved, built next |
+
 ### Cross-cutting
 | Item | Status | Notes |
 |---|---|---|
@@ -172,7 +178,7 @@ A running list so there are always ideas for extensions. Nothing here is committ
 - Spell book: filter spells by class, level, school; mark prepared spells
 
 ### Characters and data
-- Export / import characters as JSON (backup, share between devices)
+- ~~Export / import characters as JSON (backup, share between devices)~~ (done)
 - Print view / PDF export of the character sheet
 - Duplicate a character, turn a generated NPC into a player character
 - Search and filter in "My Characters" (role, class, level)

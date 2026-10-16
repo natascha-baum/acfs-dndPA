@@ -1,6 +1,6 @@
 # Plan: Dice roller
 
-Date: 2026-10-16 · Phase: Plan · Status: **waiting for approval** · Research: [2026-10-16-feature-options.md](../research/2026-10-16-feature-options.md) (option F1) · Order: built **after** [backup export and import](2026-10-16-backup-export-import.md), as Natascha decided
+Date: 2026-10-16 · Phase: Plan · Status: **approved by Natascha 2026-10-16** · Research: [2026-10-16-feature-options.md](../research/2026-10-16-feature-options.md) (option F1) · Order: built **after** [backup export and import](2026-10-16-backup-export-import.md), as Natascha decided
 
 ## Goal
 A new "Dice Roller" module in the navigation and on the home page. Users roll any dice formula such as `d20`, `2d6+3` or `4d8-1`, with quick buttons for d4 to d100, roll a d20 with advantage or disadvantage, and see their last rolls in a history.

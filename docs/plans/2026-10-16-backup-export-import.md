@@ -1,6 +1,6 @@
 # Plan: Backup export and import (JSON)
 
-Date: 2026-10-16 · Phase: Plan · Status: **waiting for approval** · Research: [2026-10-16-feature-options.md](../research/2026-10-16-feature-options.md) (option F2), [2026-10-15-improvement-options.md](../research/2026-10-15-improvement-options.md) (option B1)
+Date: 2026-10-16 · Phase: Plan · Status: **approved by Natascha 2026-10-16** · Research: [2026-10-16-feature-options.md](../research/2026-10-16-feature-options.md) (option F2), [2026-10-15-improvement-options.md](../research/2026-10-15-improvement-options.md) (option B1)
 
 ## Goal
 On the My Characters page, users can download one backup file with all their saved NPCs, scenes and player characters (including the uploaded PDFs), and load such a file again, in the same or another browser. This removes the biggest risk named in the README "Known limits": clearing the browser deletes everything.
@@ -52,15 +52,15 @@ No new dependency: download uses `Blob` + `URL.createObjectURL`, PDFs are encode
 
 ## Steps
 
-1. **Collection import.** Add `version` and `importItems(items: unknown[], fromVersion: number): number` to `Collection`. It migrates items when `fromVersion` is lower, refuses a higher one (`Error`), replaces items with the same id, adds the rest, writes once, returns the count. `npm run check`.
-2. **Backup logic.** Write `src/lib/backup.ts`:
+1. ✅ **Collection import.** Add `version` and `importItems(items: unknown[], fromVersion: number): number` to `Collection`. It migrates items when `fromVersion` is lower, refuses a higher one (`Error`), replaces items with the same id, adds the rest, writes once, returns the count. `npm run check`.
+2. ✅ **Backup logic.** Write `src/lib/backup.ts`:
    - `createBackup(sources, now)` reads all items and, for each player sheet, its PDF from the file store (missing files are skipped).
    - `parseBackup(text)` checks JSON, `app === 'dndpa'`, `format === 1`, the three collections with numeric `version` and array `items`; throws `BackupError` with a user-facing message otherwise.
    - `restoreBackup(backup, sources)` imports the three collections first, then writes the PDFs; returns counts per type. A `StorageFullError` is passed on, so the page shows `SAVE_FAILED_MESSAGE`.
    - `npm run check`.
-3. **UI.** `BackupPanel`: "Download backup" builds the file and starts the download; "Load backup" opens a file picker (`.json`), shows "This adds N NPCs, N scenes and N player characters. Items that already exist are replaced." with `window.confirm`, then imports and shows "Backup loaded: …" or the error. Buttons use the existing `btn` classes, colors only from CSS variables. `npm run check`.
-4. **Page.** Add `BackupPanel` to `Characters.tsx` with an `onImported` callback that reloads `npcs` and `players`. `npm run check`.
-5. **Docs.** README, CHANGELOG, `plan.md` status (feature row "Export / import" ✅, backlog item crossed out). `npm run check`.
+3. ✅ **UI.** `BackupPanel`: "Download backup" builds the file and starts the download; "Load backup" opens a file picker (`.json`), shows "This adds N NPCs, N scenes and N player characters. Items that already exist are replaced." with `window.confirm`, then imports and shows "Backup loaded: …" or the error. Buttons use the existing `btn` classes, colors only from CSS variables. `npm run check`.
+4. ✅ **Page.** Add `BackupPanel` to `Characters.tsx` with an `onImported` callback that reloads `npcs` and `players`. `npm run check`.
+5. ✅ **Docs.** README, CHANGELOG, `plan.md` status (feature row "Export / import" ✅, backlog item crossed out). `npm run check`.
 
 ## Tests
 
@@ -88,6 +88,10 @@ No stored model changes, so no `version` bump and no `migrate` step. `Collection
   3. Load the backup: the confirm text shows the right counts; afterwards all NPCs, the scene and the player sheet are back, and "Open PDF" still works.
   4. Load the same backup again: nothing is duplicated.
   5. Load a random `.json` and a non-JSON file: a clear message, nothing changes.
+
+## Deviations during implementation
+- Added `src/features/backup/describe.ts` (+ test) for the "2 NPCs, 1 scene and 0 player characters" text, so the wording logic is tested and not inside the component.
+- Error messages reuse the global `notice-error` class from `src/index.css` instead of a new style.
 
 ## Docs
 - `CHANGELOG.md` → "Unreleased" / "Added": "Download a backup of all NPCs, scenes and player characters (with their PDFs) and load it again on My Characters".

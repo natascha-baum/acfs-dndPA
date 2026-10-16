@@ -15,6 +15,9 @@ export const playerSheets = createCollection<PlayerSheet>('player-sheets', { ver
 /** The PDF files of `playerSheets`, stored under the same id. */
 export const playerSheetFiles = createFileStore('player-sheets')
 
+/** Everything a backup contains (see `lib/backup.ts`). */
+export const backupSources = { characters, scenes, playerSheets, files: playerSheetFiles }
+
 /** User-facing message for a failed save. */
 export const SAVE_FAILED_MESSAGE =
   'This could not be saved: your browser storage is full or blocked. Delete a few saved characters or scenes and try again.'

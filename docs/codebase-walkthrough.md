@@ -51,6 +51,8 @@ TypeScript interfaces for everything the app stores: `Character` (NPCs), `Player
 - `files.ts`: `createFileStore` keeps PDF files in IndexedDB, because `localStorage` only holds about 5 MB of text.
 - `index.ts`: the app's collections (`characters`, `scenes`, `playerSheets`, `playerSheetFiles`).
 
+- `importItems(items, fromVersion)` on a collection loads items from a backup: older versions go through the same `migrate`, existing ids are replaced. `src/lib/backup.ts` uses it to build and load the backup file (all collections plus the PDFs as base64); `features/backup/BackupPanel.tsx` is the UI on My Characters.
+
 **Take away:** features never touch `localStorage` directly, so the storage could later be swapped for a server with accounts.
 
 ## 6. Randomness: `src/lib/random.ts` and `src/lib/randomTable.ts`
