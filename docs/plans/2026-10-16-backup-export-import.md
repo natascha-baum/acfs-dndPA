@@ -6,7 +6,7 @@ Date: 2026-10-16 · Phase: Plan · Status: **waiting for approval** · Research:
 On the My Characters page, users can download one backup file with all their saved NPCs, scenes and player characters (including the uploaded PDFs), and load such a file again, in the same or another browser. This removes the biggest risk named in the README "Known limits": clearing the browser deletes everything.
 
 ## Why this feature first
-The feature research suggests at most one feature before 2026-10-20: F1 dice roller or F2 export/import. This plan picks **F2**, because it protects data users already have and needs no new dependency. The dice roller (F1) and the DM combat track (F5 to F8) get their own plans later.
+The feature research suggests at most one feature before 2026-10-20: F1 dice roller or F2 export/import. This plan picks **F2**, because it protects data users already have and needs no new dependency. Natascha chose to build both: this plan first, then the [dice roller](2026-10-16-dice-roller.md) (F1). The DM combat track (F5 to F8) gets its own plan later.
 
 ## Out of scope
 - Choosing single characters or scenes to export (always everything)
@@ -94,6 +94,5 @@ No stored model changes, so no `version` bump and no `migrate` step. `Collection
 - `README.md`: "How data is stored" and "Known limits".
 
 ## Open questions
-1. **Feature choice:** is export/import the right first feature, or should the dice roller (F1) come first?
-2. **PDFs in the backup:** included by default. A backup with large PDFs can be big (a 10 MB PDF adds about 13 MB). Keep them in, or offer a checkbox "without PDFs"?
-3. **Place in the app:** My Characters (planned), or also a link on the Scene Generator page, since scenes are in the backup too?
+1. **PDFs in the backup:** included by default. A backup with large PDFs can be big (a 10 MB PDF adds about 13 MB). Keep them in, or offer a checkbox "without PDFs"?
+2. **Place in the app:** My Characters (planned), or also a link on the Scene Generator page, since scenes are in the backup too?

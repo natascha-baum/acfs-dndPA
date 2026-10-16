@@ -7,7 +7,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 ## [Unreleased]
 
 ### Added
-- Implementation plan for a backup export and import (`docs/plans/2026-10-16-backup-export-import.md`), waiting for approval
+- Implementation plans for a backup export and import and for a dice roller (`docs/plans/2026-10-16-*.md`), waiting for approval
 - Research on open and possible features, from the backlog and from comparable D&D tools (`docs/research/2026-10-16-feature-options.md`)
 - Research on improvement options and a first code health report (`docs/research/`)
 - Skills for regular code checks (`/code-check`), reviews (`/review`) and code explanations (`/explain`)
