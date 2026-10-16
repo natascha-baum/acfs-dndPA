@@ -11,33 +11,31 @@ export interface SheetFileDeps {
   now: () => Date
 }
 
-export interface SheetFile {
-  /** The stored PDF, or undefined when it is missing or cannot be read. */
-  file?: Blob
-  /** Set when the player was saved before the app could read PDFs and the sheet was read now. */
-  upgraded?: PlayerSheet
+/** The stored PDF of a player character, or undefined when it is missing or cannot be read. */
+export async function loadSheetFile(id: string, deps: SheetFileDeps): Promise<Blob | undefined> {
+  try {
+    return await deps.files.get(id)
+  } catch {
+    return undefined
+  }
 }
 
-/** Loads the PDF of a player character and reads its contents once if that was never done. */
-export async function loadSheetFile(id: string, deps: SheetFileDeps): Promise<SheetFile> {
-  let file: Blob | undefined
-  try {
-    file = await deps.files.get(id)
-  } catch {
-    return {}
-  }
-  if (!file) return {}
-
+/**
+ * Players saved before the app could read PDFs have no `sheet`. Reads it from
+ * the PDF once and saves it; returns the updated player, or undefined when
+ * there is nothing to do or the PDF has no form fields.
+ */
+export async function upgradeOldSheet(id: string, file: Blob, deps: SheetFileDeps): Promise<PlayerSheet | undefined> {
   const stored = deps.sheets.get(id)
-  if (!stored || stored.sheet) return { file }
+  if (!stored || stored.sheet) return undefined
 
   const { sheet } = await deps.read(await file.arrayBuffer(), stored.fileName)
-  if (!sheet) return { file }
+  if (!sheet) return undefined
   const upgraded: PlayerSheet = { ...stored, sheet, updatedAt: deps.now().toISOString() }
   try {
     deps.sheets.save(upgraded)
   } catch {
     // Still shown for this visit; it is read again next time.
   }
-  return { file, upgraded }
+  return upgraded
 }

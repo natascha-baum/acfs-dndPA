@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import type { PlayerSheet } from '../../types/models.ts'
 import { emptySheet } from './editPlayer.ts'
-import { loadSheetFile, type SheetFileDeps } from './loadSheetFile.ts'
+import { loadSheetFile, upgradeOldSheet, type SheetFileDeps } from './loadSheetFile.ts'
 
 const now = new Date('2026-10-16T12:00:00.000Z')
 const pdf = new Blob(['%PDF-1.7'], { type: 'application/pdf' })
@@ -37,42 +37,47 @@ function deps(options: { file?: Blob; stored?: PlayerSheet; found?: boolean; sav
 }
 
 describe('loadSheetFile', () => {
-  it('returns the file of an already read sheet without reading it again', async () => {
-    const { d, read, saved } = deps({ file: pdf, stored: player(emptySheet()) })
-    expect(await loadSheetFile('p1', d)).toEqual({ file: pdf })
+  it('returns the stored file', async () => {
+    const { d } = deps({ file: pdf })
+    expect(await loadSheetFile('p1', d)).toBe(pdf)
+  })
+
+  it('has no file when none is stored', async () => {
+    const { d } = deps({})
+    expect(await loadSheetFile('p1', d)).toBeUndefined()
+  })
+
+  it('counts a failing file store as missing', async () => {
+    const { d } = deps({ getFails: true })
+    expect(await loadSheetFile('p1', d)).toBeUndefined()
+  })
+})
+
+describe('upgradeOldSheet', () => {
+  it('does nothing for a sheet that was already read', async () => {
+    const { d, read, saved } = deps({ stored: player(emptySheet()), found: true })
+    expect(await upgradeOldSheet('p1', pdf, d)).toBeUndefined()
     expect(read).not.toHaveBeenCalled()
     expect(saved).toHaveLength(0)
   })
 
-  it('has no file when none is stored', async () => {
-    const { d } = deps({ stored: player() })
-    expect(await loadSheetFile('p1', d)).toEqual({})
-  })
-
-  it('counts a failing file store as missing', async () => {
-    const { d } = deps({ getFails: true, stored: player() })
-    expect(await loadSheetFile('p1', d)).toEqual({})
-  })
-
-  it('reads and saves the sheet of an old upload once', async () => {
-    const { d, read, saved } = deps({ file: pdf, stored: player(), found: true })
-    const result = await loadSheetFile('p1', d)
+  it('reads and saves the sheet of an old upload', async () => {
+    const { d, read, saved } = deps({ stored: player(), found: true })
+    const upgraded = await upgradeOldSheet('p1', pdf, d)
     expect(read).toHaveBeenCalledWith(expect.any(ArrayBuffer), 'mira.pdf')
-    expect(result.file).toBe(pdf)
-    expect(result.upgraded?.sheet).toEqual(emptySheet())
-    expect(result.upgraded?.updatedAt).toBe(now.toISOString())
-    expect(saved).toEqual([result.upgraded])
+    expect(upgraded?.sheet).toEqual(emptySheet())
+    expect(upgraded?.updatedAt).toBe(now.toISOString())
+    expect(saved).toEqual([upgraded])
   })
 
   it('leaves a PDF without form fields as it is', async () => {
-    const { d, saved } = deps({ file: pdf, stored: player(), found: false })
-    expect(await loadSheetFile('p1', d)).toEqual({ file: pdf })
+    const { d, saved } = deps({ stored: player(), found: false })
+    expect(await upgradeOldSheet('p1', pdf, d)).toBeUndefined()
     expect(saved).toHaveLength(0)
   })
 
   it('still returns the read sheet when saving fails', async () => {
-    const { d } = deps({ file: pdf, stored: player(), found: true, saveFails: true })
-    const result = await loadSheetFile('p1', d)
-    expect(result.upgraded?.sheet).toEqual(emptySheet())
+    const { d } = deps({ stored: player(), found: true, saveFails: true })
+    expect((await upgradeOldSheet('p1', pdf, d))?.sheet).toEqual(emptySheet())
   })
 })

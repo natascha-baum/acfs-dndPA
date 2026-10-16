@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import PageHeader from '../components/PageHeader.tsx'
 import DetailDialog from '../features/detail/DetailDialog.tsx'
@@ -7,15 +7,15 @@ import PlayerEditor from '../features/player/PlayerEditor.tsx'
 import PlayerSheetCard from '../features/player/PlayerSheetCard.tsx'
 import { formatBytes } from '../features/player/format.ts'
 import { matchSpells } from '../features/player/matchSpells.ts'
+import type { SheetFileDeps } from '../features/player/loadSheetFile.ts'
 import { readSheet } from '../features/player/readSheet.ts'
 import AddToSession from '../features/sessions/AddToSession.tsx'
 import { api } from '../lib/api/index.ts'
 import { playerSheetFiles, playerSheets, SAVE_FAILED_MESSAGE, sessions } from '../lib/storage/index.ts'
 import { useAsync } from '../hooks/useAsync.ts'
+import { useSheetFile } from '../hooks/useSheetFile.ts'
 import type { PlayerSheet } from '../types/models.ts'
 import styles from './PlayerSheetView.module.css'
-
-type FileState = { status: 'loading' } | { status: 'missing' } | { status: 'ready'; url: string }
 
 const BACK = '/characters?tab=players'
 
@@ -24,49 +24,19 @@ const canShowPdf = typeof navigator === 'undefined' || navigator.pdfViewerEnable
 
 const loadSpells = (spells: string[]) => matchSpells(spells, api)
 const NO_SPELLS: string[] = []
+const SHEET_FILE_DEPS: SheetFileDeps = { files: playerSheetFiles, sheets: playerSheets, read: readSheet, now: () => new Date() }
 
 export default function PlayerSheetView() {
   const { id = '' } = useParams()
   const navigate = useNavigate()
   const [player, setPlayer] = useState(() => playerSheets.get(id))
-  const [file, setFile] = useState<FileState>({ status: 'loading' })
   const [showPdf, setShowPdf] = useState(false)
   const [lookup, setLookup] = useState<LookupRef | null>(null)
   const [editing, setEditing] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const spells = useAsync(player?.sheet?.spells ?? NO_SPELLS, loadSpells)
 
-  useEffect(() => {
-    let url: string | undefined
-    let cancelled = false
-    playerSheetFiles
-      .get(id)
-      .then(async (blob) => {
-        if (cancelled) return
-        if (!blob) return setFile({ status: 'missing' })
-        url = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }))
-        setFile({ status: 'ready', url })
-        // Sheets uploaded before the app could read them get read now, once.
-        const stored = playerSheets.get(id)
-        if (stored && !stored.sheet) {
-          const { sheet } = await readSheet(await blob.arrayBuffer(), stored.fileName)
-          if (sheet && !cancelled) {
-            const updated: PlayerSheet = { ...stored, sheet, updatedAt: new Date().toISOString() }
-            try {
-              playerSheets.save(updated)
-            } catch {
-              // Still shown for this visit; it is read again next time.
-            }
-            setPlayer(updated)
-          }
-        }
-      })
-      .catch(() => !cancelled && setFile({ status: 'missing' }))
-    return () => {
-      cancelled = true
-      if (url) URL.revokeObjectURL(url)
-    }
-  }, [id])
+  const file = useSheetFile(id, SHEET_FILE_DEPS, setPlayer)
 
   if (!player) {
     return (
