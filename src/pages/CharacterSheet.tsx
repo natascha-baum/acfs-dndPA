@@ -8,7 +8,7 @@ import NpcCard from '../features/npc/NpcCard.tsx'
 import NpcEditor from '../features/npc/NpcEditor.tsx'
 import { api } from '../lib/api/index.ts'
 import { characters, SAVE_FAILED_MESSAGE } from '../lib/storage/index.ts'
-import { useAsync } from '../lib/useAsync.ts'
+import { useAsync } from '../hooks/useAsync.ts'
 import type { Character } from '../types/models.ts'
 import styles from './CharacterSheet.module.css'
 

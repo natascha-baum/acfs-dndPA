@@ -10,7 +10,7 @@ import { matchSpells } from '../features/player/matchSpells.ts'
 import { readSheet } from '../features/player/readSheet.ts'
 import { api } from '../lib/api/index.ts'
 import { playerSheetFiles, playerSheets, SAVE_FAILED_MESSAGE } from '../lib/storage/index.ts'
-import { useAsync } from '../lib/useAsync.ts'
+import { useAsync } from '../hooks/useAsync.ts'
 import type { PlayerSheet } from '../types/models.ts'
 import styles from './PlayerSheetView.module.css'
 
