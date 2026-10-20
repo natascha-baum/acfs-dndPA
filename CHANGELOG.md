@@ -49,6 +49,7 @@ Versions are pre-1.0 while the MVP is being built; every merged pull request add
 - README: features, how data is stored, development commands, project structure, how to extend the app and known limits
 
 ### Changed
+- Code check findings (no visible change): the NPC and player editors are split into section components with render tests, the two character pages share one `SheetToolbar`, and `formatBytes` and the theme switch have tests; `npm run maintainability` shows 8 warnings instead of 11 (plan: `docs/plans/2026-10-20-code-check-findings.md`)
 - Code check fixes (no visible change): no lint warnings, and the player sheet page loads its PDF through the tested `loadSheetFile` / `upgradeOldSheet` functions and the `useSheetFile` hook; `npm run maintainability` shows 11 warnings instead of 13 (plan: `docs/plans/2026-10-16-code-check-fixes.md`)
 - The navigation switches to short names with the icon above them below 900 px width (was 640 px), so five modules fit in one row on a phone
 - Dice Roller: mix several dice in one roll (e.g. 3d10+d8), the quick buttons add dice to the formula, and rolled dice tumble before they show their number

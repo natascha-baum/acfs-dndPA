@@ -53,6 +53,13 @@ No stored model changes. No `version`, no `migrate`.
 - `npm run check` green after every step; HTML of both editors identical before and after; `npm run maintainability` 8 warnings (from 11: `NpcEditor` ×2, `PlayerEditor` ×1).
 - By hand (`npm run dev`, desktop and mobile, light and dark): edit an NPC (change HP, add and remove a skill, an item and a spell, save), edit a player character with a fillable PDF, check both toolbars (Back, Open PDF, Download, Add to session, Edit, Delete).
 
+## Deviations during implementation
+- `NpcEditor`: the section names are `IdentitySection`, `CombatSection`, `AbilitySection`, `SkillsSection`, `ProficienciesSection`, `EquipmentSection`, `SpellsSection`; its test mocks the app's API client (`vi.mock`), because the module creates it on import and that needs a browser.
+- `PlayerEditor`: sections `CombatSection`, `AbilitySection`, `SkillsSection`, `AttacksSection`, `SpellsSection`, `GearSection`, `StorySection` and a `SheetText` field. `SheetText` only accepts the sheet's text fields, so the old casts (`as string`, `as never`) are gone.
+- HTML comparison: the NPC editor is byte for byte identical; in the player editor only the ids React generates with `useId` changed (they depend on the component tree), every label still points to its field and no id repeats.
+- `formatBytes(1024 * 1024 - 1)` shows "1024 KB" instead of "1.0 MB". Not tested and not changed, because the plan does not change behavior; a possible small fix later.
+- By hand in Chromium (no console errors): editing an NPC (HP, add a skill, add a proficiency with Enter, add an item, change a quantity, save) and a player character (background, HP, add an attack, save) stores the right values; both toolbars checked on desktop and on a phone width in the dark theme.
+
 ## Docs
 - `CHANGELOG.md` → "Unreleased" / "Changed": "Code check findings (no visible change): NPC and player editors split into section components with tests, one shared toolbar for character pages, tests for `formatBytes` and the theme".
 - `docs/plans/plan.md`: status row.
