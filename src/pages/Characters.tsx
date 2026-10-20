@@ -77,36 +77,7 @@ export default function Characters() {
           ) : (
             <ul className={styles.grid}>
               {npcs.map((c) => (
-                <li key={c.id} className={styles.card}>
-                  <Link to={`/characters/${c.id}`} className={styles.open}>
-                    {c.role !== 'player' && (
-                      <span className={`${styles.badge} ${c.role === 'enemy' ? styles.enemy : styles.encounter}`}>
-                        {ROLE_LABELS[c.role as NpcRole]}
-                      </span>
-                    )}
-                    <span className={styles.name}>{c.name}</span>
-                    <span className={styles.meta}>
-                      {c.subrace?.name ?? c.race.name} {c.class.name} · Level {c.level}
-                    </span>
-                    <span className={styles.stats}>
-                      <span>
-                        HP <strong>{c.hitPoints}</strong>
-                      </span>
-                      <span>
-                        AC <strong>{c.armorClass}</strong>
-                      </span>
-                    </span>
-                  </Link>
-                  <button
-                    type="button"
-                    className={styles.delete}
-                    onClick={() => removeNpc(c)}
-                    aria-label={`Delete ${c.name}`}
-                    title="Delete"
-                  >
-                    ✕
-                  </button>
-                </li>
+                <NpcListItem key={c.id} character={c} onDelete={() => removeNpc(c)} />
               ))}
             </ul>
           )
@@ -118,40 +89,7 @@ export default function Characters() {
             ) : (
               <ul className={`${styles.grid} ${styles.below}`}>
                 {players.map((s) => (
-                  <li key={s.id} className={styles.card}>
-                    <Link to={`/characters/player/${s.id}`} className={styles.open}>
-                      <span className={`${styles.badge} ${styles.player}`}>Player</span>
-                      <span className={styles.name}>{s.name}</span>
-                      <span className={styles.meta}>
-                        {[s.race, s.classLevel].filter(Boolean).join(' · ') || 'Character sheet'}
-                      </span>
-                      <span className={styles.stats}>
-                        {s.sheet?.hitPoints || s.sheet?.armorClass ? (
-                          <>
-                            <span>
-                              HP <strong>{s.sheet.hitPoints || '—'}</strong>
-                            </span>
-                            <span>
-                              AC <strong>{s.sheet.armorClass || '—'}</strong>
-                            </span>
-                          </>
-                        ) : (
-                          <span>
-                            PDF <strong>{formatBytes(s.fileSize)}</strong>
-                          </span>
-                        )}
-                      </span>
-                    </Link>
-                    <button
-                      type="button"
-                      className={styles.delete}
-                      onClick={() => removePlayer(s)}
-                      aria-label={`Delete ${s.name}`}
-                      title="Delete"
-                    >
-                      ✕
-                    </button>
-                  </li>
+                  <PlayerListItem key={s.id} sheet={s} onDelete={() => removePlayer(s)} />
                 ))}
               </ul>
             )}
@@ -166,5 +104,69 @@ export default function Characters() {
         }}
       />
     </>
+  )
+}
+
+interface ListItemProps {
+  onDelete: () => void
+}
+
+function NpcListItem({ character: c, onDelete }: ListItemProps & { character: Character }) {
+  return (
+    <li className={styles.card}>
+      <Link to={`/characters/${c.id}`} className={styles.open}>
+        {c.role !== 'player' && (
+          <span className={`${styles.badge} ${c.role === 'enemy' ? styles.enemy : styles.encounter}`}>
+            {ROLE_LABELS[c.role as NpcRole]}
+          </span>
+        )}
+        <span className={styles.name}>{c.name}</span>
+        <span className={styles.meta}>
+          {c.subrace?.name ?? c.race.name} {c.class.name} · Level {c.level}
+        </span>
+        <span className={styles.stats}>
+          <span>
+            HP <strong>{c.hitPoints}</strong>
+          </span>
+          <span>
+            AC <strong>{c.armorClass}</strong>
+          </span>
+        </span>
+      </Link>
+      <button type="button" className={styles.delete} onClick={onDelete} aria-label={`Delete ${c.name}`} title="Delete">
+        ✕
+      </button>
+    </li>
+  )
+}
+
+function PlayerListItem({ sheet: s, onDelete }: ListItemProps & { sheet: PlayerSheet }) {
+  return (
+    <li className={styles.card}>
+      <Link to={`/characters/player/${s.id}`} className={styles.open}>
+        <span className={`${styles.badge} ${styles.player}`}>Player</span>
+        <span className={styles.name}>{s.name}</span>
+        <span className={styles.meta}>{[s.race, s.classLevel].filter(Boolean).join(' · ') || 'Character sheet'}</span>
+        <span className={styles.stats}>
+          {s.sheet?.hitPoints || s.sheet?.armorClass ? (
+            <>
+              <span>
+                HP <strong>{s.sheet.hitPoints || '—'}</strong>
+              </span>
+              <span>
+                AC <strong>{s.sheet.armorClass || '—'}</strong>
+              </span>
+            </>
+          ) : (
+            <span>
+              PDF <strong>{formatBytes(s.fileSize)}</strong>
+            </span>
+          )}
+        </span>
+      </Link>
+      <button type="button" className={styles.delete} onClick={onDelete} aria-label={`Delete ${s.name}`} title="Delete">
+        ✕
+      </button>
+    </li>
   )
 }

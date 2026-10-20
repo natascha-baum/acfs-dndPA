@@ -71,40 +71,9 @@ export default function NpcCard({ npc, onReroll, onLookup }: NpcCardProps) {
         <RerollButton label="story hook" onClick={reroll('hook')} />
       </div>
 
-      <dl className={styles.vitals}>
-        <div>
-          <dt>Hit Points</dt>
-          <dd>{npc.hitPoints}</dd>
-        </div>
-        <div>
-          <dt>Armor Class</dt>
-          <dd>{npc.armorClass}</dd>
-        </div>
-        <div>
-          <dt>Speed</dt>
-          <dd>{npc.speed} ft</dd>
-        </div>
-        <div>
-          <dt>Proficiency</dt>
-          <dd>{formatModifier(npc.proficiencyBonus)}</dd>
-        </div>
-      </dl>
+      <NpcVitals npc={npc} />
 
-      <ul className={styles.abilities}>
-        {ABILITIES.map((ability) => {
-          const save = npc.savingThrows.includes(ability)
-          return (
-            <li key={ability} className={save ? styles.save : undefined}>
-              <span className={styles.abbr} title={ABILITY_LABELS[ability]}>
-                {ability.toUpperCase()}
-              </span>
-              <span className={styles.mod}>{formatModifier(mod(ability))}</span>
-              <span className={styles.score}>{npc.abilityScores[ability]}</span>
-              {save && <span className={styles.saveMark} title="Saving throw proficiency">◆ Save</span>}
-            </li>
-          )
-        })}
-      </ul>
+      <NpcAbilities npc={npc} />
 
       <div className={styles.columns}>
         <section>
@@ -163,5 +132,49 @@ export default function NpcCard({ npc, onReroll, onLookup }: NpcCardProps) {
         </section>
       </div>
     </article>
+  )
+}
+
+function NpcVitals({ npc }: { npc: Character }) {
+  return (
+    <dl className={styles.vitals}>
+      <div>
+        <dt>Hit Points</dt>
+        <dd>{npc.hitPoints}</dd>
+      </div>
+      <div>
+        <dt>Armor Class</dt>
+        <dd>{npc.armorClass}</dd>
+      </div>
+      <div>
+        <dt>Speed</dt>
+        <dd>{npc.speed} ft</dd>
+      </div>
+      <div>
+        <dt>Proficiency</dt>
+        <dd>{formatModifier(npc.proficiencyBonus)}</dd>
+      </div>
+    </dl>
+  )
+}
+
+/** The six ability scores with modifiers; proficient saving throws are marked. */
+function NpcAbilities({ npc }: { npc: Character }) {
+  return (
+    <ul className={styles.abilities}>
+      {ABILITIES.map((ability) => {
+        const save = npc.savingThrows.includes(ability)
+        return (
+          <li key={ability} className={save ? styles.save : undefined}>
+            <span className={styles.abbr} title={ABILITY_LABELS[ability]}>
+              {ability.toUpperCase()}
+            </span>
+            <span className={styles.mod}>{formatModifier(abilityModifier(npc.abilityScores[ability]))}</span>
+            <span className={styles.score}>{npc.abilityScores[ability]}</span>
+            {save && <span className={styles.saveMark} title="Saving throw proficiency">◆ Save</span>}
+          </li>
+        )
+      })}
+    </ul>
   )
 }
