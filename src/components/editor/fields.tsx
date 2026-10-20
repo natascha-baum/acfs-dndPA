@@ -131,3 +131,38 @@ export function EditorActions({ onCancel, error, saveLabel = 'Save changes' }: E
   )
 }
 
+interface AdderProps {
+  id: string
+  label: string
+  placeholder: string
+  value: string
+  onChange: (value: string) => void
+  onAdd: () => void
+}
+
+/** A text box that adds an entry on "Add" or Enter (without submitting the form). */
+export function Adder({ id, label, placeholder, value, onChange, onAdd }: AdderProps) {
+  return (
+    <div className={`${styles.adder} ${styles.full}`}>
+      <div className="field">
+        <label htmlFor={id}>{label}</label>
+        <input
+          id={id}
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              onAdd()
+            }
+          }}
+        />
+      </div>
+      <button type="button" className="btn" onClick={onAdd} disabled={!value.trim()}>
+        Add
+      </button>
+    </div>
+  )
+}
+
