@@ -1,6 +1,6 @@
 # Plan: Remaining findings from the code check
 
-Date: 2026-10-20 · Phase: Plan · Status: **waiting for approval** · Research: [code check 2026-10-16 (afternoon)](../research/code-checks/2026-10-16-afternoon.md), findings 3 to 5 · Asked for by Natascha 2026-10-20
+Date: 2026-10-20 · Phase: Plan · Status: **approved by Natascha 2026-10-20** · Research: [code check 2026-10-16 (afternoon)](../research/code-checks/2026-10-16-afternoon.md), findings 3 to 5 · Asked for by Natascha 2026-10-20
 
 ## Goal
 Nothing changes for the user. The two long editors are split into one small component per section, the sheet pages share one toolbar component, and the last untested helpers get tests. `npm run maintainability` drops from 11 to 8 warnings.
