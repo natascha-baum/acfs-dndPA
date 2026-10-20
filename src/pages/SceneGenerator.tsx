@@ -16,8 +16,6 @@ const RANDOM = ''
 const loadSaved = () => [...scenes.list()].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 
 export default function SceneGenerator() {
-  const [locationType, setLocationType] = useState(RANDOM)
-  const [timeOfDay, setTimeOfDay] = useState(RANDOM)
   const [lastOptions, setLastOptions] = useState<SceneOptions | null>(null)
   const [scene, setScene] = useState<Scene | null>(null)
   const [saved, setSaved] = useState<Scene[]>(loadSaved)
@@ -30,11 +28,6 @@ export default function SceneGenerator() {
     setLastOptions(options)
     setScene(generateScene(options))
     setEditing(false)
-  }
-
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault()
-    conjure({ locationType: locationType || undefined, timeOfDay: timeOfDay || undefined })
   }
 
   function reroll(field: SceneField) {
@@ -91,35 +84,7 @@ export default function SceneGenerator() {
         Paint the world your heroes walk into.
       </PageHeader>
 
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.grid}>
-          <div className="field">
-            <label htmlFor="scene-location">Location</label>
-            <select id="scene-location" value={locationType} onChange={(e) => setLocationType(e.target.value)}>
-              <option value={RANDOM}>Random</option>
-              {LOCATION_TYPES.map((type) => (
-                <option key={type} value={type}>
-                  {LOCATION_LABELS[type]}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="field">
-            <label htmlFor="scene-time">Time of day</label>
-            <select id="scene-time" value={timeOfDay} onChange={(e) => setTimeOfDay(e.target.value)}>
-              <option value={RANDOM}>Random</option>
-              {TIMES_OF_DAY.map((time) => (
-                <option key={time} value={time}>
-                  {TIME_LABELS[time]}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <button type="submit" className={`btn btn-primary ${styles.submit}`}>
-          Conjure Scene
-        </button>
-      </form>
+      <SceneOptionsForm onConjure={conjure} />
 
       {scene && editing && (
         <SceneEditor
@@ -169,5 +134,48 @@ export default function SceneGenerator() {
 
       <SavedScenes scenes={saved} activeId={scene?.id} onOpen={open} onDelete={remove} />
     </>
+  )
+}
+
+/** The location and time of day for the next scene; "Random" leaves them to the dice. */
+function SceneOptionsForm({ onConjure }: { onConjure: (options: SceneOptions) => void }) {
+  const [locationType, setLocationType] = useState(RANDOM)
+  const [timeOfDay, setTimeOfDay] = useState(RANDOM)
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault()
+    onConjure({ locationType: locationType || undefined, timeOfDay: timeOfDay || undefined })
+  }
+
+  return (
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <div className={styles.grid}>
+        <div className="field">
+          <label htmlFor="scene-location">Location</label>
+          <select id="scene-location" value={locationType} onChange={(e) => setLocationType(e.target.value)}>
+            <option value={RANDOM}>Random</option>
+            {LOCATION_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {LOCATION_LABELS[type]}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="field">
+          <label htmlFor="scene-time">Time of day</label>
+          <select id="scene-time" value={timeOfDay} onChange={(e) => setTimeOfDay(e.target.value)}>
+            <option value={RANDOM}>Random</option>
+            {TIMES_OF_DAY.map((time) => (
+              <option key={time} value={time}>
+                {TIME_LABELS[time]}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <button type="submit" className={`btn btn-primary ${styles.submit}`}>
+        Conjure Scene
+      </button>
+    </form>
   )
 }
