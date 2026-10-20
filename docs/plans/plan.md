@@ -157,6 +157,7 @@ Last checked: 2026-10-16 (after the docs review). Legend: ✅ done · 🟡 partl
 | Code cleanup from the code check | ✅ | PR #19, [plan](2026-10-16-cleanup.md); `PlayerSheetCard` split and tested, `useAsync` in `src/hooks/`, unused `ComingSoon` removed |
 | Fixes from the afternoon code check | ✅ | PR #23, [plan](2026-10-16-code-check-fixes.md); no lint warnings, `PlayerSheetView` loads its PDF through tested functions |
 | Remaining code check findings | ✅ | PR #24, [plan](2026-10-20-code-check-findings.md); editors split and tested, shared `SheetToolbar`, tests for `formatBytes` and the theme |
+| Low-risk maintainability warnings | ✅ | PR #25, [plan](2026-10-20-maintainability-warnings.md); `Characters`, `SceneGenerator`, `SheetUpload` and `NpcCard` split, 4 of 8 warnings left (`generateNpc`, `resolveDetail`) |
 
 ## 10. Feature Ideas (backlog)
 A running list so there are always ideas for extensions. Nothing here is committed; pick from it after the MVP. Add new ideas at the end of the matching group. Which ideas fit the existing code and the SRD data, compared with other D&D tools: [research/2026-10-16-feature-options.md](../research/2026-10-16-feature-options.md).

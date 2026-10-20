@@ -1,6 +1,6 @@
 # Plan: Fix the four low-risk maintainability warnings
 
-Date: 2026-10-20 · Phase: Plan · Status: **approved by Natascha 2026-10-20** · Research: `npm run maintainability` on `main` after PR #24 (8 warnings), see the [code check 2026-10-16 (afternoon)](../research/code-checks/2026-10-16-afternoon.md) · Natascha chose the low-risk group
+Date: 2026-10-20 · Phase: Plan · Status: **approved by Natascha 2026-10-20, implemented in PR #25** · Research: `npm run maintainability` on `main` after PR #24 (8 warnings), see the [code check 2026-10-16 (afternoon)](../research/code-checks/2026-10-16-afternoon.md) · Natascha chose the low-risk group
 
 ## Goal
 Nothing changes for the user. Four React components that are only 10 to 24 lines over the 120-line limit get one part moved into a small component, so `npm run maintainability` drops from 8 to 4 warnings.
@@ -50,3 +50,8 @@ No stored model changes.
 
 ## Open questions
 None.
+
+## Deviations during implementation
+- The `SheetUpload` part is called `SheetDetailsForm`, not `SheetDetails`: `SheetDetails` is already the name of the type for name, race and class (`readSheet.ts`).
+- `SceneOptionsForm` keeps the two selects' state itself and hands the chosen options to the page with `onConjure`. The page only needed them to conjure, so they moved with the form.
+- The HTML of all four components was the same before and after, byte for byte (NpcCard in three variants, the pages in six states).
