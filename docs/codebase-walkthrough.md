@@ -69,7 +69,7 @@ The core of the app. `generateNpc(options, { api, rng })` in `generateNpc.ts`:
 5. Hit points, armor class, equipment and spells, using the pure functions in `rules.ts`.
 6. Name, appearance, personality and story hook from the flavor tables in `tables.ts`.
 
-`rules.ts` contains only pure 5e math (modifier = ⌊(score − 10) / 2⌋, proficiency bonus, HP, AC), which makes it easy to test. `NpcForm`, `NpcCard` and `NpcEditor` are the UI; `editNpc.ts` holds the editing logic.
+`rules.ts` contains only pure 5e math (modifier = ⌊(score − 10) / 2⌋, proficiency bonus, HP, AC), which makes it easy to test. `NpcForm`, `NpcCard` and `NpcEditor` are the UI; `NpcEditor` puts together one component per section from `NpcEditorSections.tsx`, and `editNpc.ts` holds the editing logic. Shared form parts (`TextField`, `Chip`, `Adder` …) are in `src/components/editor/fields.tsx`.
 
 ## 8. Scene generator: `src/features/scene/`
 
@@ -87,12 +87,12 @@ The flow of an upload, from the "Player Characters" tab in My Characters:
 1. `SheetUpload.tsx` takes the file (drag and drop or picker), rejects anything that is not a PDF or is larger than 25 MB (`MAX_SHEET_BYTES`).
 2. `readSheet.ts` loads `pdf-lib` only now (its own bundle chunk), reads the form fields and suggests name, race and class & level, which the user can correct.
 3. On save, the `PlayerSheet` (details and parsed contents) goes into the `playerSheets` collection in `localStorage`, the PDF itself into IndexedDB (`playerSheetFiles`) under the same id.
-4. `PlayerSheetView.tsx` shows it with `PlayerSheetCard.tsx`, which puts together one small component per section from `PlayerSheetSections.tsx` (vitals, skills, spells, personality …); each section renders nothing when the sheet has no data for it. The page gets the PDF from `useSheetFile` (`src/hooks/`), which calls `loadSheetFile` and `upgradeOldSheet` from `features/player/loadSheetFile.ts`: a sheet saved before the parser existed has no `sheet` yet, so it is read from the stored PDF and saved the first time it is opened.
+4. `PlayerSheetView.tsx` shows it with `PlayerSheetCard.tsx` below the shared `SheetToolbar` (`src/components/`, also used by the NPC sheet), which puts together one small component per section from `PlayerSheetSections.tsx` (vitals, skills, spells, personality …); each section renders nothing when the sheet has no data for it. The page gets the PDF from `useSheetFile` (`src/hooks/`), which calls `loadSheetFile` and `upgradeOldSheet` from `features/player/loadSheetFile.ts`: a sheet saved before the parser existed has no `sheet` yet, so it is read from the stored PDF and saved the first time it is opened.
 
 The parts:
 - `parseSheet.ts` maps the official 5e sheet field names (also used by D&D Beyond exports and most community sheets) to an `ImportedSheet` (stats, skills, spells, …). Field names are compared in a normalized form, so small differences in spelling still match.
 - `matchSpells.ts` links spell names to the SRD so they become clickable; unknown spells stay plain text.
-- `PlayerEditor.tsx` and `editPlayer.ts` edit every field; a sheet kept only as a PDF starts from `emptySheet()` and can be filled in by hand.
+- `PlayerEditor.tsx` (sections in `PlayerEditorSections.tsx`) and `editPlayer.ts` edit every field; a sheet kept only as a PDF starts from `emptySheet()` and can be filled in by hand.
 
 ## 11. Pages: `src/pages/`
 
