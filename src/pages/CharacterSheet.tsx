@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import PageHeader from '../components/PageHeader.tsx'
+import SheetToolbar from '../components/SheetToolbar.tsx'
 import { loadFeatures } from '../features/character/loadFeatures.ts'
 import DetailDialog from '../features/detail/DetailDialog.tsx'
 import type { LookupRef } from '../features/detail/resolveDetail.ts'
@@ -70,20 +71,9 @@ export default function CharacterSheet() {
 
   return (
     <>
-      <div className={styles.toolbar}>
-        <Link to="/characters" className="btn">
-          ← My Characters
-        </Link>
-        <div className={styles.actions}>
-          <AddToSession entry={{ kind: 'npc', ref: character.id, name: character.name }} collection={sessions} />
-          <button type="button" className="btn btn-primary" onClick={() => setEditing(true)}>
-            ✎ Edit
-          </button>
-          <button type="button" className="btn" onClick={remove}>
-            Delete
-          </button>
-        </div>
-      </div>
+      <SheetToolbar back="/characters" onEdit={() => setEditing(true)} onDelete={remove}>
+        <AddToSession entry={{ kind: 'npc', ref: character.id, name: character.name }} collection={sessions} />
+      </SheetToolbar>
 
       <p className={styles.hint}>Tip: click a spell, item, skill or feature to read its full description.</p>
 

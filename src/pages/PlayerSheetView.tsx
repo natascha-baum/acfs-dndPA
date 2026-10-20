@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import PageHeader from '../components/PageHeader.tsx'
+import SheetToolbar from '../components/SheetToolbar.tsx'
 import DetailDialog from '../features/detail/DetailDialog.tsx'
 import type { LookupRef } from '../features/detail/resolveDetail.ts'
 import PlayerEditor from '../features/player/PlayerEditor.tsx'
@@ -92,21 +93,10 @@ export default function PlayerSheetView() {
 
   return (
     <>
-      <div className={styles.toolbar}>
-        <Link to={BACK} className="btn">
-          ← My Characters
-        </Link>
-        <div className={styles.actions}>
-          <FileLinks file={file} fileName={player.fileName} />
-          <AddToSession entry={{ kind: 'player', ref: player.id, name: player.name }} collection={sessions} />
-          <button type="button" className="btn btn-primary" onClick={() => setEditing(true)}>
-            ✎ Edit
-          </button>
-          <button type="button" className="btn" onClick={remove}>
-            Delete
-          </button>
-        </div>
-      </div>
+      <SheetToolbar back={BACK} onEdit={() => setEditing(true)} onDelete={remove}>
+        <FileLinks file={file} fileName={player.fileName} />
+        <AddToSession entry={{ kind: 'player', ref: player.id, name: player.name }} collection={sessions} />
+      </SheetToolbar>
 
       {sheet ? (
         <>
